@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-surface: 248 249 252;
+  --color-surface-dim: 236 240 248;
+  --color-surface-bright: 255 255 255;
+  --color-surface-container-lowest: 255 255 255;
+  --color-surface-container-low: 244 246 251;
+  --color-surface-container: 238 241 248;
+  --color-surface-container-high: 229 234 244;
+  --color-surface-container-highest: 219 226 238;
+  --color-surface-variant: 228 233 245;
+
+  --color-on-surface: 26 21 35;
+  --color-on-surface-variant: 107 100 120;
+  --color-inverse-surface: 33 49 69;
+  --color-inverse-on-surface: 234 241 255;
+
+  --color-outline: 140 133 152;
+  --color-outline-variant: 226 220 235;
+
+  --color-background: 248 249 252;
+  --color-on-background: 26 21 35;
+
+  --card-shadow: 0 4px 20px -2px rgba(65, 18, 100, 0.05);
+}
+
+.dark {
+  --color-surface: 15 10 22;
+  --color-surface-dim: 12 8 18;
+  --color-surface-bright: 28 20 40;
+  --color-surface-container-lowest: 22 15 33;
+  --color-surface-container-low: 30 21 44;
+  --color-surface-container: 42 30 62;
+  --color-surface-container-high: 52 38 78;
+  --color-surface-container-highest: 68 50 100;
+  --color-surface-variant: 48 35 72;
+
+  /* High-Contrast Readable Texts for Dark Mode (No dark-on-dark text anywhere) */
+  --color-on-surface: 250 248 255;
+  --color-on-surface-variant: 202 194 216;
+  --color-inverse-surface: 250 248 255;
+  --color-inverse-on-surface: 22 15 33;
+
+  --color-outline: 168 158 184;
+  --color-outline-variant: 70 54 94;
+
+  --color-background: 15 10 22;
+  --color-on-background: 250 248 255;
+
+  --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+}
+
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(var(--color-surface));
+    color: rgb(var(--color-on-surface));
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  body {
+    overscroll-behavior: none;
+  }
+}
+
+/* Comprehensive Dark Mode Text Legibility (Transforms any dark text tokens to bright high-contrast) */
+.dark .text-primary-container {
+  color: #e1b6ff !important;
+}
+
+.dark .text-primary {
+  color: #f2daff !important;
+}
+
+.dark .text-on-primary-fixed-variant {
+  color: #f2daff !important;
+}
+
+.dark .text-on-primary-fixed {
+  color: #ffffff !important;
+}
+
+.dark .text-secondary {
+  color: #ffba43 !important;
+}
+
+.dark .text-on-secondary-fixed,
+.dark .text-on-secondary-fixed-variant,
+.dark .text-on-secondary-container {
+  color: #ffddaf !important;
+}
+
+.dark .text-on-tertiary-fixed-variant {
+  color: #4edea3 !important;
+}
+
+.dark .text-on-tertiary-fixed {
+  color: #6ffbbe !important;
+}
+
+.dark .text-outline {
+  color: #c4bad4 !important;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
