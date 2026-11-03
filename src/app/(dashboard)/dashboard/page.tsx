@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useBusiness } from "@/context/BusinessContext";
 import { Icon } from "@/components/ui/Icon";
+import { ConfirmModal } from "@/components/ui/ConfirmModal";
 
 // Timeframe configuration for Order Outcomes & Queue (Zero Fake Data / Exact Mathematical Calculations)
 type TimeframeKey = "today" | "last_week" | "last_month" | "last_year" | "all_time";
@@ -20,69 +21,129 @@ interface TimeframeStats {
   queueFootnote: string;
 }
 
-const TIMEFRAME_DATA: Record<TimeframeKey, TimeframeStats> = {
-  today: {
-    label: "Today",
-    confirmed: 31,
-    inQueue: 3,
-    noAnswer: 4,
-    cancelled: 3,
-    summaryText: "38 Total Orders Today · Peak at 18:00 (14 calls)",
-    donutSubtitle: "Orders Today",
-    queueBadge: "Active Queue",
-    queueFootnote: "3 Pending calls in outbound queue",
+const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStats>> = {
+  "biz-1": {
+    today: {
+      label: "Today",
+      confirmed: 31,
+      inQueue: 3,
+      noAnswer: 4,
+      cancelled: 3,
+      summaryText: "38 Total Orders Today · Peak at 18:00 (14 calls)",
+      donutSubtitle: "Orders Today",
+      queueBadge: "Active Queue",
+      queueFootnote: "3 Pending calls in outbound queue",
+    },
+    last_week: {
+      label: "Last Week",
+      confirmed: 218,
+      inQueue: 0,
+      noAnswer: 32,
+      cancelled: 19,
+      summaryText: "269 Total Orders Past 7 Days · Peak Tuesday (52 calls)",
+      donutSubtitle: "Past 7 Days",
+      queueBadge: "Queue Cleared",
+      queueFootnote: "All 269 orders processed & completed",
+    },
+    last_month: {
+      label: "Last Month",
+      confirmed: 942,
+      inQueue: 0,
+      noAnswer: 134,
+      cancelled: 84,
+      summaryText: "1,160 Total Orders Last 30 Days · Peak 1st-5th (240 calls)",
+      donutSubtitle: "Last 30 Days",
+      queueBadge: "Queue Cleared",
+      queueFootnote: "All 1,160 orders processed & completed",
+    },
+    last_year: {
+      label: "Last Year",
+      confirmed: 11480,
+      inQueue: 0,
+      noAnswer: 1620,
+      cancelled: 1020,
+      summaryText: "14,120 Total Orders Past Year · Peak Eid Season (3,800 calls)",
+      donutSubtitle: "Past 12 Months",
+      queueBadge: "Queue Cleared",
+      queueFootnote: "All 14,120 orders processed & completed",
+    },
+    all_time: {
+      label: "All Time",
+      confirmed: 24850,
+      inQueue: 3,
+      noAnswer: 3510,
+      cancelled: 2210,
+      summaryText: "30,570 Total Lifetime Orders · Lifetime Avg 81.3% Confirmation",
+      donutSubtitle: "All Time Orders",
+      queueBadge: "Live Backlog",
+      queueFootnote: "3 Pending calls currently in outbound queue",
+    },
   },
-  last_week: {
-    label: "Last Week",
-    confirmed: 218,
-    inQueue: 0,
-    noAnswer: 32,
-    cancelled: 19,
-    summaryText: "269 Total Orders Past 7 Days · Peak Tuesday (52 calls)",
-    donutSubtitle: "Past 7 Days",
-    queueBadge: "Queue Cleared",
-    queueFootnote: "All 269 orders processed & completed",
-  },
-  last_month: {
-    label: "Last Month",
-    confirmed: 942,
-    inQueue: 0,
-    noAnswer: 134,
-    cancelled: 84,
-    summaryText: "1,160 Total Orders Last 30 Days · Peak 1st-5th (240 calls)",
-    donutSubtitle: "Last 30 Days",
-    queueBadge: "Queue Cleared",
-    queueFootnote: "All 1,160 orders processed & completed",
-  },
-  last_year: {
-    label: "Last Year",
-    confirmed: 11480,
-    inQueue: 0,
-    noAnswer: 1620,
-    cancelled: 1020,
-    summaryText: "14,120 Total Orders Past Year · Peak Eid Season (3,800 calls)",
-    donutSubtitle: "Past 12 Months",
-    queueBadge: "Queue Cleared",
-    queueFootnote: "All 14,120 orders processed & completed",
-  },
-  all_time: {
-    label: "All Time",
-    confirmed: 24850,
-    inQueue: 3,
-    noAnswer: 3510,
-    cancelled: 2210,
-    summaryText: "30,570 Total Lifetime Orders · Lifetime Avg 81.3% Confirmation",
-    donutSubtitle: "All Time Orders",
-    queueBadge: "Live Backlog",
-    queueFootnote: "3 Pending calls currently in outbound queue",
+  "biz-2": {
+    today: {
+      label: "Today",
+      confirmed: 20,
+      inQueue: 1,
+      noAnswer: 2,
+      cancelled: 1,
+      summaryText: "24 Total Orders Today · Peak at 19:30 (8 calls)",
+      donutSubtitle: "Orders Today",
+      queueBadge: "Active Queue",
+      queueFootnote: "1 Pending call in outbound queue",
+    },
+    last_week: {
+      label: "Last Week",
+      confirmed: 142,
+      inQueue: 0,
+      noAnswer: 16,
+      cancelled: 8,
+      summaryText: "166 Total Orders Past 7 Days · Peak Friday (38 calls)",
+      donutSubtitle: "Past 7 Days",
+      queueBadge: "Queue Cleared",
+      queueFootnote: "All 166 orders processed & completed",
+    },
+    last_month: {
+      label: "Last Month",
+      confirmed: 620,
+      inQueue: 0,
+      noAnswer: 78,
+      cancelled: 42,
+      summaryText: "740 Total Orders Last 30 Days · Peak Weekend Evenings",
+      donutSubtitle: "Last 30 Days",
+      queueBadge: "Queue Cleared",
+      queueFootnote: "All 740 orders processed & completed",
+    },
+    last_year: {
+      label: "Last Year",
+      confirmed: 7650,
+      inQueue: 0,
+      noAnswer: 940,
+      cancelled: 510,
+      summaryText: "9,100 Total Orders Past Year · Peak Festive Discounts",
+      donutSubtitle: "Past 12 Months",
+      queueBadge: "Queue Cleared",
+      queueFootnote: "All 9,100 orders processed & completed",
+    },
+    all_time: {
+      label: "All Time",
+      confirmed: 14200,
+      inQueue: 1,
+      noAnswer: 1820,
+      cancelled: 980,
+      summaryText: "17,000 Total Lifetime Orders · Lifetime Avg 83.5% Confirmation",
+      donutSubtitle: "All Time Orders",
+      queueBadge: "Live Backlog",
+      queueFootnote: "1 Pending call currently in outbound queue",
+    },
   },
 };
 
 export default function DashboardPage() {
-  const { activeBusiness, calls, retryCall, topUpBalance, showToast } = useBusiness();
+  const { accountBalance, activeBusiness, calls, retryCall, topUpBalance, showToast } = useBusiness();
   const [search, setSearch] = useState("");
   const [rechargeModalOpen, setRechargeModalOpen] = useState(false);
   const [rechargeAmount, setRechargeAmount] = useState("500");
+  const [callToRetry, setCallToRetry] = useState<typeof calls[0] | null>(null);
 
   // Selected Timeframe for Order Outcomes & Queue
   const [timeframe, setTimeframe] = useState<TimeframeKey>("today");
@@ -106,8 +167,9 @@ export default function DashboardPage() {
   // MATHEMATICAL CALCULATIONS (ZERO FAKE DATA / ZERO HARDCODED GRAPHICS)
   // ==========================================================================
 
-  // 1. Dynamic Order Outcomes & Continuous Donut Segment Trigonometry
-  const currentStats = TIMEFRAME_DATA[timeframe];
+  // 1. Dynamic Order Outcomes & Continuous Donut Segment Trigonometry (Scoped per active business)
+  const currentBizStats = BUSINESS_TIMEFRAME_DATA[activeBusiness.id] || BUSINESS_TIMEFRAME_DATA["biz-1"];
+  const currentStats = currentBizStats[timeframe];
   const totalCompletedOrders = currentStats.confirmed + currentStats.noAnswer + currentStats.cancelled;
   const queuedCallsCount = currentStats.inQueue;
   const confirmedPercent = totalCompletedOrders > 0 ? (currentStats.confirmed / totalCompletedOrders) * 100 : 0;
@@ -131,9 +193,9 @@ export default function DashboardPage() {
   const availableTrunkChannels = Math.max(0, totalTrunkCapacity - activeTrunkCalls);
   const trunkLoadFactorPct = Math.round((activeTrunkCalls / totalTrunkCapacity) * 100); // 60%
 
-  // 3. Wallet Telephony Balance Runway
+  // 3. Wallet Telephony Balance Runway (Single Account Balance)
   const walletCapAmount = 1000.0;
-  const currentWalletBalance = activeBusiness.cachedBalance; // 95.50
+  const currentWalletBalance = accountBalance;
   const usedWalletAmount = Math.max(0, walletCapAmount - currentWalletBalance);
   const walletAvailPercent = Math.min(100, Math.max(0, (currentWalletBalance / walletCapAmount) * 100)); // 9.55%
   const averageDailySpend = 14.25; // BDT avg
@@ -157,68 +219,30 @@ export default function DashboardPage() {
 
   return (
     <div className="flex flex-col w-full space-y-5 pb-16">
-      {/* 1. Dashboard Top Header Bar with Compact Status Pill */}
+      {/* 1. Dashboard Top Header Bar with Status */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1">
         <div className="flex items-center gap-3 flex-wrap">
           <h1 className="text-xl sm:text-2xl font-bold text-on-surface tracking-tight">
-            Control Room
+            Dashboard
           </h1>
-          {/* Compact Status Pill in Header (Healthy 99% of time) */}
+          {/* Status Pill in Header */}
           <button
             type="button"
             onClick={() => setPipelineModalOpen(true)}
             className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-900 text-xs font-bold shadow-2xs hover:shadow-xs active:scale-95 transition-all cursor-pointer"
-            title="Click to view 4-stage pipeline diagnostics"
+            title="System Status : Online"
           >
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>System Running Normal</span>
-            <Icon name="tune" size={14} className="text-emerald-700 dark:text-emerald-400" />
+            <span>Online</span>
           </button>
 
           <span className="text-xs text-on-surface-variant font-medium bg-surface-container-low px-2.5 py-1 rounded-lg border border-outline-variant/20">
-            Store: <strong>{activeBusiness.name}</strong>
+            Business: <strong>{activeBusiness.name}</strong>
           </span>
         </div>
       </div>
 
-      {/* 2. Active Flow Information Bar (Keep Flow Informations) */}
-      <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 sm:px-4 sm:py-3 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-2xs">
-        <div className="flex items-center gap-3 flex-wrap text-xs sm:text-sm">
-          <div className="flex items-center gap-2 font-bold text-on-surface flex-wrap">
-            <div className="w-7 h-7 rounded-lg bg-primary-container/10 text-primary-container flex items-center justify-center shrink-0">
-              <Icon name="schema" size={17} />
-            </div>
-            <span>Active Flow:</span>
-            <span className="text-primary-container bg-primary-container/10 px-2.5 py-0.5 rounded-lg font-bold border border-primary/20">
-              Order Confirmation Flow
-            </span>
-            <span className="text-xs font-mono text-on-surface-variant font-medium hidden sm:inline">(v1.4 • ID #104)</span>
-          </div>
-
-          <span className="text-outline-variant/40 hidden md:inline">•</span>
-
-          <span className="text-on-surface-variant text-xs font-medium">
-            Total Flows: <strong className="text-on-surface font-semibold">2 Configured</strong> (1 Default)
-          </span>
-
-          <span className="text-outline-variant/40 hidden md:inline">•</span>
-
-          <span className="text-on-surface-variant text-xs font-medium">
-            Keypad DTMF: <strong className="text-on-surface font-semibold">1 (Confirm) · 2 (Cancel) · 3 (Support)</strong>
-          </span>
-        </div>
-
-        <Link
-          href="/flows"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container-low hover:bg-surface-container text-xs font-bold text-primary-container hover:text-primary transition-all border border-outline-variant/20 shadow-xs hover:shadow active:scale-95 group shrink-0"
-        >
-          <Icon name="tune" size={14} />
-          <span>Manage Flows</span>
-          <Icon name="arrow_forward" size={13} className="group-hover:translate-x-0.5 transition-transform" />
-        </Link>
-      </div>
-
-      {/* 3. The 2 Main Cards: Order Outcomes & Queue (with 2x2 Grid) + Credit Balance */}
+      {/* 2. The 2 Main Cards: Order Outcomes & Queue (with 2x2 Grid) + Credit Balance */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         {/* Card 1: Order Outcomes & Queue (Spans 8 cols on desktop) */}
         <div className="lg:col-span-8 bg-surface-container-lowest rounded-2xl p-5 sm:p-6 shadow-stitch-card flex flex-col justify-between border border-outline-variant/30 transition-all">
@@ -230,7 +254,7 @@ export default function DashboardPage() {
               </div>
               <div className="flex flex-col min-w-0">
                 <span className="text-lg sm:text-xl font-bold text-on-surface tracking-tight truncate">
-                  Order Outcomes &amp; Queue
+                  Call Statistics
                 </span>
                 <span className="text-xs sm:text-sm text-on-surface-variant font-medium">
                   {currentStats.summaryText}
@@ -242,7 +266,7 @@ export default function DashboardPage() {
               {/* Timeframe Selector Dropdown with Shadow & Arrow */}
               <div className="relative inline-block">
                 <select
-                  aria-label="Filter order outcomes by timeframe"
+                  aria-label="Filter call statistics by timeframe"
                   value={timeframe}
                   onChange={(e) => setTimeframe(e.target.value as TimeframeKey)}
                   className="appearance-none pl-3.5 pr-8 py-1.5 rounded-xl bg-surface-container-lowest hover:bg-surface-container-low text-on-surface text-xs sm:text-sm font-bold border border-outline-variant/30 shadow-xs hover:shadow focus:ring-2 focus:ring-primary-container/20 focus:outline-none transition-all cursor-pointer"
@@ -430,9 +454,14 @@ export default function DashboardPage() {
         {/* Card 2: Credit Balance (Spans 4 cols on desktop) */}
         <div className="lg:col-span-4 bg-surface-container-lowest rounded-2xl p-5 sm:p-6 shadow-stitch-card flex flex-col justify-between border border-outline-variant/30 transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-sm uppercase tracking-wider text-on-surface-variant font-bold">
-              Credit Balance
-            </span>
+            <div>
+              <span className="text-sm uppercase tracking-wider text-on-surface-variant font-bold block">
+                Account Balance
+              </span>
+              <span className="text-[11px] text-on-surface-variant font-medium">
+                Shared for all businesses
+              </span>
+            </div>
             <div className="p-2 rounded-xl bg-secondary-fixed/50 text-secondary dark:text-secondary-fixed border border-outline-variant/20 flex items-center justify-center shadow-2xs">
               <Icon name="account_balance_wallet" size={20} />
             </div>
@@ -466,7 +495,7 @@ export default function DashboardPage() {
             </div>
 
             <span className="text-sm text-on-surface-variant block mt-2 font-medium">
-              ~{estimatedDaysRemaining} Days remaining at current rate
+              ~{estimatedDaysRemaining} Days remaining
             </span>
           </div>
 
@@ -475,8 +504,8 @@ export default function DashboardPage() {
             className="w-full bg-secondary-container hover:bg-secondary-fixed-dim text-on-secondary-fixed dark:text-secondary-fixed font-bold px-4 py-3 rounded-xl text-base transition flex items-center justify-center gap-2 shadow-sm hover:shadow active:scale-95 mt-2"
             type="button"
           >
-            <Icon name="chat" size={18} />
-            <span>Request Top-up</span>
+            <Icon name="account_balance_wallet" size={18} />
+            <span>Top Up Balance</span>
           </button>
         </div>
       </section>
@@ -509,7 +538,7 @@ export default function DashboardPage() {
 
         {/* Streamlined Calls Table */}
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse" style={{ minWidth: "640px" }}>
+          <table className="w-full text-left border-collapse" style={{ minWidth: "700px" }}>
             <thead>
               <tr className="bg-surface-container-low/70 border-b border-outline-variant/20">
                 <th className="py-3.5 px-5 text-xs text-on-surface font-bold uppercase tracking-wider">
@@ -519,7 +548,13 @@ export default function DashboardPage() {
                   Customer &amp; Phone
                 </th>
                 <th className="py-3.5 px-5 text-xs text-on-surface font-bold uppercase tracking-wider">
+                  DTMF Key
+                </th>
+                <th className="py-3.5 px-5 text-xs text-on-surface font-bold uppercase tracking-wider">
                   Duration
+                </th>
+                <th className="py-3.5 px-5 text-xs text-on-surface font-bold uppercase tracking-wider">
+                  Cost
                 </th>
                 <th className="py-3.5 px-5 text-xs text-on-surface font-bold uppercase tracking-wider">
                   Outcome Status
@@ -532,28 +567,48 @@ export default function DashboardPage() {
             <tbody className="divide-y divide-outline-variant/15 text-sm">
               {filteredCalls.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center text-on-surface-variant text-sm font-medium">
+                  <td colSpan={7} className="py-8 text-center text-on-surface-variant text-sm font-medium">
                     No calls found matching &ldquo;{search}&rdquo;.
                   </td>
                 </tr>
               ) : (
                 filteredCalls.map((call) => (
                   <tr key={call.id} className="hover:bg-surface-container-low/40 transition-colors">
-                    <td className="py-3.5 px-5 text-base font-bold text-primary-container dark:text-primary-fixed-dim">
-                      #{call.orderId}
+                    <td className="py-3.5 px-5">
+                      <div className="font-bold text-sm sm:text-base text-primary-container dark:text-primary-fixed-dim">
+                        #{call.orderId}
+                      </div>
+                      <div className="text-xs text-on-surface-variant font-medium">
+                        {call.orderAmount}
+                      </div>
                     </td>
 
                     <td className="py-3.5 px-5 text-sm text-on-surface">
                       <div className="flex flex-col">
-                        <span className="font-bold text-base text-on-surface">{call.normalizedPhone}</span>
-                        <span className="text-sm font-sans text-on-surface-variant font-medium">
+                        <span className="font-bold text-sm sm:text-base text-on-surface font-mono">{call.normalizedPhone}</span>
+                        <span className="text-xs text-on-surface-variant font-medium">
                           {call.customerName}
                         </span>
                       </div>
                     </td>
 
+                    <td className="py-3.5 px-5">
+                      {call.dtmfKey ? (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low text-on-surface font-mono font-bold text-xs border border-outline-variant/30 shadow-2xs">
+                          <Icon name="dialpad" size={13} className="text-primary-container" />
+                          <span>Key {call.dtmfKey} ({call.dtmfKey === "1" ? "Confirm" : call.dtmfKey === "2" ? "Cancel" : "Support"})</span>
+                        </span>
+                      ) : (
+                        <span className="text-xs text-on-surface-variant font-mono">—</span>
+                      )}
+                    </td>
+
                     <td className="py-3.5 px-5 font-mono text-sm text-on-surface-variant font-semibold">
                       {call.durationSec > 0 ? `${call.durationSec}s` : "0s"}
+                    </td>
+
+                    <td className="py-3.5 px-5 font-mono text-sm font-bold text-on-surface">
+                      ৳ {call.costAmount ? call.costAmount.toFixed(2) : "0.00"}
                     </td>
 
                     <td className="py-3.5 px-5">
@@ -598,20 +653,22 @@ export default function DashboardPage() {
                     <td className="py-3.5 px-5 text-right">
                       {call.canRetry ? (
                         <button
-                          onClick={() => retryCall(call.id)}
-                          className="bg-secondary-container hover:bg-secondary-fixed-dim text-on-secondary-fixed dark:text-secondary-fixed text-xs font-bold px-3.5 py-1.5 rounded-lg transition inline-flex items-center gap-1.5 shadow-xs hover:shadow active:scale-95"
+                          onClick={() => setCallToRetry(call)}
+                          className="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white shadow-xs hover:shadow active:scale-95 transition-all inline-flex items-center gap-1.5 text-xs font-bold cursor-pointer"
                           type="button"
+                          title="Retry Call"
+                          aria-label="Retry Call"
                         >
-                          <Icon name="cached" size={14} />
-                          <span>Retry Call Now</span>
+                          <Icon name="history" size={15} />
+                          <span>Retry</span>
                         </button>
                       ) : (
                         <Link
                           href="/call-history"
-                          className="text-sm font-bold text-primary dark:text-primary-fixed hover:underline inline-flex items-center gap-1 shadow-2xs"
+                          className="p-2 rounded-xl text-primary dark:text-primary-fixed hover:bg-surface-container transition-all inline-flex items-center justify-center"
+                          title="View Details"
                         >
-                          <span>View in History</span>
-                          <Icon name="arrow_forward" size={14} />
+                          <Icon name="arrow_forward" size={16} />
                         </Link>
                       )}
                     </td>
@@ -624,12 +681,12 @@ export default function DashboardPage() {
 
         {/* Table Footer */}
         <div className="px-5 py-3 bg-surface-container-low/30 border-t border-outline-variant/20 flex flex-wrap items-center justify-between text-on-surface-variant text-xs gap-2 font-medium">
-          <span>Showing latest {filteredCalls.length} calls today. Full audio recordings &amp; redial timeline in Call History.</span>
+          <span>Showing latest calls today. Multi-attempt redial timeline in Call History.</span>
           <Link
             href="/call-history"
             className="px-3 py-1 rounded-lg border border-outline-variant/30 bg-surface-container-lowest hover:bg-surface-container-low transition text-on-surface font-semibold text-xs flex items-center gap-1 shadow-xs"
           >
-            <span>Open Call History Hub</span>
+            <span>Open Call History</span>
             <Icon name="arrow_forward" size={12} />
           </Link>
         </div>
@@ -723,7 +780,7 @@ export default function DashboardPage() {
                     4-Stage Pipeline Diagnostics
                   </h3>
                   <p className="text-xs text-on-surface-variant">
-                    Node: NODE-PBX-DHAKA-01 · Active Store: {activeBusiness.name}
+                    Node: NODE-PBX-DHAKA-01 · Active Business: {activeBusiness.name}
                   </p>
                 </div>
               </div>
@@ -865,6 +922,23 @@ export default function DashboardPage() {
           </div>
         </div>
       )}
+
+      {/* Retry Call Confirmation Modal */}
+      <ConfirmModal
+        isOpen={!!callToRetry}
+        onClose={() => setCallToRetry(null)}
+        onConfirm={() => {
+          if (callToRetry) {
+            retryCall(callToRetry.orderId);
+            setCallToRetry(null);
+          }
+        }}
+        title="Retry Call"
+        description={`Are you sure you want to trigger an immediate outbound phone call for Order #${callToRetry?.orderId} to ${callToRetry?.customerName} (${callToRetry?.normalizedPhone})?`}
+        confirmText="Retry Now"
+        variant="warning"
+        icon="phone_in_talk"
+      />
     </div>
   );
 }

@@ -5,28 +5,33 @@ import { useBusiness } from "@/context/BusinessContext";
 import { Icon } from "@/components/ui/Icon";
 
 export default function BusinessesPage() {
-  const { businesses, activeBusiness, setActiveBusinessId, showToast } = useBusiness();
+  const { accountBalance, businesses, activeBusiness, setActiveBusinessId, showToast } = useBusiness();
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [revealedSecrets, setRevealedSecrets] = useState<Record<string, boolean>>({});
   const [filterQuery, setFilterQuery] = useState("");
+  const [platformFilter, setPlatformFilter] = useState<"all" | "woocommerce" | "shopify">("all");
   const [createModalOpen, setCreateModalOpen] = useState(false);
 
   // Form State
   const [newStoreName, setNewStoreName] = useState("");
   const [newStoreDomain, setNewStoreDomain] = useState("");
-  const [newStoreCountry, setNewStoreCountry] = useState("+880");
   const [newStoreTrigger, setNewStoreTrigger] = useState<"instant" | "manual">("instant");
 
-  const filteredBusinesses = businesses.filter(
-    (b) =>
+  const filteredBusinesses = businesses.filter((b) => {
+    const matchesQuery =
       b.name.toLowerCase().includes(filterQuery.toLowerCase()) ||
-      b.domain.toLowerCase().includes(filterQuery.toLowerCase())
-  );
+      b.domain.toLowerCase().includes(filterQuery.toLowerCase());
+    const matchesPlatform =
+      platformFilter === "all" ||
+      (platformFilter === "woocommerce" && b.platform.toLowerCase().includes("woo")) ||
+      (platformFilter === "shopify" && b.platform.toLowerCase().includes("shopify"));
+    return matchesQuery && matchesPlatform;
+  });
 
   const handleCopy = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
     setCopiedId(id);
-    showToast("Inbound webhook endpoint copied to clipboard", "info");
+    showToast("Webhook endpoint copied", "info");
     setTimeout(() => setCopiedId(null), 2000);
   };
 
@@ -37,7 +42,7 @@ export default function BusinessesPage() {
   const handleCreateStore = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newStoreName.trim()) return;
-    showToast(`Storefront "${newStoreName}" successfully registered & provisioned!`, "success");
+    showToast(`Business "${newStoreName}" created`, "success");
     setCreateModalOpen(false);
     setNewStoreName("");
     setNewStoreDomain("");
@@ -46,342 +51,277 @@ export default function BusinessesPage() {
   const totalBalance = businesses.reduce((acc, b) => acc + b.cachedBalance, 0);
 
   return (
-    <div className="flex flex-col w-full space-y-8 pb-16">
-      {/* 1. Header Title & Actions Row */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-3">
+    <div className="flex flex-col w-full space-y-6 pb-16">
+      {/* 1. Header Row */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2.5">
             <h1 className="text-xl sm:text-2xl text-on-surface tracking-tight font-bold">
-              Storefronts
+              Businesses
             </h1>
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-surface-container text-on-surface-variant">
-              {businesses.length} Stores
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-surface-container text-on-surface-variant">
+              {businesses.length} Businesses
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-on-surface-variant font-medium">
-            Switch between stores or connect a new WooCommerce or Shopify storefront.
+          <p className="text-xs sm:text-sm text-on-surface-variant mt-0.5 font-medium">
+            Manage connected businesses and webhooks.
           </p>
         </div>
 
-        {/* Search & Connect Button */}
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="relative w-full sm:w-64">
+        {/* Search & Create Button */}
+        <div className="flex flex-wrap items-center gap-2.5">
+          <div className="relative w-full sm:w-60">
             <Icon name="search" size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" />
             <input
               value={filterQuery}
               onChange={(e) => setFilterQuery(e.target.value)}
-              className="w-full pl-10 pr-3.5 py-2 bg-surface-container-lowest rounded-xl font-medium text-sm text-on-surface placeholder:text-on-surface-variant/60 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-container/20 transition-all border border-outline-variant/30"
-              placeholder="Filter stores..."
+              className="w-full pl-9 pr-3 py-2 bg-surface-container-lowest rounded-xl font-medium text-xs sm:text-sm text-on-surface placeholder:text-on-surface-variant/60 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-container/20 border border-outline-variant/30"
+              placeholder="Search businesses..."
               type="text"
             />
           </div>
           <button
             onClick={() => setCreateModalOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-container text-on-primary font-bold text-sm shadow-sm hover:shadow hover:bg-primary transition-all active:scale-[0.99] w-full sm:w-auto justify-center"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-container text-on-primary font-bold text-xs sm:text-sm shadow-sm hover:shadow hover:bg-primary transition-all active:scale-[0.99]"
             type="button"
           >
             <Icon name="add" size={18} />
-            <span>Connect Store</span>
+            <span>Create Store</span>
           </button>
         </div>
       </div>
 
-      {/* 2. Metric Strip: High-Density Telemetry Cards (Stitch UI 100% Exact) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Metric 1 */}
-        <div className="relative overflow-hidden bg-surface-container-lowest rounded-xl p-5 shadow-sm flex items-center justify-between border border-outline-variant/30">
-          <div className="flex flex-col">
-            <span className="text-xs uppercase tracking-wider text-on-surface-variant font-semibold">
-              Active Connected Stores
+      {/* 2. Compact Metrics Strip */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant/30 flex items-center justify-between">
+          <div>
+            <span className="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">
+              Connected Businesses
             </span>
-            <div className="flex items-baseline gap-2 mt-1">
-              <span className="text-2xl font-bold text-on-surface tracking-tight">
+            <div className="flex items-baseline gap-2 mt-0.5">
+              <span className="text-2xl font-bold text-on-surface">
                 {businesses.length}
               </span>
-              <span className="text-sm text-on-tertiary-container font-semibold">
-                Live Stores
+              <span className="text-xs text-on-tertiary-container font-semibold">
+                Online
               </span>
             </div>
-            <span className="text-xs text-on-surface-variant mt-0.5 font-medium">
-              1 WooCommerce • 1 Shopify Plus
-            </span>
           </div>
-          <div className="w-11 h-11 rounded-xl bg-surface-container flex items-center justify-center text-primary-container">
+          <div className="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-primary-container">
             <Icon name="storefront" size={22} />
           </div>
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-container via-surface-tint to-transparent opacity-80" />
         </div>
 
-        {/* Metric 2 */}
-        <div className="relative overflow-hidden bg-surface-container-lowest rounded-xl p-5 shadow-sm flex items-center justify-between border border-outline-variant/30">
-          <div className="flex flex-col">
-            <span className="text-xs uppercase tracking-wider text-on-surface-variant font-semibold">
-              Total Telephony Balance
+        <div className="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant/30 flex items-center justify-between">
+          <div>
+            <span className="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">
+              Account Balance
             </span>
-            <div className="flex items-baseline gap-1.5 mt-1">
-              <span className="text-2xl font-bold text-on-surface tracking-tight">
-                ৳ {totalBalance.toFixed(2)}
+            <div className="flex items-baseline gap-1.5 mt-0.5">
+              <span className="text-2xl font-bold text-on-surface">
+                ৳ {accountBalance.toFixed(2)}
               </span>
-              <span className="text-xs text-on-surface-variant font-medium">
-                BDT
-              </span>
+              <span className="text-xs text-on-surface-variant font-medium">BDT</span>
             </div>
-            <div className="flex items-center gap-1.5 mt-0.5 text-xs text-secondary font-medium">
-              <Icon name="toll" size={14} />
-              <span>Shared pool across all endpoints</span>
-            </div>
+            <span className="text-[10px] text-on-surface-variant font-medium">
+              Shared across all businesses
+            </span>
           </div>
-          <div className="w-11 h-11 rounded-xl bg-secondary-fixed/50 flex items-center justify-center text-on-secondary-fixed-variant">
+          <div className="w-10 h-10 rounded-xl bg-secondary-fixed/50 flex items-center justify-center text-on-secondary-fixed-variant">
             <Icon name="account_balance_wallet" size={22} />
           </div>
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-secondary-container via-secondary to-transparent opacity-70" />
         </div>
 
-        {/* Metric 3 */}
-        <div className="relative overflow-hidden bg-surface-container-lowest rounded-xl p-5 shadow-sm flex items-center justify-between border border-outline-variant/30">
-          <div className="flex flex-col">
-            <span className="text-xs uppercase tracking-wider text-on-surface-variant font-semibold">
-              Daily Dispatched Calls
+        <div className="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant/30 flex items-center justify-between">
+          <div>
+            <span className="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">
+              Calls Today
             </span>
-            <div className="flex items-baseline gap-2 mt-1">
-              <span className="text-2xl font-bold text-on-surface tracking-tight">
-                72
-              </span>
-              <span className="text-sm text-on-surface-variant font-medium">
-                Outbound Today
+            <div className="flex items-baseline gap-2 mt-0.5">
+              <span className="text-2xl font-bold text-on-surface">72</span>
+              <span className="text-xs text-on-tertiary-container font-semibold">
+                94.4% Confirmed
               </span>
             </div>
-            <span className="text-xs text-on-tertiary-container mt-0.5 font-medium flex items-center gap-1">
-              <Icon name="trending_up" size={14} /> 94.4% verification success
-            </span>
           </div>
-          <div className="w-11 h-11 rounded-xl bg-surface-container-high flex items-center justify-center text-on-primary-fixed-variant">
+          <div className="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-on-primary-fixed-variant">
             <Icon name="phone_in_talk" size={22} />
           </div>
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-tertiary-fixed-dim via-on-tertiary-container to-transparent opacity-80" />
         </div>
       </div>
 
-      {/* 3. Storefront Cards Grid (Stitch UI 100% Exact) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 items-start">
-        {filteredBusinesses.map((biz) => {
-          const isActive = biz.id === activeBusiness.id;
-          const webhookUrl = `https://api.dialyra.com/v1/webhooks/orders/${biz.uuid}`;
-          const secretKey = `whsec_live_${biz.uuid.substring(0, 8)}417e293041c7f`;
-          const isSecretRevealed = !!revealedSecrets[biz.id];
-
-          return (
-            <div
-              key={biz.id}
-              className="relative bg-surface-container-lowest rounded-2xl shadow-stitch-card border border-outline-variant/30 transition-all flex flex-col justify-between overflow-hidden"
-            >
-              {/* Top Accent Line */}
-              {isActive ? (
-                <div className="h-1.5 w-full bg-gradient-to-r from-on-tertiary-container via-tertiary-fixed-dim to-surface-container-lowest" />
-              ) : (
-                <div className="h-1.5 w-full bg-surface-container" />
-              )}
-
-              <div className="p-6 md:p-7 flex flex-col gap-5">
-                {/* Store Header Row */}
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-center gap-3.5">
-                    <div className="w-12 h-12 rounded-xl bg-primary-container/10 flex items-center justify-center text-primary-container shrink-0">
-                      <Icon name="shopping_cart" size={26} />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-base sm:text-lg text-on-surface leading-snug font-bold">
-                        {biz.name}
-                      </span>
-                      <a
-                        className="text-sm text-on-primary-fixed-variant hover:underline flex items-center gap-1 font-medium mt-0.5"
-                        href="#"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        <span>{biz.domain}</span>
-                        <Icon name="open_in_new" size={14} />
-                      </a>
-                    </div>
-                  </div>
-
-                  {isActive ? (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs bg-tertiary-container text-tertiary-fixed-dim font-bold shadow-xs shrink-0">
-                      <span className="w-2 h-2 rounded-full bg-tertiary-fixed-dim animate-ping" />
-                      ACTIVE STORE
-                    </span>
-                  ) : (
-                    <span className="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-semibold text-xs shrink-0">
-                      Secondary Store
-                    </span>
-                  )}
-                </div>
-
-                {/* Metadata Properties Grid */}
-                <div className="grid grid-cols-2 gap-3 p-3.5 rounded-xl bg-surface-container-low font-body-sm text-body-sm">
-                  <div className="flex items-center gap-2">
-                    <Icon name="public" size={16} className="text-on-surface-variant" />
-                    <div className="flex flex-col">
-                      <span className="text-label-sm font-label-sm text-on-surface-variant leading-none">
-                        Country
-                      </span>
-                      <span className="text-label-md font-label-md text-on-surface font-semibold">
-                        Bangladesh ({biz.defaultCountryCode})
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <Icon name="calendar_today" size={16} className="text-on-surface-variant" />
-                    <div className="flex flex-col">
-                      <span className="text-label-sm font-label-sm text-on-surface-variant leading-none">
-                        Timezone
-                      </span>
-                      <span className="text-label-md font-label-md text-on-surface font-semibold">
-                        {biz.timezone}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2 col-span-2">
-                    <Icon name="bolt" size={16} className="text-on-tertiary-container" />
-                    <div className="flex flex-col">
-                      <span className="text-label-sm font-label-sm text-on-surface-variant leading-none">
-                        Mode
-                      </span>
-                      <span className="text-label-md font-label-md text-on-tertiary-container font-semibold">
-                        {biz.triggerMode === "instant"
-                          ? "⚡ Instant Auto-Call"
-                          : "📋 Manual Batch"}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Telephony Balance Widget */}
-                <div className="p-space-md rounded-lg bg-surface-bright flex flex-col gap-2 border border-outline-variant/20">
-                  <div className="flex items-center justify-between">
-                    <span className="font-label-sm text-label-sm text-on-surface-variant font-semibold uppercase tracking-wider">
-                      Telephony Credit Allocation
-                    </span>
-                    <button
-                      onClick={() => showToast(`Top up modal for ${biz.name}`, "info")}
-                      className="text-label-sm font-label-sm text-primary-container font-bold hover:underline flex items-center gap-0.5"
-                      type="button"
-                    >
-                      <Icon name="add_circle" size={14} />
-                      <span>Top Up</span>
-                    </button>
-                  </div>
-                  <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1.5">
-                    <div className="flex items-baseline gap-1.5">
-                      <span className="text-2xl sm:text-3xl text-on-surface font-bold tracking-tight">
-                        ৳ {biz.cachedBalance.toFixed(2)}
-                      </span>
-                      <span className="text-xs text-on-surface-variant font-medium">
-                        BDT
-                      </span>
-                    </div>
-                    <span className="text-xs px-2.5 py-1 rounded-md bg-surface-container text-on-surface-variant font-semibold w-fit">
-                      ~{Math.floor(biz.cachedBalance)} verification calls
-                    </span>
-                  </div>
-                  {/* Capacity Gauge */}
-                  <div className="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
-                    <div
-                      className="bg-primary-container h-full rounded-full"
-                      style={{
-                        width: `${Math.min(100, (biz.cachedBalance / 500) * 100)}%`,
-                      }}
-                    />
-                  </div>
-                </div>
-
-                {/* Webhook Integration Field */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="font-label-sm text-label-sm text-on-surface-variant font-semibold flex items-center justify-between">
-                    <span>Inbound Order Webhook Endpoint</span>
-                    <span className="text-label-sm font-label-sm text-on-tertiary-container font-medium">
-                      SSL Verified
-                    </span>
-                  </label>
-                  <div className="flex items-center gap-1 bg-surface-container px-2.5 py-1.5 rounded-lg border border-outline-variant/30">
-                    <code className="font-code-sm text-code-sm text-on-surface font-mono truncate flex-1 select-all">
-                      {webhookUrl}
-                    </code>
-                    <button
-                      className="p-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
-                      onClick={() => handleCopy(webhookUrl, biz.id)}
-                      title="Copy Webhook URL"
-                      type="button"
-                    >
-                      <Icon name={copiedId === biz.id ? "check" : "save"} size={18} />
-                    </button>
-                  </div>
-                  <div className="flex items-center justify-between pt-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-label-sm text-label-sm text-on-surface-variant">
-                        Signing Secret:
-                      </span>
-                      <code className="font-code-sm text-code-sm text-on-surface-variant font-mono">
-                        {isSecretRevealed ? secretKey : `${secretKey.substring(0, 11)}••••••••7f`}
-                      </code>
-                    </div>
-                    <button
-                      className="text-label-sm font-label-sm text-primary-container font-semibold hover:underline"
-                      onClick={() => toggleSecret(biz.id)}
-                      type="button"
-                    >
-                      {isSecretRevealed ? "Hide" : "Reveal"}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Bound Telephony Route */}
-                <div className="flex items-center gap-2 p-2 rounded-lg bg-surface-container-low text-on-surface">
-                  <Icon name="call_split" size={18} className="text-primary-container" />
-                  <div className="flex flex-col min-w-0">
-                    <span className="text-label-sm font-label-sm text-on-surface-variant leading-none">
-                      Bound Telephony Route
-                    </span>
-                    <span className="text-body-sm font-body-sm font-semibold truncate">
-                      {biz.boundFlowName}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Button */}
-              <div className="p-space-lg pt-0">
-                {isActive ? (
-                  <button
-                    disabled
-                    className="w-full py-2.5 px-4 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md cursor-default text-center"
-                    type="button"
-                  >
-                    Currently Managing This Workspace
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => setActiveBusinessId(biz.id)}
-                    className="w-full py-2.5 px-4 rounded-lg border border-primary-container text-primary-container hover:bg-primary-container/10 font-label-md text-label-md font-semibold transition text-center shadow-xs"
-                    type="button"
-                  >
-                    Switch to This Store
-                  </button>
-                )}
-              </div>
-            </div>
-          );
-        })}
+      {/* 3. Platform Filter Tabs */}
+      <div className="flex items-center gap-2">
+        {[
+          { id: "all", label: `All Businesses (${businesses.length})` },
+          { id: "woocommerce", label: "WooCommerce" },
+          { id: "shopify", label: "Shopify" },
+        ].map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setPlatformFilter(tab.id as typeof platformFilter)}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-sm border ${
+              platformFilter === tab.id
+                ? "bg-primary-container text-on-primary border-primary-container shadow"
+                : "bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container border-outline-variant/30"
+            }`}
+            type="button"
+          >
+            {tab.label}
+          </button>
+        ))}
       </div>
 
-      {/* Connect Storefront Modal */}
+      {/* 4. Multi-Business Multi-Table (No main cards, cards inside table cells) */}
+      <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-surface-container-low/80 border-b border-surface-container text-outline text-[11px] uppercase tracking-wider font-bold">
+                <th className="py-3 px-4">Business</th>
+                <th className="py-3 px-4">Platform</th>
+                <th className="py-3 px-4">Call Flow</th>
+                <th className="py-3 px-4">Account Balance</th>
+                <th className="py-3 px-4 min-w-[240px]">Webhook</th>
+                <th className="py-3 px-4 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-surface-container-low text-xs sm:text-sm text-on-surface">
+              {filteredBusinesses.map((biz) => {
+                const isActive = biz.id === activeBusiness.id;
+                const webhookUrl = `https://api.dialyra.com/v1/webhooks/orders/${biz.uuid}`;
+                const secretKey = `whsec_live_${biz.uuid.substring(0, 8)}417e293041c7f`;
+                const isSecretRevealed = !!revealedSecrets[biz.id];
+
+                return (
+                  <tr
+                    key={biz.id}
+                    className={`hover:bg-surface-container-low/40 transition-colors ${
+                      isActive ? "bg-primary-container/5" : ""
+                    }`}
+                  >
+                    {/* Store Cell (Card inside cell) */}
+                    <td className="py-3 px-4">
+                      <div className="p-2.5 rounded-xl bg-surface-container-low/60 border border-outline-variant/20 shadow-xs flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-lg bg-primary-container/15 flex items-center justify-center text-primary-container shrink-0 font-bold">
+                          <Icon name="shopping_cart" size={20} />
+                        </div>
+                        <div className="flex flex-col min-w-0">
+                          <div className="flex items-center gap-1.5">
+                            <span className="font-bold text-on-surface truncate">
+                              {biz.name}
+                            </span>
+                            {isActive && (
+                              <span className="px-1.5 py-0.2 rounded text-[10px] font-bold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                                Active
+                              </span>
+                            )}
+                          </div>
+                          <span className="text-[11px] text-on-surface-variant font-mono truncate">
+                            {biz.domain}
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+
+                    {/* Platform Cell (Card inside cell) */}
+                    <td className="py-3 px-4">
+                      <div className="p-2 rounded-xl bg-surface-container-low/60 border border-outline-variant/20 shadow-xs inline-flex flex-col gap-0.5">
+                        <span className="text-xs font-bold text-on-surface">
+                          {biz.platform}
+                        </span>
+                        <span className="text-[10px] text-on-surface-variant font-medium">
+                          ⚡ Instant Dial
+                        </span>
+                      </div>
+                    </td>
+
+                    {/* Call Flow Cell (Card inside cell) */}
+                    <td className="py-3 px-4">
+                      <div className="p-2 rounded-xl bg-surface-container-low/60 border border-outline-variant/20 shadow-xs inline-flex items-center gap-1.5">
+                        <Icon name="call_split" size={15} className="text-primary-container" />
+                        <span className="text-xs font-semibold text-on-surface truncate max-w-[160px]">
+                          {biz.boundFlowName}
+                        </span>
+                      </div>
+                    </td>
+
+                    {/* Account Balance Cell (Shared across all stores) */}
+                    <td className="py-3 px-4">
+                      <div className="p-2 rounded-xl bg-surface-container-low/60 border border-outline-variant/20 shadow-xs inline-flex flex-col">
+                        <span className="text-xs font-bold text-on-surface font-mono">
+                          ৳ {accountBalance.toFixed(2)}
+                        </span>
+                        <span className="text-[10px] text-on-surface-variant font-semibold">
+                          Shared Pool
+                        </span>
+                      </div>
+                    </td>
+
+                    {/* Webhook Cell (Card inside cell) */}
+                    <td className="py-3 px-4">
+                      <div className="p-2.5 rounded-xl bg-surface-container-low/60 border border-outline-variant/20 shadow-xs flex flex-col gap-1.5">
+                        <div className="flex items-center gap-1.5">
+                          <code className="text-[11px] font-mono text-on-surface truncate flex-1 bg-surface-container-lowest px-1.5 py-0.5 rounded border border-outline-variant/20">
+                            {webhookUrl}
+                          </code>
+                          <button
+                            onClick={() => handleCopy(webhookUrl, biz.id)}
+                            className="p-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface shadow-xs transition-colors"
+                            title="Copy Webhook"
+                            type="button"
+                          >
+                            <Icon name={copiedId === biz.id ? "check" : "save"} size={14} />
+                          </button>
+                        </div>
+                        <div className="flex items-center justify-between text-[11px]">
+                          <span className="text-on-surface-variant font-mono">
+                            Secret: {isSecretRevealed ? secretKey : `${secretKey.substring(0, 8)}••••`}
+                          </span>
+                          <button
+                            onClick={() => toggleSecret(biz.id)}
+                            className="text-primary-container font-bold hover:underline"
+                            type="button"
+                          >
+                            {isSecretRevealed ? "Hide" : "Show"}
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+
+                    {/* Action Cell */}
+                    <td className="py-3 px-4 text-right">
+                      {isActive ? (
+                        <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-surface-container text-on-surface-variant text-xs font-bold shadow-xs">
+                          <Icon name="check" size={14} />
+                          <span>Managing</span>
+                        </span>
+                      ) : (
+                        <button
+                          onClick={() => setActiveBusinessId(biz.id)}
+                          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-primary-container text-on-primary hover:bg-primary text-xs font-bold shadow-sm hover:shadow transition-all active:scale-95"
+                          type="button"
+                        >
+                          <span>Switch</span>
+                          <Icon name="arrow_forward" size={14} />
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Create Store Modal */}
       {createModalOpen && (
         <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <div className="bg-surface-container-lowest rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
             <div className="flex items-center justify-between border-b border-surface-container pb-3">
-              <h3 className="font-headline-sm text-headline-sm font-bold text-on-surface">
-                Connect New Storefront
+              <h3 className="text-base sm:text-lg font-bold text-on-surface">
+                Create Store
               </h3>
               <button
                 onClick={() => setCreateModalOpen(false)}
@@ -391,30 +331,30 @@ export default function BusinessesPage() {
               </button>
             </div>
 
-            <form onSubmit={handleCreateStore} className="space-y-4 font-body-sm text-body-sm">
+            <form onSubmit={handleCreateStore} className="space-y-4 text-xs sm:text-sm">
               <div>
                 <label className="block text-on-surface font-semibold mb-1">
-                  Store / Business Name
+                  Business Name
                 </label>
                 <input
                   type="text"
                   required
                   value={newStoreName}
                   onChange={(e) => setNewStoreName(e.target.value)}
-                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-semibold text-on-surface focus:outline-none focus:border-primary-container"
+                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-semibold text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
                   placeholder="e.g. Uttara Mart"
                 />
               </div>
 
               <div>
                 <label className="block text-on-surface font-semibold mb-1">
-                  Store Domain URL
+                  Business Domain
                 </label>
                 <input
                   type="text"
                   value={newStoreDomain}
                   onChange={(e) => setNewStoreDomain(e.target.value)}
-                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-mono text-on-surface focus:outline-none focus:border-primary-container"
+                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-mono text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
                   placeholder="e.g. uttaramart.com.bd"
                 />
               </div>
@@ -427,18 +367,18 @@ export default function BusinessesPage() {
                   <button
                     type="button"
                     onClick={() => setNewStoreTrigger("instant")}
-                    className={`p-2.5 rounded-lg border text-center font-semibold transition ${
+                    className={`p-2.5 rounded-lg border text-center font-semibold transition shadow-xs ${
                       newStoreTrigger === "instant"
                         ? "bg-primary-container/15 border-primary-container text-primary-container font-bold"
                         : "border-outline-variant/30 text-on-surface hover:bg-surface-container-low"
                     }`}
                   >
-                    ⚡ Instant Auto-Call
+                    ⚡ Instant Call
                   </button>
                   <button
                     type="button"
                     onClick={() => setNewStoreTrigger("manual")}
-                    className={`p-2.5 rounded-lg border text-center font-semibold transition ${
+                    className={`p-2.5 rounded-lg border text-center font-semibold transition shadow-xs ${
                       newStoreTrigger === "manual"
                         ? "bg-primary-container/15 border-primary-container text-primary-container font-bold"
                         : "border-outline-variant/30 text-on-surface hover:bg-surface-container-low"
@@ -453,15 +393,15 @@ export default function BusinessesPage() {
                 <button
                   type="button"
                   onClick={() => setCreateModalOpen(false)}
-                  className="px-4 py-2 rounded-lg border border-outline-variant/40 text-on-surface hover:bg-surface-container-low"
+                  className="px-4 py-2 rounded-lg border border-outline-variant/40 text-on-surface hover:bg-surface-container-low font-semibold shadow-xs"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-lg bg-primary-container text-on-primary font-bold shadow-sm hover:opacity-90 transition"
+                  className="px-4 py-2 rounded-lg bg-primary-container text-on-primary font-bold shadow-sm hover:shadow hover:bg-primary transition"
                 >
-                  Create &amp; Connect
+                  Create Store
                 </button>
               </div>
             </form>

@@ -178,6 +178,16 @@ export function Icon({ name, className = "w-5 h-5", size = 20, ...props }: IconP
           <path d="M12 16v-5h3" />
         </svg>
       );
+    case "science":
+    case "flask":
+    case "test_tools":
+      return (
+        <svg {...commonProps}>
+          <path d="M10 2v7.31L4.36 19.46A2 2 0 0 0 6.09 22h11.82a2 2 0 0 0 1.73-2.54L14 9.31V2" />
+          <line x1="8" y1="2" x2="16" y2="2" />
+          <line x1="7.5" y1="15" x2="16.5" y2="15" />
+        </svg>
+      );
     case "build":
     case "tune":
     case "settings":

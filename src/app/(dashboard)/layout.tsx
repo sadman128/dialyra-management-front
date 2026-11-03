@@ -6,14 +6,18 @@ import { usePathname } from "next/navigation";
 import { useBusiness } from "@/context/BusinessContext";
 import { useTheme } from "@/context/ThemeContext";
 import { Icon } from "@/components/ui/Icon";
+import { ConfirmModal } from "@/components/ui/ConfirmModal";
 
 const NAV_ITEMS = [
   { name: "Dashboard", href: "/dashboard", icon: "dashboard" },
   { name: "Businesses", href: "/businesses", icon: "storefront" },
   { name: "Flows", href: "/flows", icon: "account_tree" },
   { name: "Call History", href: "/call-history", icon: "history" },
+  { name: "Departments", href: "/departments", icon: "call_split" },
+  { name: "Agents", href: "/agents", icon: "support_agent" },
+  { name: "Extensions", href: "/extensions", icon: "dialpad" },
   { name: "Audio Library", href: "/audio", icon: "audio_file" },
-  { name: "Test Tools", href: "/test-tools", icon: "build" },
+  { name: "Test Tools", href: "/test-tools", icon: "science" },
   { name: "Settings", href: "/settings", icon: "settings" },
 ];
 
@@ -28,11 +32,13 @@ export default function DashboardLayout({
   const [storeDropdownOpen, setStoreDropdownOpen] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [syncing, setSyncing] = useState(false);
+  const [profileModalOpen, setProfileModalOpen] = useState(false);
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
   const [notifications, setNotifications] = useState([
     {
       id: "1",
-      title: "Trunk Node BD-02 Active",
-      desc: "3 channels in active dispatch. Latency 18ms.",
+      title: "Node BD-02 Active",
+      desc: "System running smoothly. Latency 18ms.",
       time: "10m ago",
       type: "success",
       read: false,
@@ -47,7 +53,7 @@ export default function DashboardLayout({
     },
     {
       id: "3",
-      title: "WooCommerce Webhook 200 OK",
+      title: "Store Webhook 200 OK",
       desc: "Order confirmation received and logged.",
       time: "1h ago",
       type: "info",
@@ -58,12 +64,12 @@ export default function DashboardLayout({
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
-  const handleSyncTrunk = () => {
+  const handleSync = () => {
     setSyncing(true);
     setTimeout(() => {
       setSyncing(false);
-      showToast("Trunk #20 telemetry synchronized (3/5 channels active, 18ms latency)", "info");
-    }, 600);
+      showToast("System synchronized", "info");
+    }, 500);
   };
 
   return (
@@ -71,15 +77,11 @@ export default function DashboardLayout({
       {/* 1. Desktop Fixed Sidebar (100% Stitch UI Specification) */}
       <aside className="fixed left-0 top-0 h-full w-64 bg-primary-container z-50 hidden lg:flex flex-col justify-between shadow-stitch">
         <div className="flex flex-col">
-          {/* Brand & SIP Status */}
+          {/* Brand */}
           <div className="px-space-lg pt-space-lg pb-space-md">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-2">
               <span className="text-[22px] font-bold text-on-primary tracking-tight">
                 Dialyra
-              </span>
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-container text-tertiary-fixed-dim text-xs font-semibold">
-                <span className="w-1.5 h-1.5 rounded-full bg-tertiary-fixed-dim animate-pulse" />
-                SIP
               </span>
             </div>
             <div className="mt-space-xs">
@@ -157,8 +159,14 @@ export default function DashboardLayout({
             <div className="flex flex-col">
               <div className="p-space-lg flex items-center justify-between border-b border-on-primary/10">
                 <div className="flex flex-col">
-                  <span className="text-[22px] font-bold text-on-primary">Dialyra</span>
-                  <span className="text-[11px] text-primary-fixed-dim tracking-widest uppercase font-bold">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[20px] font-bold text-on-primary">Dialyra</span>
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-semibold border border-emerald-500/30">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      Online
+                    </span>
+                  </div>
+                  <span className="text-[10px] text-primary-fixed-dim tracking-widest uppercase font-bold mt-0.5">
                     MANAGEMENT
                   </span>
                 </div>
@@ -219,7 +227,7 @@ export default function DashboardLayout({
               <Icon name="menu" size={24} />
             </button>
 
-            {/* Active Store Dropdown Switcher */}
+            {/* Active Business Dropdown Switcher */}
             <div className="relative min-w-0">
               <button
                 onClick={() => setStoreDropdownOpen(!storeDropdownOpen)}
@@ -228,7 +236,7 @@ export default function DashboardLayout({
               >
                 <Icon name="storefront" size={18} className="text-secondary shrink-0" />
                 <span className="text-on-surface-variant font-normal hidden md:inline">
-                  Active Store:
+                  Active Business:
                 </span>
                 <span className="font-semibold truncate">{activeBusiness.name}</span>
                 <Icon name="expand_more" size={16} className="text-on-surface-variant shrink-0" />
@@ -237,7 +245,7 @@ export default function DashboardLayout({
               {storeDropdownOpen && (
                 <div className="absolute left-0 mt-2 w-64 bg-surface-container-lowest rounded-xl shadow-lg border border-outline-variant/30 p-2 z-50">
                   <div className="text-xs font-semibold text-on-surface-variant px-3 py-1.5 uppercase tracking-wider">
-                    Connected Storefronts
+                    Connected Businesses
                   </div>
                   {businesses.map((biz) => (
                     <button
@@ -261,15 +269,25 @@ export default function DashboardLayout({
                 </div>
               )}
             </div>
+
+            {/* System Status : Online (Next to Active Store) */}
+            <div className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 text-xs font-semibold border border-emerald-500/30 shrink-0 whitespace-nowrap shadow-2xs">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>System Status : Online</span>
+            </div>
+            <div className="sm:hidden inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 text-[10px] font-bold border border-emerald-500/30 shrink-0 whitespace-nowrap">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Online</span>
+            </div>
           </div>
 
           {/* Header Controls: Sync, Theme Toggle, Notifications, User */}
           <div className="flex items-center gap-2 sm:gap-space-md shrink-0">
-            {/* Sync Trunk Status */}
+            {/* Sync Button */}
             <button
-              onClick={handleSyncTrunk}
+              onClick={handleSync}
               disabled={syncing}
-              className="flex items-center gap-1.5 sm:gap-space-xs px-2.5 sm:px-space-md py-1.5 sm:py-space-sm rounded-lg bg-surface-container-lowest text-on-surface text-xs sm:text-sm font-medium hover:bg-surface-container-low transition-all shadow-xs hover:shadow border border-outline-variant/20 active:scale-95"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-surface-container-lowest text-on-surface text-xs sm:text-sm font-semibold hover:bg-surface-container-low transition-all shadow-xs hover:shadow border border-outline-variant/20 active:scale-95"
               type="button"
             >
               <Icon
@@ -277,7 +295,7 @@ export default function DashboardLayout({
                 size={18}
                 className={`text-secondary shrink-0 ${syncing ? "animate-spin" : ""}`}
               />
-              <span className="hidden sm:inline">Sync Trunk</span>
+              <span className="hidden sm:inline">Sync</span>
             </button>
 
             {/* Light / Dark Mode Toggle Button */}
@@ -389,9 +407,81 @@ export default function DashboardLayout({
               )}
             </div>
 
-            {/* Profile Avatar */}
-            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-xs">
-              <Icon name="person" size={16} className="text-on-primary" />
+            {/* User Profile Button with Modal */}
+            <div className="relative">
+              <button
+                onClick={() => setProfileModalOpen(!profileModalOpen)}
+                className="flex items-center gap-2 p-1 sm:px-2.5 sm:py-1.5 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface border border-outline-variant/30 shadow-xs hover:shadow transition-all cursor-pointer"
+                type="button"
+                title="Account Menu"
+              >
+                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold shadow-xs">
+                  <Icon name="person" size={16} />
+                </div>
+                <div className="hidden md:flex flex-col text-left">
+                  <span className="text-xs font-bold text-on-surface leading-tight">Store Admin</span>
+                  <span className="text-[11px] text-on-surface-variant font-medium leading-tight">Telephony Supervisor</span>
+                </div>
+                <Icon name="expand_more" size={16} className="text-on-surface-variant hidden md:block" />
+              </button>
+
+              {profileModalOpen && (
+                <div className="absolute right-0 mt-2 w-72 bg-surface-container-lowest rounded-2xl shadow-2xl border border-outline-variant/30 p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                  <div className="flex items-center gap-3 pb-3 border-b border-outline-variant/20">
+                    <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold shadow-xs shrink-0">
+                      <Icon name="person" size={20} />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="font-bold text-sm text-on-surface truncate">Store Admin</div>
+                      <div className="text-xs text-on-surface-variant truncate">Telephony Supervisor</div>
+                      <div className="text-[11px] text-outline truncate font-mono">admin@store.com</div>
+                    </div>
+                  </div>
+
+                  <div className="py-2.5 space-y-1 text-xs font-semibold">
+                    <div className="px-2 py-1 text-on-surface-variant font-medium">
+                      Active: <strong className="text-on-surface">{activeBusiness.name}</strong>
+                    </div>
+                    <Link
+                      href="/settings"
+                      onClick={() => setProfileModalOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2 rounded-xl text-on-surface hover:bg-surface-container-low transition"
+                    >
+                      <Icon name="settings" size={16} className="text-on-surface-variant" />
+                      <span>Settings &amp; Profile</span>
+                    </Link>
+                    <Link
+                      href="/businesses"
+                      onClick={() => setProfileModalOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2 rounded-xl text-on-surface hover:bg-surface-container-low transition"
+                    >
+                      <Icon name="storefront" size={16} className="text-on-surface-variant" />
+                      <span>Switch Business</span>
+                    </Link>
+                  </div>
+
+                  <div className="pt-2 border-t border-outline-variant/20 flex items-center justify-between">
+                    <button
+                      onClick={() => {
+                        setProfileModalOpen(false);
+                        setLogoutModalOpen(true);
+                      }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-error hover:bg-error-container/20 transition"
+                      type="button"
+                    >
+                      <Icon name="logout" size={15} />
+                      <span>Log Out</span>
+                    </button>
+                    <button
+                      onClick={() => setProfileModalOpen(false)}
+                      className="text-xs text-on-surface-variant hover:text-on-surface font-semibold px-2 py-1"
+                      type="button"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </header>
@@ -401,6 +491,21 @@ export default function DashboardLayout({
           <div className="w-full py-6">{children}</div>
         </main>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      <ConfirmModal
+        isOpen={logoutModalOpen}
+        onClose={() => setLogoutModalOpen(false)}
+        onConfirm={() => {
+          setLogoutModalOpen(false);
+          showToast("Signed out of administrative console", "info");
+        }}
+        title="Log Out"
+        description="Are you sure you want to log out of Dialyra Management? You will need to sign in again to access call controls."
+        confirmText="Log Out"
+        variant="danger"
+        icon="logout"
+      />
     </div>
   );
 }

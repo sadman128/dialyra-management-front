@@ -4,6 +4,7 @@ export interface BusinessStore {
   name: string;
   email: string;
   domain: string;
+  platform: string;
   defaultCountryCode: string;
   timezone: string;
   triggerMode: "instant" | "manual";
@@ -22,6 +23,7 @@ export interface CallAttempt {
 
 export interface CallRecord {
   id: string;
+  businessId: string;
   orderId: string;
   customerName: string;
   rawPhone: string;
@@ -54,6 +56,8 @@ export interface AudioAsset {
   codec: string;
 }
 
+export const mockAccountBalance = 500.0;
+
 export const mockBusinesses: BusinessStore[] = [
   {
     id: "biz-1",
@@ -61,10 +65,11 @@ export const mockBusinesses: BusinessStore[] = [
     name: "SongsharerBazar",
     email: "admin@songsharerbazar.com.bd",
     domain: "songsharerbazar.com.bd",
+    platform: "WooCommerce",
     defaultCountryCode: "+880",
     timezone: "Asia/Dhaka",
     triggerMode: "instant",
-    cachedBalance: 95.50,
+    cachedBalance: 500.0,
     activeFlowId: "flow-1",
     boundFlowName: "Order Confirmation Flow (v1.4)",
   },
@@ -74,12 +79,13 @@ export const mockBusinesses: BusinessStore[] = [
     name: "Uttara Super Shop",
     email: "billing@uttaramart.com.bd",
     domain: "uttaramart.com.bd",
+    platform: "Shopify",
     defaultCountryCode: "+880",
     timezone: "Asia/Dhaka",
     triggerMode: "manual",
-    cachedBalance: 420.00,
+    cachedBalance: 500.0,
     activeFlowId: "flow-2",
-    boundFlowName: "VIP Verification Flow (v2.1)",
+    boundFlowName: "Grocery Express Flow (v2.1)",
   },
 ];
 
@@ -131,8 +137,10 @@ export const mockAudioAssets: AudioAsset[] = [
 ];
 
 export const mockCalls: CallRecord[] = [
+  // --- SongsharerBazar (biz-1) Calls ---
   {
     id: "call-1",
+    businessId: "biz-1",
     orderId: "1045",
     customerName: "Tanvir Ahmed",
     rawPhone: "01712998877",
@@ -156,6 +164,7 @@ export const mockCalls: CallRecord[] = [
   },
   {
     id: "call-2",
+    businessId: "biz-1",
     orderId: "1046",
     customerName: "Sewly Ahmed",
     rawPhone: "01948215645",
@@ -180,6 +189,7 @@ export const mockCalls: CallRecord[] = [
   },
   {
     id: "call-3",
+    businessId: "biz-1",
     orderId: "1047",
     customerName: "Masud Rana",
     rawPhone: "01766674386",
@@ -203,6 +213,7 @@ export const mockCalls: CallRecord[] = [
   },
   {
     id: "call-4",
+    businessId: "biz-1",
     orderId: "1048",
     customerName: "Ferdoshi Ahmed",
     rawPhone: "01707387365",
@@ -226,6 +237,7 @@ export const mockCalls: CallRecord[] = [
   },
   {
     id: "call-5",
+    businessId: "biz-1",
     orderId: "1049",
     customerName: "Arif Hossain",
     rawPhone: "01822334455",
@@ -249,6 +261,7 @@ export const mockCalls: CallRecord[] = [
   },
   {
     id: "call-6",
+    businessId: "biz-1",
     orderId: "1050",
     customerName: "Nasreen Sultana",
     rawPhone: "01677889900",
@@ -268,6 +281,152 @@ export const mockCalls: CallRecord[] = [
     city: "Khulna City",
     attempts: [
       { attemptNumber: 1, startedAt: "2026-11-01 11:30:00", outcome: "NO_ANSWER", durationSec: 0, costAmount: 0.00 },
+    ],
+  },
+
+  // --- Uttara Super Shop (biz-2) Calls ---
+  {
+    id: "call-201",
+    businessId: "biz-2",
+    orderId: "2001",
+    customerName: "Kamal Hossain",
+    rawPhone: "01723456789",
+    normalizedPhone: "+8801723456789",
+    flowId: "flow-2",
+    flowName: "VIP Verification Flow",
+    callState: "completed",
+    outcome: "CONFIRMED",
+    dtmfKey: "1",
+    durationSec: 42,
+    billsec: 42,
+    costAmount: 1.50,
+    recordingUrl: "https://actions.google.com/sounds/v1/emergency/beeper_emergency_call.ogg",
+    startedAt: "2026-11-01 14:10:05",
+    canRetry: false,
+    orderAmount: "৳ 3,450 • Grocery Essentials",
+    city: "Uttara Sector 4, Dhaka",
+    attempts: [
+      { attemptNumber: 1, startedAt: "2026-11-01 14:10:05", outcome: "CONFIRMED", durationSec: 42, costAmount: 1.50 },
+    ],
+  },
+  {
+    id: "call-202",
+    businessId: "biz-2",
+    orderId: "2002",
+    customerName: "Farhana Yasmin",
+    rawPhone: "01834567890",
+    normalizedPhone: "+8801834567890",
+    flowId: "flow-2",
+    flowName: "VIP Verification Flow",
+    callState: "completed",
+    outcome: "CONFIRMED",
+    dtmfKey: "1",
+    durationSec: 38,
+    billsec: 38,
+    costAmount: 1.35,
+    recordingUrl: "https://actions.google.com/sounds/v1/emergency/beeper_emergency_call.ogg",
+    startedAt: "2026-11-01 13:50:18",
+    canRetry: false,
+    orderAmount: "৳ 1,980 • Baby Care Kit",
+    city: "Gulshan 2, Dhaka",
+    attempts: [
+      { attemptNumber: 1, startedAt: "2026-11-01 13:50:18", outcome: "CONFIRMED", durationSec: 38, costAmount: 1.35 },
+    ],
+  },
+  {
+    id: "call-203",
+    businessId: "biz-2",
+    orderId: "2003",
+    customerName: "Rashedul Islam",
+    rawPhone: "01945678901",
+    normalizedPhone: "+8801945678901",
+    flowId: "flow-2",
+    flowName: "VIP Verification Flow",
+    callState: "no_answer",
+    outcome: "NO_ANSWER",
+    dtmfKey: null,
+    durationSec: 0,
+    billsec: 0,
+    costAmount: 0.00,
+    recordingUrl: null,
+    startedAt: "2026-11-01 13:22:45",
+    canRetry: true,
+    orderAmount: "৳ 2,650 • Organic Cold-pressed Oil",
+    city: "Banani, Dhaka",
+    attempts: [
+      { attemptNumber: 1, startedAt: "2026-11-01 13:22:45", outcome: "NO_ANSWER", durationSec: 0, costAmount: 0.00 },
+    ],
+  },
+  {
+    id: "call-204",
+    businessId: "biz-2",
+    orderId: "2004",
+    customerName: "Nazia Parveen",
+    rawPhone: "01656789012",
+    normalizedPhone: "+8801656789012",
+    flowId: "flow-2",
+    flowName: "VIP Verification Flow",
+    callState: "completed",
+    outcome: "CANCELLED",
+    dtmfKey: "2",
+    durationSec: 22,
+    billsec: 22,
+    costAmount: 0.80,
+    recordingUrl: "https://actions.google.com/sounds/v1/emergency/beeper_emergency_call.ogg",
+    startedAt: "2026-11-01 12:45:11",
+    canRetry: false,
+    orderAmount: "৳ 890 • Snacks & Beverages",
+    city: "Baridhara DOHS, Dhaka",
+    attempts: [
+      { attemptNumber: 1, startedAt: "2026-11-01 12:45:11", outcome: "CANCELLED", durationSec: 22, costAmount: 0.80 },
+    ],
+  },
+  {
+    id: "call-205",
+    businessId: "biz-2",
+    orderId: "2005",
+    customerName: "Sabbir Rahman",
+    rawPhone: "01767890123",
+    normalizedPhone: "+8801767890123",
+    flowId: "flow-2",
+    flowName: "VIP Verification Flow",
+    callState: "completed",
+    outcome: "CONFIRMED",
+    dtmfKey: "1",
+    durationSec: 48,
+    billsec: 48,
+    costAmount: 1.70,
+    recordingUrl: "https://actions.google.com/sounds/v1/emergency/beeper_emergency_call.ogg",
+    startedAt: "2026-11-01 11:58:30",
+    canRetry: false,
+    orderAmount: "৳ 5,200 • Premium Basmati & Ghee",
+    city: "Bashundhara R/A, Dhaka",
+    attempts: [
+      { attemptNumber: 1, startedAt: "2026-11-01 11:58:30", outcome: "CONFIRMED", durationSec: 48, costAmount: 1.70 },
+    ],
+  },
+  {
+    id: "call-206",
+    businessId: "biz-2",
+    orderId: "2006",
+    customerName: "Tasnim Zahan",
+    rawPhone: "01978901234",
+    normalizedPhone: "+8801978901234",
+    flowId: "flow-2",
+    flowName: "VIP Verification Flow",
+    callState: "queued",
+    outcome: "RETRY_QUEUED",
+    dtmfKey: null,
+    durationSec: 0,
+    billsec: 0,
+    costAmount: 0.00,
+    recordingUrl: null,
+    startedAt: "2026-11-01 11:15:00",
+    canRetry: true,
+    orderAmount: "৳ 3,100 • Imported Dairy Items",
+    city: "Mohakhali DOHS, Dhaka",
+    attempts: [
+      { attemptNumber: 1, startedAt: "2026-11-01 11:15:00", outcome: "NO_ANSWER", durationSec: 0, costAmount: 0.00 },
     ],
   },
 ];

@@ -16,10 +16,12 @@ interface Toast {
 }
 
 interface BusinessContextType {
+  accountBalance: number;
   businesses: BusinessStore[];
   activeBusiness: BusinessStore;
   setActiveBusinessId: (id: string) => void;
   calls: CallRecord[];
+  allCalls: CallRecord[];
   retryCall: (orderId: string) => void;
   topUpBalance: (amount: number) => void;
   showToast: (message: string, type?: "success" | "info" | "warning") => void;
@@ -28,13 +30,21 @@ interface BusinessContextType {
 const BusinessContext = createContext<BusinessContextType | undefined>(undefined);
 
 export function BusinessProvider({ children }: { children: React.ReactNode }) {
+  const [accountBalance, setAccountBalance] = useState<number>(500.0);
   const [businesses, setBusinesses] = useState<BusinessStore[]>(mockBusinesses);
   const [activeBusinessId, setActiveBusinessIdState] = useState<string>("biz-1");
-  const [calls, setCalls] = useState<CallRecord[]>(mockCalls);
+  const [allCalls, setAllCalls] = useState<CallRecord[]>(mockCalls);
   const [toasts, setToasts] = useState<Toast[]>([]);
 
-  const activeBusiness =
+  const rawActive =
     businesses.find((b) => b.id === activeBusinessId) || businesses[0];
+  const activeBusiness: BusinessStore = {
+    ...rawActive,
+    cachedBalance: accountBalance,
+  };
+
+  // Calls strictly isolated per active business
+  const calls = allCalls.filter((c) => c.businessId === activeBusiness.id);
 
   const showToast = (
     message: string,
@@ -56,7 +66,7 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
   };
 
   const retryCall = (orderId: string) => {
-    setCalls((prev) =>
+    setAllCalls((prev) =>
       prev.map((c) =>
         c.orderId === orderId
           ? {
@@ -77,27 +87,29 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
           : c
       )
     );
-    showToast(`Instant redial queued for Order #${orderId} on Trunk #20`, "success");
+    showToast(`Instant redial queued for Order #${orderId}`, "success");
   };
 
   const topUpBalance = (amount: number) => {
-    setBusinesses((prev) =>
-      prev.map((b) =>
-        b.id === activeBusiness.id
-          ? { ...b, cachedBalance: b.cachedBalance + amount }
-          : b
-      )
-    );
-    showToast(`Recharge of ৳${amount.toFixed(2)} BDT successfully credited!`, "success");
+    setAccountBalance((prev) => {
+      const next = prev + amount;
+      setBusinesses((bList) =>
+        bList.map((b) => ({ ...b, cachedBalance: next }))
+      );
+      return next;
+    });
+    showToast(`Recharge of ৳${amount.toFixed(2)} credited to account!`, "success");
   };
 
   return (
     <BusinessContext.Provider
       value={{
-        businesses,
+        accountBalance,
+        businesses: businesses.map((b) => ({ ...b, cachedBalance: accountBalance })),
         activeBusiness,
         setActiveBusinessId,
         calls,
+        allCalls,
         retryCall,
         topUpBalance,
         showToast,
