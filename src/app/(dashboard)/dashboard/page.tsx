@@ -48,8 +48,8 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 3,
       noAnswer: 11,
       cancelled: 9,
-      summaryText: "38 Total Orders Today · Peak at 18:00 (14 calls)",
-      donutSubtitle: "Orders Today",
+      summaryText: "38 Total Calls Today · Peak at 18:00 (14 calls)",
+      donutSubtitle: "Calls Today",
       queueBadge: "Active Queue",
       queueFootnote: "3 Pending calls in outbound queue",
     },
@@ -59,10 +59,10 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 0,
       noAnswer: 76,
       cancelled: 65,
-      summaryText: "269 Total Orders Past 7 Days · Peak Tuesday (52 calls)",
+      summaryText: "269 Total Calls Past 7 Days · Peak Tuesday (52 calls)",
       donutSubtitle: "Past 7 Days",
       queueBadge: "Queue Cleared",
-      queueFootnote: "All 269 orders processed & completed",
+      queueFootnote: "All 269 calls processed & completed",
     },
     last_month: {
       label: "Last Month",
@@ -70,10 +70,10 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 0,
       noAnswer: 330,
       cancelled: 270,
-      summaryText: "1,160 Total Orders Last 30 Days · Peak 1st-5th (240 calls)",
+      summaryText: "1,160 Total Calls Last 30 Days · Peak 1st-5th (240 calls)",
       donutSubtitle: "Last 30 Days",
       queueBadge: "Queue Cleared",
-      queueFootnote: "All 1,160 orders processed & completed",
+      queueFootnote: "All 1,160 calls processed & completed",
     },
     last_year: {
       label: "Last Year",
@@ -81,10 +81,10 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 0,
       noAnswer: 4120,
       cancelled: 3200,
-      summaryText: "14,120 Total Orders Past Year · Peak Eid Season (3,800 calls)",
+      summaryText: "14,120 Total Calls Past Year · Peak Eid Season (3,800 calls)",
       donutSubtitle: "Past 12 Months",
       queueBadge: "Queue Cleared",
-      queueFootnote: "All 14,120 orders processed & completed",
+      queueFootnote: "All 14,120 calls processed & completed",
     },
     all_time: {
       label: "All Time",
@@ -92,8 +92,8 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 3,
       noAnswer: 8900,
       cancelled: 6870,
-      summaryText: "30,570 Total Lifetime Orders · Balanced 48.4% Confirmation",
-      donutSubtitle: "All Time Orders",
+      summaryText: "30,570 Total Lifetime Calls · Balanced 48.4% Confirmation",
+      donutSubtitle: "All Time Calls",
       queueBadge: "Live Backlog",
       queueFootnote: "3 Pending calls currently in outbound queue",
     },
@@ -105,8 +105,8 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 1,
       noAnswer: 7,
       cancelled: 5,
-      summaryText: "24 Total Orders Today · Peak at 19:30 (8 calls)",
-      donutSubtitle: "Orders Today",
+      summaryText: "24 Total Calls Today · Peak at 19:30 (8 calls)",
+      donutSubtitle: "Calls Today",
       queueBadge: "Active Queue",
       queueFootnote: "1 Pending call in outbound queue",
     },
@@ -116,10 +116,10 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 0,
       noAnswer: 48,
       cancelled: 36,
-      summaryText: "166 Total Orders Past 7 Days · Peak Friday (38 calls)",
+      summaryText: "166 Total Calls Past 7 Days · Peak Friday (38 calls)",
       donutSubtitle: "Past 7 Days",
       queueBadge: "Queue Cleared",
-      queueFootnote: "All 166 orders processed & completed",
+      queueFootnote: "All 166 calls processed & completed",
     },
     last_month: {
       label: "Last Month",
@@ -127,10 +127,10 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 0,
       noAnswer: 215,
       cancelled: 160,
-      summaryText: "740 Total Orders Last 30 Days · Peak Weekend Evenings",
+      summaryText: "740 Total Calls Last 30 Days · Peak Weekend Evenings",
       donutSubtitle: "Last 30 Days",
       queueBadge: "Queue Cleared",
-      queueFootnote: "All 740 orders processed & completed",
+      queueFootnote: "All 740 calls processed & completed",
     },
     last_year: {
       label: "Last Year",
@@ -138,10 +138,10 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 0,
       noAnswer: 2650,
       cancelled: 2000,
-      summaryText: "9,100 Total Orders Past Year · Peak Festive Discounts",
+      summaryText: "9,100 Total Calls Past Year · Peak Festive Discounts",
       donutSubtitle: "Past 12 Months",
       queueBadge: "Queue Cleared",
-      queueFootnote: "All 9,100 orders processed & completed",
+      queueFootnote: "All 9,100 calls processed & completed",
     },
     all_time: {
       label: "All Time",
@@ -149,8 +149,8 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 1,
       noAnswer: 4900,
       cancelled: 3700,
-      summaryText: "17,000 Total Lifetime Orders · Balanced 49.4% Confirmation",
-      donutSubtitle: "All Time Orders",
+      summaryText: "17,000 Total Lifetime Calls · Balanced 49.4% Confirmation",
+      donutSubtitle: "All Time Calls",
       queueBadge: "Live Backlog",
       queueFootnote: "1 Pending call currently in outbound queue",
     },
@@ -353,10 +353,10 @@ export default function DashboardPage() {
             {/* Right Column: Direct Text Summary Bento Grid (4 Colorful Cards with Rich Shadows, No Borders) */}
             <div className="md:col-span-7 flex flex-col justify-center h-full">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                {/* Bento Stat 1: Confirmed Orders (Filled Success Gradient + Rich Glow Shadow - No Border) */}
+                {/* Bento Stat 1: Confirmed Orders (Filled Success Gradient + Rich Glow Shadow + Darker Border) */}
                 <div className="p-4 sm:p-5 rounded-2xl bg-gradient-success card-img-holder text-white shadow-lg shadow-[#07cdae]/25 dark:shadow-black/60 flex flex-col justify-between relative overflow-hidden transition-all hover:scale-[1.01] hover:shadow-xl hover:shadow-[#07cdae]/35">
                   <div className="relative z-10 flex items-center justify-between">
-                    <span className="text-xs font-bold text-white/90 uppercase tracking-wider">
+                    <span className="text-xs font-bold text-white uppercase tracking-wider">
                       Confirmed
                     </span>
                     <span className="px-2.5 py-0.5 rounded-full bg-white/25 text-white text-xs font-bold shadow-2xs backdrop-blur-xs">
@@ -368,35 +368,35 @@ export default function DashboardPage() {
                       {currentStats.confirmed.toLocaleString()}
                     </div>
                   </div>
-                  <div className="relative z-10 text-xs text-white/90 font-medium">
+                  <div className="relative z-10 text-xs text-white/95 font-medium">
                     • Ingested into Orders
                   </div>
                 </div>
 
-                {/* Bento Stat 2: No Answer (Filled Warning/Gold Gradient + Rich Glow Shadow - No Border - White Text) */}
+                {/* Bento Stat 2: No Answer (Filled Warning/Gold Gradient + Rich Glow Shadow + Darker Border) */}
                 <div className="p-4 sm:p-5 rounded-2xl bg-gradient-warning card-img-holder text-white shadow-lg shadow-[#ffd500]/30 dark:shadow-black/60 flex flex-col justify-between relative overflow-hidden transition-all hover:scale-[1.01] hover:shadow-xl hover:shadow-[#ffd500]/40">
                   <div className="relative z-10 flex items-center justify-between">
-                    <span className="text-xs font-bold text-white/95 uppercase tracking-wider [text-shadow:_0_1px_2px_rgb(0_0_0_/_25%)]">
+                    <span className="text-xs font-bold text-white uppercase tracking-wider">
                       No Answer
                     </span>
-                    <span className="px-2.5 py-0.5 rounded-full bg-black/20 text-white text-xs font-bold shadow-2xs backdrop-blur-xs">
+                    <span className="px-2.5 py-0.5 rounded-full bg-white/25 text-white text-xs font-bold shadow-2xs backdrop-blur-xs">
                       {noAnswerPercent.toFixed(1)}%
                     </span>
                   </div>
                   <div className="relative z-10 my-2">
-                    <div className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight [text-shadow:_0_1px_2px_rgb(0_0_0_/_25%)]">
+                    <div className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                       {currentStats.noAnswer.toLocaleString()}
                     </div>
                   </div>
-                  <div className="relative z-10 text-xs text-white/95 font-medium [text-shadow:_0_1px_2px_rgb(0_0_0_/_25%)]">
+                  <div className="relative z-10 text-xs text-white/95 font-medium">
                     • Redial Scheduled
                   </div>
                 </div>
 
-                {/* Bento Stat 3: Cancelled (Filled Danger/Coral Gradient + Rich Glow Shadow - No Border) */}
+                {/* Bento Stat 3: Cancelled (Filled Danger/Coral Gradient + Rich Glow Shadow + Darker Border) */}
                 <div className="p-4 sm:p-5 rounded-2xl bg-gradient-danger card-img-holder text-white shadow-lg shadow-[#fe7096]/25 dark:shadow-black/60 flex flex-col justify-between relative overflow-hidden transition-all hover:scale-[1.01] hover:shadow-xl hover:shadow-[#fe7096]/35">
                   <div className="relative z-10 flex items-center justify-between">
-                    <span className="text-xs font-bold text-white/90 uppercase tracking-wider">
+                    <span className="text-xs font-bold text-white uppercase tracking-wider">
                       Cancelled
                     </span>
                     <span className="px-2.5 py-0.5 rounded-full bg-white/25 text-white text-xs font-bold shadow-2xs backdrop-blur-xs">
@@ -408,15 +408,15 @@ export default function DashboardPage() {
                       {currentStats.cancelled.toLocaleString()}
                     </div>
                   </div>
-                  <div className="relative z-10 text-xs text-white/90 font-medium">
+                  <div className="relative z-10 text-xs text-white/95 font-medium">
                     • Dropped / Key 2
                   </div>
                 </div>
 
-                {/* Bento Stat 4: Outbound Queue (Filled Primary/Purple Gradient + Rich Glow Shadow - No Border) */}
+                {/* Bento Stat 4: Outbound Queue (Filled Primary/Purple Gradient + Rich Glow Shadow + Darker Border) */}
                 <div className="p-4 sm:p-5 rounded-2xl bg-gradient-primary card-img-holder text-white shadow-lg shadow-[#9a55ff]/25 dark:shadow-black/60 flex flex-col justify-between relative overflow-hidden transition-all hover:scale-[1.01] hover:shadow-xl hover:shadow-[#9a55ff]/35">
                   <div className="relative z-10 flex items-center justify-between">
-                    <span className="text-xs font-bold text-white/90 uppercase tracking-wider">
+                    <span className="text-xs font-bold text-white uppercase tracking-wider">
                       In Queue
                     </span>
                     <span className="px-2.5 py-0.5 rounded-full bg-white/25 text-white text-xs font-bold shadow-2xs font-mono backdrop-blur-xs">
@@ -428,7 +428,7 @@ export default function DashboardPage() {
                       {queuedCallsCount.toLocaleString()}
                     </div>
                   </div>
-                  <div className="relative z-10 text-xs text-white/90 font-medium">
+                  <div className="relative z-10 text-xs text-white/95 font-medium">
                     • Telephony Paced 1-by-1
                   </div>
                 </div>

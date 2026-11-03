@@ -19,12 +19,16 @@ import {
   X,
 } from "lucide-react";
 
+const BUSINESS_FLOWS: Record<string, { count: number; defaultFlow: string }> = {
+  "biz-1": { count: 3, defaultFlow: "Order Confirmation Flow" },
+  "biz-2": { count: 1, defaultFlow: "Standard Checkout Validation Flow" },
+};
+
 export default function BusinessesPage() {
   const { accountBalance, businesses, activeBusiness, setActiveBusinessId, showToast } = useBusiness();
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [revealedSecrets, setRevealedSecrets] = useState<Record<string, boolean>>({});
   const [filterQuery, setFilterQuery] = useState("");
-  const [platformFilter, setPlatformFilter] = useState<"all" | "woocommerce" | "shopify">("all");
   const [createModalOpen, setCreateModalOpen] = useState(false);
 
   // Form State
@@ -33,14 +37,10 @@ export default function BusinessesPage() {
   const [newStoreTrigger, setNewStoreTrigger] = useState<"instant" | "manual">("instant");
 
   const filteredBusinesses = businesses.filter((b) => {
-    const matchesQuery =
+    return (
       b.name.toLowerCase().includes(filterQuery.toLowerCase()) ||
-      b.domain.toLowerCase().includes(filterQuery.toLowerCase());
-    const matchesPlatform =
-      platformFilter === "all" ||
-      (platformFilter === "woocommerce" && b.platform.toLowerCase().includes("woo")) ||
-      (platformFilter === "shopify" && b.platform.toLowerCase().includes("shopify"));
-    return matchesQuery && matchesPlatform;
+      b.domain.toLowerCase().includes(filterQuery.toLowerCase())
+    );
   });
 
   const handleCopy = (text: string, id: string) => {
@@ -186,48 +186,26 @@ export default function BusinessesPage() {
         </div>
       </div>
 
-      {/* 3. Platform Filter Tabs */}
-      <div className="flex items-center gap-2">
-        {[
-          { id: "all", label: `All Businesses (${businesses.length})` },
-          { id: "woocommerce", label: "WooCommerce" },
-          { id: "shopify", label: "Shopify" },
-        ].map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setPlatformFilter(tab.id as typeof platformFilter)}
-            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all shadow-2xs cursor-pointer ${
-              platformFilter === tab.id
-                ? "btn-gradient-primary text-white shadow-xs"
-                : "bg-white dark:bg-[#1a1329] text-on-surface-variant hover:bg-surface-container border border-outline-variant/30"
-            }`}
-            type="button"
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {/* 4. Multi-Business Multi-Table */}
+      {/* Multi-Business Table */}
       <div className="bg-white dark:bg-[#1a1329] rounded-2xl shadow-sm border border-outline-variant/30 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse" style={{ minWidth: "850px" }}>
             <thead>
               <tr className="bg-surface-container-low/80 border-b border-outline-variant/20 text-on-surface-variant text-xs uppercase tracking-wider font-bold">
-                <th className="py-3.5 px-5">Business</th>
-                <th className="py-3.5 px-5">Platform</th>
-                <th className="py-3.5 px-5">Call Flow</th>
-                <th className="py-3.5 px-5">Account Balance</th>
-                <th className="py-3.5 px-5 min-w-[240px]">Webhook</th>
+                <th className="py-3.5 px-5">Business Name</th>
+                <th className="py-3.5 px-5">Business Domain</th>
+                <th className="py-3.5 px-5">Number of Flows</th>
+                <th className="py-3.5 px-5">Default Flow</th>
                 <th className="py-3.5 px-5 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/15 text-xs sm:text-sm text-on-surface">
               {filteredBusinesses.map((biz) => {
                 const isActive = biz.id === activeBusiness.id;
-                const webhookUrl = `https://api.dialyra.com/v1/webhooks/orders/${biz.uuid}`;
-                const secretKey = `whsec_live_${biz.uuid.substring(0, 8)}417e293041c7f`;
-                const isSecretRevealed = !!revealedSecrets[biz.id];
+                const flowInfo = BUSINESS_FLOWS[biz.id] || {
+                  count: 1,
+                  defaultFlow: biz.boundFlowName,
+                };
 
                 return (
                   <tr
@@ -236,105 +214,60 @@ export default function BusinessesPage() {
                       isActive ? "bg-purple-500/5" : ""
                     }`}
                   >
-                    {/* Store Cell */}
+                    {/* 1. Business Name */}
                     <td className="py-3.5 px-5">
                       <div className="flex items-center gap-3">
                         <div className="w-9 h-9 rounded-xl bg-purple-500/10 flex items-center justify-center text-[#9a55ff] shrink-0 font-bold">
                           <ShoppingBag size={18} />
                         </div>
-                        <div className="flex flex-col min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span className="font-bold text-sm text-on-surface truncate">
-                              {biz.name}
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span className="font-bold text-sm text-on-surface truncate">
+                            {biz.name}
+                          </span>
+                          {isActive && (
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 shrink-0">
+                              Active
                             </span>
-                            {isActive && (
-                              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
-                                Active
-                              </span>
-                            )}
-                          </div>
-                          <span className="text-xs text-on-surface-variant font-mono truncate">
-                            {biz.domain}
-                          </span>
+                          )}
                         </div>
                       </div>
                     </td>
 
-                    {/* Platform Cell */}
+                    {/* 2. Business Domain (Clickable) */}
                     <td className="py-3.5 px-5">
-                      <div className="flex flex-col">
-                        <span className="text-xs sm:text-sm font-bold text-on-surface">
-                          {biz.platform}
-                        </span>
-                        <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
-                          ⚡ Instant Dial
+                      <a
+                        href={`https://${biz.domain}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 font-mono text-xs sm:text-sm text-[#9a55ff] hover:text-[#b66dff] hover:underline font-semibold transition-colors"
+                      >
+                        <span>{biz.domain}</span>
+                        <ExternalLink size={13} className="shrink-0" />
+                      </a>
+                    </td>
+
+                    {/* 3. Number of Flows */}
+                    <td className="py-3.5 px-5">
+                      <span className="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-low text-on-surface font-mono font-bold text-xs border border-outline-variant/30 shadow-2xs">
+                        {flowInfo.count} {flowInfo.count === 1 ? "Flow" : "Flows"}
+                      </span>
+                    </td>
+
+                    {/* 4. Default Flow */}
+                    <td className="py-3.5 px-5">
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-low border border-outline-variant/30 shadow-2xs">
+                        <GitBranch size={13} className="text-[#9a55ff] shrink-0" />
+                        <span className="text-xs font-semibold text-on-surface truncate max-w-[200px]">
+                          {flowInfo.defaultFlow}
                         </span>
                       </div>
                     </td>
 
-                    {/* Call Flow Cell */}
-                    <td className="py-3.5 px-5">
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low border border-outline-variant/30">
-                        <GitBranch size={13} className="text-[#9a55ff]" />
-                        <span className="text-xs font-semibold text-on-surface truncate max-w-[150px]">
-                          {biz.boundFlowName}
-                        </span>
-                      </div>
-                    </td>
-
-                    {/* Account Balance Cell */}
-                    <td className="py-3.5 px-5">
-                      <div className="flex flex-col">
-                        <span className="text-xs sm:text-sm font-bold text-on-surface font-mono">
-                          ৳ {accountBalance.toFixed(2)}
-                        </span>
-                        <span className="text-[10px] text-on-surface-variant font-semibold">
-                          Shared Pool
-                        </span>
-                      </div>
-                    </td>
-
-                    {/* Webhook Cell */}
-                    <td className="py-3.5 px-5">
-                      <div className="flex flex-col gap-1.5 max-w-xs">
-                        <div className="flex items-center gap-1.5">
-                          <code className="text-[11px] font-mono text-on-surface truncate flex-1 bg-surface-container-low px-2 py-0.5 rounded-lg border border-outline-variant/30">
-                            {webhookUrl}
-                          </code>
-                          <button
-                            onClick={() => handleCopy(webhookUrl, biz.id)}
-                            className="p-1 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface shadow-2xs transition-colors cursor-pointer"
-                            title="Copy Webhook"
-                            type="button"
-                          >
-                            {copiedId === biz.id ? (
-                              <Check size={13} className="text-emerald-500" />
-                            ) : (
-                              <Copy size={13} />
-                            )}
-                          </button>
-                        </div>
-                        <div className="flex items-center justify-between text-[11px]">
-                          <span className="text-on-surface-variant font-mono text-[10px]">
-                            Secret: {isSecretRevealed ? secretKey : `${secretKey.substring(0, 8)}••••`}
-                          </span>
-                          <button
-                            onClick={() => toggleSecret(biz.id)}
-                            className="text-[#9a55ff] font-bold hover:underline cursor-pointer inline-flex items-center gap-1 text-[11px]"
-                            type="button"
-                          >
-                            {isSecretRevealed ? <EyeOff size={11} /> : <Eye size={11} />}
-                            <span>{isSecretRevealed ? "Hide" : "Reveal"}</span>
-                          </button>
-                        </div>
-                      </div>
-                    </td>
-
-                    {/* Action Cell */}
+                    {/* 5. Action */}
                     <td className="py-3.5 px-5 text-right">
                       {isActive ? (
-                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full badge-inverse-success text-xs font-bold">
-                          <span>Current Store</span>
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-purple-500/10 text-[#9a55ff] border border-purple-500/20 text-xs font-bold select-none">
+                          <span>Active Business</span>
                         </span>
                       ) : (
                         <button
@@ -342,7 +275,7 @@ export default function BusinessesPage() {
                             setActiveBusinessId(biz.id);
                             showToast(`Switched active business to "${biz.name}"`, "info");
                           }}
-                          className="px-3.5 py-1.5 rounded-full btn-gradient-primary text-white text-xs font-bold shadow-2xs hover:shadow transition-all active:scale-95 cursor-pointer"
+                          className="px-4 py-1.5 rounded-full btn-gradient-primary text-white text-xs font-bold shadow-2xs hover:shadow transition-all active:scale-95 cursor-pointer"
                           type="button"
                         >
                           Switch
