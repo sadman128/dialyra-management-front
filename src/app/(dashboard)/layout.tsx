@@ -1,24 +1,43 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useBusiness } from "@/context/BusinessContext";
 import { useTheme } from "@/context/ThemeContext";
-import { Icon } from "@/components/ui/Icon";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
+import {
+  LayoutDashboard,
+  Building2,
+  GitBranch,
+  History,
+  Network,
+  Users,
+  PhoneCall,
+  Volume2,
+  Settings,
+  Menu,
+  X,
+  ChevronDown,
+  Check,
+  Zap,
+  Sun,
+  Moon,
+  Bell,
+  User,
+  LogOut,
+} from "lucide-react";
 
 const NAV_ITEMS = [
-  { name: "Dashboard", href: "/dashboard", icon: "dashboard" },
-  { name: "Businesses", href: "/businesses", icon: "storefront" },
-  { name: "Flows", href: "/flows", icon: "account_tree" },
-  { name: "Call History", href: "/call-history", icon: "history" },
-  { name: "Departments", href: "/departments", icon: "call_split" },
-  { name: "Agents", href: "/agents", icon: "support_agent" },
-  { name: "Extensions", href: "/extensions", icon: "dialpad" },
-  { name: "Audio Library", href: "/audio", icon: "audio_file" },
-  { name: "Test Tools", href: "/test-tools", icon: "science" },
-  { name: "Settings", href: "/settings", icon: "settings" },
+  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { name: "Businesses", href: "/businesses", icon: Building2 },
+  { name: "Flows", href: "/flows", icon: GitBranch },
+  { name: "Call History", href: "/call-history", icon: History },
+  { name: "Departments", href: "/departments", icon: Network },
+  { name: "Agents", href: "/agents", icon: Users },
+  { name: "Extensions", href: "/extensions", icon: PhoneCall },
+  { name: "Audio and Voice", href: "/audio", icon: Volume2 },
+  { name: "Settings", href: "/settings", icon: Settings },
 ];
 
 export default function DashboardLayout({
@@ -64,6 +83,19 @@ export default function DashboardLayout({
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
+  // Spotlight hover effect for all bento-card elements
+  useEffect(() => {
+    const handlePointerMove = (e: PointerEvent) => {
+      const card = (e.target as HTMLElement).closest(".bento-card") as HTMLElement | null;
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+      card.style.setProperty("--my", `${e.clientY - r.top}px`);
+    };
+    document.addEventListener("pointermove", handlePointerMove);
+    return () => document.removeEventListener("pointermove", handlePointerMove);
+  }, []);
+
   const handleSync = () => {
     setSyncing(true);
     setTimeout(() => {
@@ -73,31 +105,37 @@ export default function DashboardLayout({
   };
 
   return (
-    <div className="min-h-screen bg-surface font-body-md text-on-surface antialiased flex flex-col">
-      {/* 1. Desktop Fixed Sidebar (100% Stitch UI Specification) */}
-      <aside className="fixed left-0 top-0 h-full w-64 bg-primary-container z-50 hidden lg:flex flex-col justify-between shadow-stitch">
+    <div className="min-h-screen bg-surface dark:bg-[#0d0815] font-body-md text-on-surface antialiased flex flex-col relative overflow-x-hidden">
+      {/* Branded Fixed TriZync Background Image - Subtle dark geometry on deep midnight purple */}
+      <div
+        className="fixed inset-0 pointer-events-none z-0 bg-cover bg-center bg-no-repeat opacity-60 dark:opacity-[0.035]"
+        style={{ backgroundImage: `url('/images/trizync-bg.png')`, backgroundAttachment: "fixed" }}
+      />
+
+      {/* 1. Desktop Fixed Sidebar - White / Clean Surface (10% wider: 280px) */}
+      <aside className="fixed left-0 top-0 h-full w-[280px] bg-white dark:bg-[#1a1329] text-on-surface z-50 hidden lg:flex flex-col justify-between border-r border-outline-variant/30 shadow-sm">
         <div className="flex flex-col">
-          {/* Brand */}
-          <div className="px-space-lg pt-space-lg pb-space-md">
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-[22px] font-bold text-on-primary tracking-tight">
-                Dialyra
-              </span>
-            </div>
-            <div className="mt-space-xs">
-              <span className="text-[11px] text-primary-fixed-dim tracking-[0.2em] uppercase font-bold">
-                MANAGEMENT
-              </span>
+          {/* Brand Header */}
+          <div className="px-6 pt-6 pb-6 border-b border-outline-variant/20">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#da8cff] to-[#9a55ff] flex items-center justify-center text-white font-black text-xl shadow-md shadow-purple-500/30">
+                D
+              </div>
+              <div className="flex flex-col">
+                <span className="text-2xl font-black tracking-tight text-on-surface leading-none">
+                  Dialyra
+                </span>
+                <span className="text-[10px] text-[#9a55ff] tracking-[0.24em] uppercase font-extrabold mt-1">
+                  MANAGEMENT
+                </span>
+              </div>
             </div>
           </div>
 
-          <div className="px-space-md py-space-xs">
-            <div className="h-px bg-on-primary/10 w-full" />
-          </div>
-
-          {/* Nav List */}
-          <nav className="flex flex-col gap-1 px-space-md py-space-xs">
+          {/* Navigation Items */}
+          <nav className="flex flex-col gap-1.5 px-3 py-4">
             {NAV_ITEMS.map((item) => {
+              const IconComp = item.icon;
               const isActive =
                 pathname === item.href ||
                 (item.href !== "/dashboard" && pathname.startsWith(item.href));
@@ -106,13 +144,16 @@ export default function DashboardLayout({
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`flex items-center gap-space-md px-space-md py-2.5 rounded-lg transition-all text-sm ${
+                  className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all text-sm font-semibold ${
                     isActive
-                      ? "bg-surface-container-lowest text-primary dark:text-primary-fixed font-bold shadow-sm"
-                      : "text-primary-fixed-dim hover:bg-on-primary/10 hover:text-on-primary font-medium"
+                      ? "bg-gradient-to-r from-[#b66dff] to-[#9a55ff] text-white shadow-md shadow-purple-500/25 font-bold"
+                      : "text-on-surface-variant hover:text-[#9a55ff] hover:bg-surface-container-low"
                   }`}
                 >
-                  <Icon name={item.icon} size={20} className="shrink-0" />
+                  <IconComp
+                    size={19}
+                    className={`shrink-0 ${isActive ? "text-white" : "text-on-surface-variant/80"}`}
+                  />
                   <span>{item.name}</span>
                 </Link>
               );
@@ -120,66 +161,57 @@ export default function DashboardLayout({
           </nav>
         </div>
 
-        {/* User Profile Footer */}
-        <div className="p-space-md">
-          <div className="flex items-center justify-between p-space-sm rounded-xl bg-on-primary/5">
-            <div className="flex items-center gap-space-sm">
-              <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center">
-                <Icon name="person" size={18} className="text-on-primary" />
-              </div>
-              <div className="flex flex-col min-w-0">
-                <span className="text-sm text-on-primary truncate font-semibold">
-                  Store Admin
-                </span>
-                <span className="text-xs text-primary-fixed-dim truncate">
-                  Telephony Supervisor
-                </span>
-              </div>
-            </div>
+        {/* User Session Footer */}
+        <div className="p-4 pb-6 border-t border-outline-variant/20">
+          <div className="flex items-center justify-between p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/30 text-xs">
+            <span className="text-on-surface-variant font-medium">Session: Owner</span>
             <button
-              onClick={() => showToast("Admin session active", "info")}
-              className="p-space-xs rounded-lg text-primary-fixed-dim hover:bg-on-primary/10 hover:text-on-primary transition-colors flex items-center justify-center"
+              onClick={() => setLogoutModalOpen(true)}
+              className="p-1.5 rounded-lg text-rose-500 hover:text-rose-600 hover:bg-rose-500/10 transition-colors flex items-center justify-center cursor-pointer"
               type="button"
               title="Logout"
             >
-              <Icon name="logout" size={20} />
+              <LogOut size={16} />
             </button>
           </div>
         </div>
       </aside>
 
-      {/* 2. Mobile Slide-Over Drawer (< lg) */}
+      {/* 2. Mobile Slide-Over Drawer (< lg) - Matching White / Clean Surface */}
       {mobileDrawerOpen && (
         <div className="fixed inset-0 z-50 lg:hidden flex">
           <div
             onClick={() => setMobileDrawerOpen(false)}
-            className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs transition-opacity"
+            className="fixed inset-0 bg-slate-950/70 backdrop-blur-xs transition-opacity"
           />
-          <div className="relative w-64 max-w-xs bg-primary-container z-10 flex flex-col justify-between shadow-2xl h-full">
+          <div className="relative w-72 max-w-xs bg-white dark:bg-[#1a1329] text-on-surface z-10 flex flex-col justify-between shadow-2xl h-full border-r border-outline-variant/30">
             <div className="flex flex-col">
-              <div className="p-space-lg flex items-center justify-between border-b border-on-primary/10">
-                <div className="flex flex-col">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[20px] font-bold text-on-primary">Dialyra</span>
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-semibold border border-emerald-500/30">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      Online
+              <div className="p-5 flex items-center justify-between border-b border-outline-variant/20">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#da8cff] to-[#9a55ff] flex items-center justify-center text-white font-black text-lg shadow-md shadow-purple-500/30">
+                    D
+                  </div>
+                  <div>
+                    <span className="text-xl font-bold text-on-surface block leading-tight">
+                      Dialyra
+                    </span>
+                    <span className="text-[10px] text-[#9a55ff] tracking-[0.22em] uppercase font-bold block">
+                      MANAGEMENT
                     </span>
                   </div>
-                  <span className="text-[10px] text-primary-fixed-dim tracking-widest uppercase font-bold mt-0.5">
-                    MANAGEMENT
-                  </span>
                 </div>
                 <button
                   onClick={() => setMobileDrawerOpen(false)}
-                  className="p-1 rounded-lg text-primary-fixed-dim hover:text-on-primary"
+                  className="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition"
+                  aria-label="Close menu"
                 >
-                  <Icon name="close" size={22} />
+                  <X size={20} />
                 </button>
               </div>
 
-              <nav className="flex flex-col gap-1 p-space-md">
+              <nav className="flex flex-col gap-1 p-3">
                 {NAV_ITEMS.map((item) => {
+                  const IconComp = item.icon;
                   const isActive =
                     pathname === item.href ||
                     (item.href !== "/dashboard" && pathname.startsWith(item.href));
@@ -189,13 +221,13 @@ export default function DashboardLayout({
                       key={item.name}
                       href={item.href}
                       onClick={() => setMobileDrawerOpen(false)}
-                      className={`flex items-center gap-space-md px-space-md py-2.5 rounded-lg transition-all text-sm ${
+                      className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all text-sm font-semibold ${
                         isActive
-                          ? "bg-surface-container-lowest text-primary dark:text-primary-fixed font-bold shadow-sm"
-                          : "text-primary-fixed-dim hover:bg-on-primary/10 hover:text-on-primary font-medium"
+                          ? "bg-gradient-to-r from-[#b66dff] to-[#9a55ff] text-white shadow-md font-bold"
+                          : "text-on-surface-variant hover:text-[#9a55ff] hover:bg-surface-container-low"
                       }`}
                     >
-                      <Icon name={item.icon} size={20} className="shrink-0" />
+                      <IconComp size={19} className="shrink-0" />
                       <span>{item.name}</span>
                     </Link>
                   );
@@ -203,48 +235,54 @@ export default function DashboardLayout({
               </nav>
             </div>
 
-            <div className="p-space-md border-t border-on-primary/10">
-              <div className="flex items-center gap-2 text-on-primary text-sm font-semibold">
-                <Icon name="person" size={20} />
-                <span>Store Admin</span>
-              </div>
+            <div className="p-4 border-t border-outline-variant/20">
+              <button
+                onClick={() => {
+                  setMobileDrawerOpen(false);
+                  setLogoutModalOpen(true);
+                }}
+                className="w-full py-2.5 px-3 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 font-bold text-xs flex items-center justify-center gap-2 hover:bg-rose-500/20 transition"
+              >
+                <LogOut size={16} />
+                <span>Log Out</span>
+              </button>
             </div>
           </div>
         </div>
       )}
 
       {/* 3. Main Workspace with Fixed Header */}
-      <div className="w-full pl-0 lg:pl-64 flex flex-col min-h-screen">
-        {/* Stitch UI Header Bar */}
-        <header className="fixed top-0 left-0 lg:left-64 right-0 h-16 sm:h-20 bg-surface-container-lowest/90 backdrop-blur-xl z-40 flex items-center justify-between px-3 sm:px-margin-desktop shadow-stitch border-b border-outline-variant/20">
-          <div className="flex items-center gap-2 sm:gap-space-md min-w-0">
+      <div className="w-full pl-0 lg:pl-[280px] flex flex-col min-h-screen relative z-10">
+        {/* Top Navbar Header */}
+        <header className="fixed top-0 left-0 lg:left-[280px] right-0 h-16 sm:h-20 bg-surface-container-lowest/90 backdrop-blur-xl z-40 flex items-center justify-between px-4 sm:px-8 shadow-xs border-b border-outline-variant/30">
+          <div className="flex items-center gap-3 min-w-0">
             {/* Mobile Hamburger Button */}
             <button
               onClick={() => setMobileDrawerOpen(true)}
-              className="lg:hidden p-2 rounded-lg text-on-surface hover:bg-surface-container transition-colors shrink-0"
+              className="lg:hidden p-2 rounded-xl text-on-surface hover:bg-surface-container transition-colors shrink-0"
               aria-label="Open navigation menu"
             >
-              <Icon name="menu" size={24} />
+              <Menu size={22} />
             </button>
 
             {/* Active Business Dropdown Switcher */}
             <div className="relative min-w-0">
               <button
                 onClick={() => setStoreDropdownOpen(!storeDropdownOpen)}
-                className="flex items-center gap-1.5 sm:gap-space-xs px-2.5 sm:px-space-md py-1.5 sm:py-space-sm rounded-lg bg-surface-container-low text-on-surface text-xs sm:text-sm font-medium hover:bg-surface-container transition-all border border-outline-variant/30 max-w-[160px] sm:max-w-none shadow-xs hover:shadow-sm active:scale-95"
+                className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-surface-container-low text-on-surface text-xs sm:text-sm font-semibold hover:bg-surface-container transition-all border border-outline-variant/30 max-w-[220px] sm:max-w-none shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer"
                 type="button"
               >
-                <Icon name="storefront" size={18} className="text-secondary shrink-0" />
+                <Building2 size={16} className="text-[#9a55ff] shrink-0" />
                 <span className="text-on-surface-variant font-normal hidden md:inline">
                   Active Business:
                 </span>
-                <span className="font-semibold truncate">{activeBusiness.name}</span>
-                <Icon name="expand_more" size={16} className="text-on-surface-variant shrink-0" />
+                <span className="font-bold truncate">{activeBusiness.name}</span>
+                <ChevronDown size={15} className="text-on-surface-variant shrink-0" />
               </button>
 
               {storeDropdownOpen && (
-                <div className="absolute left-0 mt-2 w-64 bg-surface-container-lowest rounded-xl shadow-lg border border-outline-variant/30 p-2 z-50">
-                  <div className="text-xs font-semibold text-on-surface-variant px-3 py-1.5 uppercase tracking-wider">
+                <div className="absolute left-0 mt-2 w-64 bg-surface-container-lowest rounded-2xl shadow-xl border border-outline-variant/30 p-2 z-50">
+                  <div className="text-xs font-bold text-on-surface-variant px-3 py-1.5 uppercase tracking-wider">
                     Connected Businesses
                   </div>
                   {businesses.map((biz) => (
@@ -254,46 +292,33 @@ export default function DashboardLayout({
                         setActiveBusinessId(biz.id);
                         setStoreDropdownOpen(false);
                       }}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-sm font-semibold flex items-center justify-between transition ${
+                      className={`w-full text-left px-3 py-2 rounded-xl text-sm font-semibold flex items-center justify-between transition cursor-pointer ${
                         biz.id === activeBusiness.id
-                          ? "bg-primary-container text-on-primary"
+                          ? "btn-gradient-primary text-white"
                           : "text-on-surface hover:bg-surface-container-low"
                       }`}
                     >
                       <span>{biz.name}</span>
-                      {biz.id === activeBusiness.id && (
-                        <Icon name="check" size={16} />
-                      )}
+                      {biz.id === activeBusiness.id && <Check size={16} />}
                     </button>
                   ))}
                 </div>
               )}
             </div>
-
-            {/* System Status : Online (Next to Active Store) */}
-            <div className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 text-xs font-semibold border border-emerald-500/30 shrink-0 whitespace-nowrap shadow-2xs">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>System Status : Online</span>
-            </div>
-            <div className="sm:hidden inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 text-[10px] font-bold border border-emerald-500/30 shrink-0 whitespace-nowrap">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Online</span>
-            </div>
           </div>
 
           {/* Header Controls: Sync, Theme Toggle, Notifications, User */}
-          <div className="flex items-center gap-2 sm:gap-space-md shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {/* Sync Button */}
             <button
               onClick={handleSync}
               disabled={syncing}
-              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-surface-container-lowest text-on-surface text-xs sm:text-sm font-semibold hover:bg-surface-container-low transition-all shadow-xs hover:shadow border border-outline-variant/20 active:scale-95"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-surface-container-lowest text-on-surface text-xs sm:text-sm font-semibold hover:bg-surface-container-low transition-all shadow-xs hover:shadow border border-outline-variant/30 active:scale-95 cursor-pointer"
               type="button"
             >
-              <Icon
-                name="bolt"
-                size={18}
-                className={`text-secondary shrink-0 ${syncing ? "animate-spin" : ""}`}
+              <Zap
+                size={16}
+                className={`text-[#9a55ff] shrink-0 ${syncing ? "animate-spin" : ""}`}
               />
               <span className="hidden sm:inline">Sync</span>
             </button>
@@ -301,28 +326,28 @@ export default function DashboardLayout({
             {/* Light / Dark Mode Toggle Button */}
             <button
               onClick={toggleTheme}
-              className="p-2 sm:p-2.5 rounded-lg bg-surface-container-low text-on-surface hover:bg-surface-container transition-all flex items-center justify-center border border-outline-variant/30 shadow-xs hover:shadow-sm active:scale-95"
+              className="p-2 sm:p-2.5 rounded-xl bg-surface-container-low text-on-surface hover:bg-surface-container transition-all flex items-center justify-center border border-outline-variant/30 shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer"
               type="button"
               title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
             >
-              <Icon
-                name={theme === "dark" ? "light_mode" : "dark_mode"}
-                size={18}
-                className="text-secondary"
-              />
+              {theme === "dark" ? (
+                <Sun size={17} className="text-amber-400" />
+              ) : (
+                <Moon size={17} className="text-purple-600" />
+              )}
             </button>
 
             {/* Notifications Bell with Modal Dropdown */}
             <div className="relative">
               <button
                 onClick={() => setNotifModalOpen(!notifModalOpen)}
-                className="relative p-2 sm:p-2.5 rounded-lg bg-surface-container-low text-on-surface hover:bg-surface-container transition-all flex items-center justify-center border border-outline-variant/30 shadow-xs hover:shadow-sm active:scale-95"
+                className="relative p-2 sm:p-2.5 rounded-xl bg-surface-container-low text-on-surface hover:bg-surface-container transition-all flex items-center justify-center border border-outline-variant/30 shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer"
                 type="button"
                 title="Notifications"
               >
-                <Icon name="notifications" size={18} />
+                <Bell size={17} />
                 {unreadCount > 0 && (
-                  <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest animate-pulse" />
+                  <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-surface-container-lowest animate-pulse" />
                 )}
               </button>
 
@@ -331,24 +356,22 @@ export default function DashboardLayout({
                 <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-surface-container-lowest rounded-2xl shadow-2xl border border-outline-variant/30 p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                   <div className="flex items-center justify-between pb-3 border-b border-outline-variant/20">
                     <div className="flex items-center gap-2">
-                      <Icon name="notifications" size={18} className="text-primary-container dark:text-primary-fixed" />
+                      <Bell size={17} className="text-[#9a55ff]" />
                       <h4 className="font-bold text-sm text-on-surface">Notifications</h4>
                       {unreadCount > 0 && (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary text-on-primary">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#9a55ff] text-white">
                           {unreadCount} new
                         </span>
                       )}
                     </div>
-                    <div className="flex items-center gap-2 text-xs">
-                      {notifications.length > 0 && unreadCount > 0 && (
-                        <button
-                          onClick={() => setNotifications(notifications.map((n) => ({ ...n, read: true })))}
-                          className="text-on-surface-variant hover:text-primary transition font-semibold"
-                        >
-                          Mark all read
-                        </button>
-                      )}
-                    </div>
+                    {notifications.length > 0 && unreadCount > 0 && (
+                      <button
+                        onClick={() => setNotifications(notifications.map((n) => ({ ...n, read: true })))}
+                        className="text-xs text-on-surface-variant hover:text-[#9a55ff] transition font-semibold cursor-pointer"
+                      >
+                        Mark all read
+                      </button>
+                    )}
                   </div>
 
                   <div className="py-2 divide-y divide-outline-variant/10 max-h-72 overflow-y-auto">
@@ -360,8 +383,8 @@ export default function DashboardLayout({
                       notifications.map((n) => (
                         <div
                           key={n.id}
-                          className={`py-2.5 px-2 flex items-start gap-2.5 transition rounded-lg ${
-                            !n.read ? "bg-primary-fixed/15 dark:bg-primary-container/20" : ""
+                          className={`py-2.5 px-2 flex items-start gap-2.5 transition rounded-xl ${
+                            !n.read ? "bg-purple-500/10 dark:bg-purple-500/20" : ""
                           }`}
                         >
                           <span
@@ -378,7 +401,7 @@ export default function DashboardLayout({
                             <p className="text-[11px] text-on-surface-variant font-medium truncate">
                               {n.desc}
                             </p>
-                            <span className="text-[10px] text-outline mt-0.5 block font-mono">
+                            <span className="text-[10px] text-on-surface-variant/70 mt-0.5 block font-mono">
                               {n.time}
                             </span>
                           </div>
@@ -391,13 +414,13 @@ export default function DashboardLayout({
                     <div className="pt-2.5 border-t border-outline-variant/20 flex justify-between items-center text-xs">
                       <button
                         onClick={() => setNotifications([])}
-                        className="text-outline hover:text-error transition font-semibold text-[11px]"
+                        className="text-on-surface-variant hover:text-rose-500 transition font-semibold text-[11px] cursor-pointer"
                       >
                         Clear All
                       </button>
                       <button
                         onClick={() => setNotifModalOpen(false)}
-                        className="text-primary font-bold hover:underline text-[11px]"
+                        className="text-[#9a55ff] font-bold hover:underline text-[11px] cursor-pointer"
                       >
                         Close
                       </button>
@@ -411,30 +434,30 @@ export default function DashboardLayout({
             <div className="relative">
               <button
                 onClick={() => setProfileModalOpen(!profileModalOpen)}
-                className="flex items-center gap-2 p-1 sm:px-2.5 sm:py-1.5 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface border border-outline-variant/30 shadow-xs hover:shadow transition-all cursor-pointer"
+                className="flex items-center gap-2 p-1.5 sm:px-3 sm:py-2 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface border border-outline-variant/30 shadow-2xs hover:shadow transition-all cursor-pointer"
                 type="button"
                 title="Account Menu"
               >
-                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold shadow-xs">
-                  <Icon name="person" size={16} />
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#da8cff] to-[#9a55ff] flex items-center justify-center text-white font-bold shadow-xs">
+                  <User size={15} />
                 </div>
                 <div className="hidden md:flex flex-col text-left">
-                  <span className="text-xs font-bold text-on-surface leading-tight">Store Admin</span>
-                  <span className="text-[11px] text-on-surface-variant font-medium leading-tight">Telephony Supervisor</span>
+                  <span className="text-xs font-bold text-on-surface leading-tight">Sadman Kabir</span>
+                  <span className="text-[11px] text-on-surface-variant font-medium leading-tight">Owner</span>
                 </div>
-                <Icon name="expand_more" size={16} className="text-on-surface-variant hidden md:block" />
+                <ChevronDown size={14} className="text-on-surface-variant hidden md:block" />
               </button>
 
               {profileModalOpen && (
                 <div className="absolute right-0 mt-2 w-72 bg-surface-container-lowest rounded-2xl shadow-2xl border border-outline-variant/30 p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                   <div className="flex items-center gap-3 pb-3 border-b border-outline-variant/20">
-                    <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold shadow-xs shrink-0">
-                      <Icon name="person" size={20} />
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#da8cff] to-[#9a55ff] flex items-center justify-center text-white font-bold shadow-xs shrink-0">
+                      <User size={18} />
                     </div>
                     <div className="min-w-0">
-                      <div className="font-bold text-sm text-on-surface truncate">Store Admin</div>
-                      <div className="text-xs text-on-surface-variant truncate">Telephony Supervisor</div>
-                      <div className="text-[11px] text-outline truncate font-mono">admin@store.com</div>
+                      <div className="font-bold text-sm text-on-surface truncate">Sadman Kabir</div>
+                      <div className="text-xs text-on-surface-variant truncate">Owner</div>
+                      <div className="text-[11px] text-on-surface-variant/70 truncate font-mono">admin@dialyra.com</div>
                     </div>
                   </div>
 
@@ -447,7 +470,7 @@ export default function DashboardLayout({
                       onClick={() => setProfileModalOpen(false)}
                       className="flex items-center gap-2 px-3 py-2 rounded-xl text-on-surface hover:bg-surface-container-low transition"
                     >
-                      <Icon name="settings" size={16} className="text-on-surface-variant" />
+                      <Settings size={15} className="text-[#9a55ff]" />
                       <span>Settings &amp; Profile</span>
                     </Link>
                     <Link
@@ -455,7 +478,7 @@ export default function DashboardLayout({
                       onClick={() => setProfileModalOpen(false)}
                       className="flex items-center gap-2 px-3 py-2 rounded-xl text-on-surface hover:bg-surface-container-low transition"
                     >
-                      <Icon name="storefront" size={16} className="text-on-surface-variant" />
+                      <Building2 size={15} className="text-[#9a55ff]" />
                       <span>Switch Business</span>
                     </Link>
                   </div>
@@ -466,15 +489,15 @@ export default function DashboardLayout({
                         setProfileModalOpen(false);
                         setLogoutModalOpen(true);
                       }}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-error hover:bg-error-container/20 transition"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-rose-500 hover:bg-rose-500/10 transition cursor-pointer"
                       type="button"
                     >
-                      <Icon name="logout" size={15} />
+                      <LogOut size={14} />
                       <span>Log Out</span>
                     </button>
                     <button
                       onClick={() => setProfileModalOpen(false)}
-                      className="text-xs text-on-surface-variant hover:text-on-surface font-semibold px-2 py-1"
+                      className="text-xs text-on-surface-variant hover:text-on-surface font-semibold px-2 py-1 cursor-pointer"
                       type="button"
                     >
                       Close
@@ -487,7 +510,7 @@ export default function DashboardLayout({
         </header>
 
         {/* Page Main Content Area */}
-        <main className="w-full pt-20 px-4 sm:px-margin-desktop bg-surface min-h-screen">
+        <main className="w-full pt-20 px-4 sm:px-8 bg-transparent min-h-screen">
           <div className="w-full py-6">{children}</div>
         </main>
       </div>

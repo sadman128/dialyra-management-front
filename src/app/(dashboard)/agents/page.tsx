@@ -2,8 +2,21 @@
 
 import React, { useState } from "react";
 import { useBusiness } from "@/context/BusinessContext";
-import { Icon } from "@/components/ui/Icon";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
+import {
+  Users,
+  Plus,
+  ChevronRight,
+  CheckCircle2,
+  PhoneCall,
+  Key,
+  Copy,
+  Trash2,
+  Eye,
+  EyeOff,
+  X,
+  ChevronDown,
+} from "lucide-react";
 
 interface Agent {
   id: string;
@@ -101,7 +114,7 @@ export default function AgentsPage() {
               : a.status === "Busy"
               ? "Offline"
               : "Available";
-          showToast(`${a.name} status: ${nextStatus}`, "info");
+          showToast(`${a.name} is now ${nextStatus}`, "info");
           return { ...a, status: nextStatus };
         }
         return a;
@@ -109,23 +122,23 @@ export default function AgentsPage() {
     );
   };
 
-  const handleSaveAdd = (e: React.FormEvent) => {
+  const handleAddAgent = (e: React.FormEvent) => {
     e.preventDefault();
     if (!agentForm.name.trim()) return;
 
     const initials = agentForm.name
       .split(" ")
-      .map((w) => w[0])
+      .map((n) => n[0])
       .join("")
-      .substring(0, 2)
-      .toUpperCase();
+      .toUpperCase()
+      .substring(0, 2);
 
     const newAgent: Agent = {
       id: `ag-${Date.now()}`,
       name: agentForm.name,
       role: agentForm.role,
-      initials: initials || "AG",
-      email: agentForm.email,
+      initials,
+      email: agentForm.email || `${initials.toLowerCase()}@store.com`,
       department: agentForm.department,
       extension: agentForm.extension,
       status: "Available",
@@ -135,10 +148,10 @@ export default function AgentsPage() {
 
     setAgents([...agents, newAgent]);
     setAddModalOpen(false);
-    showToast(`Agent "${agentForm.name}" created`, "success");
+    showToast(`Agent "${newAgent.name}" registered`, "success");
   };
 
-  const handleDelete = (id: string, name: string) => {
+  const handleDeleteAgent = (id: string, name: string) => {
     setAgents((prev) => prev.filter((a) => a.id !== id));
     showToast(`Agent "${name}" removed`, "info");
   };
@@ -148,94 +161,108 @@ export default function AgentsPage() {
   return (
     <div className="flex flex-col w-full space-y-6 pb-16">
       {/* 1. Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl text-on-surface tracking-tight font-bold">
-            Agents
+          <div className="flex items-center gap-2 text-xs font-semibold text-on-surface-variant/70 mb-1">
+            <span>Dashboard</span>
+            <ChevronRight size={13} />
+            <span className="text-[#9a55ff] font-bold">Agents</span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-on-surface flex items-center gap-3">
+            <span className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center text-white shadow-md shadow-purple-500/20">
+              <Users size={20} />
+            </span>
+            Agents &amp; Supervisors
           </h1>
-          <p className="text-xs sm:text-sm text-on-surface-variant mt-0.5 font-medium">
-            Manage human support agents and softphone credentials.
+          <p className="text-sm text-on-surface-variant mt-1 font-medium">
+            Manage call center operators, SIP WebRTC credentials, and real-time occupancy.
           </p>
         </div>
 
         <button
           onClick={() => setAddModalOpen(true)}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-container text-on-primary font-bold text-xs sm:text-sm shadow-sm hover:shadow hover:bg-primary transition-all active:scale-[0.99] self-start sm:self-auto"
+          className="btn-gradient-primary text-white text-xs sm:text-sm px-4 py-2.5 rounded-full inline-flex items-center gap-2 font-bold shadow-md hover:shadow-lg active:scale-95 transition-all cursor-pointer"
           type="button"
         >
-          <Icon name="add" size={18} />
+          <Plus size={16} />
           <span>Add Agent</span>
         </button>
       </div>
 
-      {/* 2. Metrics */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant/30 flex items-center justify-between">
-          <div>
-            <span className="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">
+      {/* 2. Signature Purple React Gradient Metric Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        {/* Metric 1: Total Agents */}
+        <div className="card-img-holder bg-gradient-primary text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+          <div className="flex items-center justify-between z-10">
+            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
               Total Agents
             </span>
-            <div className="flex items-baseline gap-2 mt-0.5">
-              <span className="text-2xl font-bold text-on-surface">
-                {agents.length}
-              </span>
-              <span className="text-xs text-on-surface-variant font-medium">
-                Registered
-              </span>
-            </div>
+            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
+              <Users size={18} />
+            </span>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-primary-container">
-            <Icon name="support_agent" size={22} />
+          <div className="mt-4 z-10">
+            <div className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+              {agents.length}
+            </div>
+            <div className="text-xs text-white/90 font-medium mt-1">
+              Registered operators
+            </div>
           </div>
         </div>
 
-        <div className="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant/30 flex items-center justify-between">
-          <div>
-            <span className="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">
+        {/* Metric 2: Available Now */}
+        <div className="card-img-holder bg-gradient-success text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+          <div className="flex items-center justify-between z-10">
+            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
               Available Now
             </span>
-            <div className="flex items-baseline gap-1.5 mt-0.5">
-              <span className="text-2xl font-bold text-on-surface">
-                {availableCount}
-              </span>
-              <span className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
-                Ready for calls
-              </span>
-            </div>
+            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
+              <CheckCircle2 size={18} />
+            </span>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-emerald-500">
-            <Icon name="check_circle" size={22} />
+          <div className="mt-4 z-10">
+            <div className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+              {availableCount}
+            </div>
+            <div className="flex items-center gap-1.5 text-xs text-white/90 font-medium mt-1">
+              <span className="w-2 h-2 rounded-full bg-emerald-200 animate-pulse" />
+              <span>Ready for incoming calls</span>
+            </div>
           </div>
         </div>
 
-        <div className="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant/30 flex items-center justify-between">
-          <div>
-            <span className="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">
-              Extensions
+        {/* Metric 3: Active Extensions */}
+        <div className="card-img-holder bg-gradient-info text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+          <div className="flex items-center justify-between z-10">
+            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
+              Active Extensions
             </span>
-            <div className="flex items-baseline gap-1.5 mt-0.5">
-              <span className="text-2xl font-bold text-on-surface">
-                {agents.length}
-              </span>
-              <span className="text-xs text-on-surface-variant font-medium">Active</span>
-            </div>
+            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
+              <PhoneCall size={18} />
+            </span>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-secondary">
-            <Icon name="dialpad" size={22} />
+          <div className="mt-4 z-10">
+            <div className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+              {agents.length}
+            </div>
+            <div className="text-xs text-white/90 font-medium mt-1">
+              Assigned internal extensions
+            </div>
           </div>
         </div>
       </div>
 
       {/* 3. Filter Pills */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 bg-surface-container-low p-1.5 rounded-full w-fit border border-outline-variant/30">
         {(["all", "Available", "Busy", "Offline"] as const).map((st) => (
           <button
             key={st}
             onClick={() => setFilterStatus(st)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-sm border ${
+            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all active:scale-95 whitespace-nowrap cursor-pointer ${
               filterStatus === st
-                ? "bg-primary-container text-on-primary border-primary-container shadow"
-                : "bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container border-outline-variant/30"
+                ? "btn-gradient-primary text-white shadow-xs"
+                : "text-on-surface-variant hover:text-on-surface"
             }`}
             type="button"
           >
@@ -245,86 +272,89 @@ export default function AgentsPage() {
       </div>
 
       {/* 4. Agents Table */}
-      <div className="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden border border-outline-variant/30">
+      <div className="bg-white dark:bg-[#1a1329] rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden flex flex-col">
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-left border-collapse" style={{ minWidth: "750px" }}>
             <thead>
-              <tr className="bg-surface-container-low/80 border-b border-surface-container text-outline text-[11px] uppercase tracking-wider font-bold">
-                <th className="py-3 px-4">Agent</th>
-                <th className="py-3 px-4">Department</th>
-                <th className="py-3 px-4">Extension</th>
-                <th className="py-3 px-4">Status</th>
-                <th className="py-3 px-4">Softphone</th>
-                <th className="py-3 px-4 text-right">Actions</th>
+              <tr className="bg-surface-container-low/70 border-b border-outline-variant/20 text-on-surface-variant text-xs uppercase tracking-wider font-bold">
+                <th className="py-3.5 px-5">Agent</th>
+                <th className="py-3.5 px-5">Department</th>
+                <th className="py-3.5 px-5">Extension</th>
+                <th className="py-3.5 px-5">Status</th>
+                <th className="py-3.5 px-5">Softphone</th>
+                <th className="py-3.5 px-5 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-surface-container-low text-xs sm:text-sm text-on-surface">
+            <tbody className="divide-y divide-outline-variant/15 text-sm text-on-surface">
               {filteredAgents.map((ag) => (
-                <tr key={ag.id} className="hover:bg-surface-container-low/40 transition-colors">
-                  <td className="py-3 px-4">
+                <tr key={ag.id} className="hover:bg-purple-500/[0.03] transition-colors">
+                  <td className="py-4 px-5">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-primary-container text-on-primary font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">
+                      <div className="w-9 h-9 rounded-full bg-gradient-primary text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">
                         {ag.initials}
                       </div>
                       <div className="flex flex-col">
                         <span className="font-bold text-on-surface">{ag.name}</span>
-                        <span className="text-[11px] text-on-surface-variant">
+                        <span className="text-xs text-on-surface-variant font-medium">
                           {ag.email} · {ag.role}
                         </span>
                       </div>
                     </div>
                   </td>
-                  <td className="py-3 px-4">
-                    <span className="px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant text-[11px] font-semibold">
+                  <td className="py-4 px-5">
+                    <span className="px-3 py-1 rounded-full bg-surface-container-low border border-outline-variant/30 text-on-surface text-xs font-semibold">
                       {ag.department}
                     </span>
                   </td>
-                  <td className="py-3 px-4 font-mono font-bold text-on-surface">
+                  <td className="py-4 px-5 font-mono font-bold text-[#9a55ff]">
                     Ext #{ag.extension}
                   </td>
-                  <td className="py-3 px-4">
+                  <td className="py-4 px-5">
                     <button
                       onClick={() => handleToggleStatus(ag.id)}
-                      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold shadow-xs transition-all ${
-                        ag.status === "Available"
-                          ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25"
-                          : ag.status === "Busy"
-                          ? "bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 hover:bg-amber-500/25"
-                          : "bg-surface-container text-on-surface-variant border border-outline-variant/30 hover:bg-surface-container-high"
-                      }`}
+                      className="cursor-pointer transition-transform active:scale-95"
                       title="Click to toggle status"
                       type="button"
                     >
-                      <span
-                        className={`w-1.5 h-1.5 rounded-full ${
-                          ag.status === "Available"
-                            ? "bg-emerald-500"
-                            : ag.status === "Busy"
-                            ? "bg-amber-500"
-                            : "bg-outline"
-                        }`}
-                      />
-                      <span>{ag.status}</span>
+                      {ag.status === "Available" && (
+                        <span className="badge-inverse-success text-xs font-bold">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                          Available
+                        </span>
+                      )}
+                      {ag.status === "Busy" && (
+                        <span className="badge-inverse-warning text-xs font-bold">
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                          Busy
+                        </span>
+                      )}
+                      {ag.status === "Offline" && (
+                        <span className="badge-inverse-info text-xs font-bold">
+                          <span className="w-1.5 h-1.5 rounded-full bg-gray-400" />
+                          Offline
+                        </span>
+                      )}
                     </button>
                   </td>
-                  <td className="py-3 px-4">
+                  <td className="py-4 px-5">
                     <button
                       onClick={() => handleOpenSipModal(ag)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-bold shadow-xs hover:shadow transition-all"
+                      className="btn-gradient-info text-white text-xs px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5 font-bold shadow-xs hover:shadow active:scale-95 transition-all cursor-pointer"
                       type="button"
                     >
-                      <Icon name="phonelink_ring" size={15} />
+                      <Key size={13} />
                       <span>Credentials</span>
                     </button>
                   </td>
-                  <td className="py-3 px-4 text-right">
+                  <td className="py-4 px-5 text-right">
                     <button
                       onClick={() => setAgentToDelete(ag)}
-                      className="p-1.5 rounded-lg text-outline hover:text-error hover:bg-error-container/20 shadow-xs transition-colors"
+                      className="px-3 py-1.5 rounded-full bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30 text-xs font-bold inline-flex items-center gap-1 transition-all active:scale-95 cursor-pointer shadow-2xs"
                       title="Delete Agent"
                       type="button"
                     >
-                      <Icon name="delete" size={17} />
+                      <Trash2 size={13} />
+                      <span>Delete</span>
                     </button>
                   </td>
                 </tr>
@@ -337,20 +367,20 @@ export default function AgentsPage() {
       {/* Add Agent Modal */}
       {addModalOpen && (
         <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-          <div className="bg-surface-container-lowest rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
-            <div className="flex items-center justify-between border-b border-surface-container pb-3">
-              <h3 className="text-base sm:text-lg font-bold text-on-surface">
-                Add Agent
+          <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
+            <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
+              <h3 className="text-lg font-bold text-on-surface">
+                Register Agent
               </h3>
               <button
                 onClick={() => setAddModalOpen(false)}
-                className="text-on-surface-variant hover:text-on-surface"
+                className="p-1 rounded-lg text-on-surface-variant hover:text-on-surface"
               >
-                <Icon name="close" size={20} />
+                <X size={18} />
               </button>
             </div>
 
-            <form onSubmit={handleSaveAdd} className="space-y-4 text-xs sm:text-sm">
+            <form onSubmit={handleAddAgent} className="space-y-4 text-xs sm:text-sm">
               <div>
                 <label className="block text-on-surface font-semibold mb-1">
                   Full Name
@@ -360,22 +390,21 @@ export default function AgentsPage() {
                   required
                   value={agentForm.name}
                   onChange={(e) => setAgentForm({ ...agentForm, name: e.target.value })}
-                  placeholder="e.g. Tanvir Rahman"
-                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-semibold text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
+                  placeholder="e.g. Farhan Ali"
+                  className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl p-2.5 font-semibold text-on-surface focus:outline-none focus:border-[#9a55ff]"
                 />
               </div>
 
               <div>
                 <label className="block text-on-surface font-semibold mb-1">
-                  Email
+                  Email Address
                 </label>
                 <input
                   type="email"
-                  required
                   value={agentForm.email}
                   onChange={(e) => setAgentForm({ ...agentForm, email: e.target.value })}
-                  placeholder="e.g. tanvir@store.com"
-                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-semibold text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
+                  placeholder="farhan@store.com"
+                  className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl p-2.5 font-semibold text-on-surface focus:outline-none focus:border-[#9a55ff]"
                 />
               </div>
 
@@ -388,7 +417,7 @@ export default function AgentsPage() {
                     type="text"
                     value={agentForm.role}
                     onChange={(e) => setAgentForm({ ...agentForm, role: e.target.value })}
-                    className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-semibold text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
+                    className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl p-2.5 font-semibold text-on-surface focus:outline-none focus:border-[#9a55ff]"
                   />
                 </div>
                 <div>
@@ -397,10 +426,9 @@ export default function AgentsPage() {
                   </label>
                   <input
                     type="text"
-                    required
                     value={agentForm.extension}
                     onChange={(e) => setAgentForm({ ...agentForm, extension: e.target.value })}
-                    className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-mono text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
+                    className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl p-2.5 font-mono text-on-surface focus:outline-none focus:border-[#9a55ff]"
                   />
                 </div>
               </div>
@@ -413,28 +441,28 @@ export default function AgentsPage() {
                   <select
                     value={agentForm.department}
                     onChange={(e) => setAgentForm({ ...agentForm, department: e.target.value })}
-                    className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-semibold text-on-surface focus:outline-none focus:border-primary-container appearance-none pr-8 shadow-xs"
+                    className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl p-2.5 font-semibold text-on-surface focus:outline-none focus:border-[#9a55ff] appearance-none pr-8 cursor-pointer"
                   >
-                    <option value="Customer Support">Customer Support</option>
-                    <option value="Order Escalations">Order Escalations</option>
+                    <option>Customer Support</option>
+                    <option>Order Escalations</option>
                   </select>
-                  <Icon name="arrow_drop_down" size={20} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
+                  <ChevronDown size={15} className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
                 </div>
               </div>
 
-              <div className="pt-2 flex justify-end gap-2">
+              <div className="pt-2 flex justify-end gap-2.5">
                 <button
                   type="button"
                   onClick={() => setAddModalOpen(false)}
-                  className="px-4 py-2 rounded-lg border border-outline-variant/40 text-on-surface hover:bg-surface-container-low font-semibold shadow-xs"
+                  className="px-4 py-2 rounded-full border border-outline-variant/30 text-on-surface hover:bg-surface-container font-semibold text-xs cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-lg bg-primary-container text-on-primary font-bold shadow-sm hover:shadow hover:bg-primary transition"
+                  className="btn-gradient-primary text-white font-bold text-xs px-5 py-2 rounded-full shadow-md hover:shadow-lg transition cursor-pointer"
                 >
-                  Create
+                  Register Agent
                 </button>
               </div>
             </form>
@@ -442,132 +470,112 @@ export default function AgentsPage() {
         </div>
       )}
 
-      {/* SIP Softphone Modal */}
+      {/* SIP Softphone Credentials Modal */}
       {sipModalOpen && selectedAgentSip && (
         <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-          <div className="bg-surface-container-lowest rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
-            <div className="flex items-center justify-between border-b border-surface-container pb-3">
-              <div>
+          <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
+            <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
+              <div className="flex items-center gap-2">
+                <Key size={18} className="text-[#9a55ff]" />
                 <h3 className="text-base sm:text-lg font-bold text-on-surface">
-                  Softphone Credentials
+                  SIP Softphone Credentials
                 </h3>
-                <span className="text-xs text-on-surface-variant">
-                  {selectedAgentSip.name} (Ext #{selectedAgentSip.extension})
-                </span>
               </div>
               <button
                 onClick={() => setSipModalOpen(false)}
-                className="text-on-surface-variant hover:text-on-surface"
+                className="p-1 rounded-lg text-on-surface-variant hover:text-on-surface"
               >
-                <Icon name="close" size={20} />
+                <X size={18} />
               </button>
             </div>
 
-            <div className="space-y-3 text-xs sm:text-sm">
-              <div>
-                <label className="text-[11px] uppercase font-bold text-outline block mb-1">
-                  SIP Server / Domain
-                </label>
-                <div className="flex items-center justify-between p-2 rounded-lg bg-surface-container-low border border-outline-variant/30">
-                  <code className="font-mono text-on-surface">sip.dialyra.com</code>
+            <p className="text-xs text-on-surface-variant font-medium">
+              Use these SIP WebRTC credentials to connect MicroSIP, ZoiPer, or the Dialyra Agent Softphone.
+            </p>
+
+            <div className="space-y-3 bg-surface-container-low p-4 rounded-xl border border-outline-variant/20 text-xs sm:text-sm">
+              <div className="flex items-center justify-between">
+                <span className="text-on-surface-variant font-medium">SIP Server / Proxy</span>
+                <div className="flex items-center gap-1.5 font-mono font-bold text-on-surface">
+                  <span>pbx.dialyra.com:5060</span>
                   <button
-                    onClick={() => handleCopy("sip.dialyra.com", "SIP Server")}
-                    className="p-1 rounded hover:bg-surface-container text-primary-container shadow-xs"
-                    type="button"
+                    onClick={() => handleCopy("pbx.dialyra.com:5060", "SIP Server")}
+                    className="p-1 hover:text-[#9a55ff]"
+                    title="Copy"
                   >
-                    <Icon name="save" size={16} />
+                    <Copy size={13} />
                   </button>
                 </div>
               </div>
 
-              <div>
-                <label className="text-[11px] uppercase font-bold text-outline block mb-1">
-                  Username / Account
-                </label>
-                <div className="flex items-center justify-between p-2 rounded-lg bg-surface-container-low border border-outline-variant/30">
-                  <code className="font-mono text-on-surface">{selectedAgentSip.sipUser}</code>
+              <div className="flex items-center justify-between">
+                <span className="text-on-surface-variant font-medium">Username / Extension</span>
+                <div className="flex items-center gap-1.5 font-mono font-bold text-on-surface">
+                  <span>{selectedAgentSip.sipUser}</span>
                   <button
-                    onClick={() => handleCopy(selectedAgentSip.sipUser, "Username")}
-                    className="p-1 rounded hover:bg-surface-container text-primary-container shadow-xs"
-                    type="button"
+                    onClick={() => handleCopy(selectedAgentSip.sipUser, "SIP Username")}
+                    className="p-1 hover:text-[#9a55ff]"
+                    title="Copy"
                   >
-                    <Icon name="save" size={16} />
+                    <Copy size={13} />
                   </button>
                 </div>
               </div>
 
-              <div>
-                <label className="text-[11px] uppercase font-bold text-outline block mb-1">
-                  Password
-                </label>
-                <div className="flex items-center justify-between p-2 rounded-lg bg-surface-container-low border border-outline-variant/30">
-                  <code className="font-mono text-on-surface">
-                    {pwdVisible ? selectedAgentSip.sipSecret : "••••••••••••"}
-                  </code>
-                  <div className="flex items-center gap-1">
-                    <button
-                      onClick={() => setPwdVisible(!pwdVisible)}
-                      className="p-1 rounded hover:bg-surface-container text-on-surface-variant shadow-xs"
-                      type="button"
-                    >
-                      <Icon name={pwdVisible ? "visibility_off" : "visibility"} size={16} />
-                    </button>
-                    <button
-                      onClick={() => handleCopy(selectedAgentSip.sipSecret, "Password")}
-                      className="p-1 rounded hover:bg-surface-container text-primary-container shadow-xs"
-                      type="button"
-                    >
-                      <Icon name="save" size={16} />
-                    </button>
-                  </div>
+              <div className="flex items-center justify-between">
+                <span className="text-on-surface-variant font-medium">Secret Password</span>
+                <div className="flex items-center gap-1.5 font-mono font-bold text-on-surface">
+                  <span>{pwdVisible ? selectedAgentSip.sipSecret : "••••••••••••"}</span>
+                  <button
+                    onClick={() => setPwdVisible(!pwdVisible)}
+                    className="p-1 hover:text-[#9a55ff]"
+                    title="Toggle"
+                  >
+                    {pwdVisible ? <EyeOff size={13} /> : <Eye size={13} />}
+                  </button>
+                  <button
+                    onClick={() => handleCopy(selectedAgentSip.sipSecret, "SIP Secret")}
+                    className="p-1 hover:text-[#9a55ff]"
+                    title="Copy"
+                  >
+                    <Copy size={13} />
+                  </button>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <div className="p-2 rounded-lg bg-surface-container-low border border-outline-variant/30">
-                  <span className="text-outline uppercase text-[10px] font-bold block">Port</span>
-                  <span className="font-mono font-bold text-on-surface">5060</span>
-                </div>
-                <div className="p-2 rounded-lg bg-surface-container-low border border-outline-variant/30">
-                  <span className="text-outline uppercase text-[10px] font-bold block">Transport</span>
-                  <span className="font-mono font-bold text-on-surface">UDP</span>
-                </div>
-              </div>
-
-              <div className="p-3 rounded-xl bg-surface-container-low/70 border border-outline-variant/20 text-xs text-on-surface-variant space-y-1">
-                <span className="font-bold text-on-surface block">Setup Tip:</span>
-                <p>
-                  Use these credentials in softphone apps like <strong>MicroSIP</strong> or <strong>Zoiper</strong> on PC/Mobile to receive customer calls directly.
-                </p>
+              <div className="flex items-center justify-between">
+                <span className="text-on-surface-variant font-medium">Transport Protocol</span>
+                <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                  WSS / TLS (Secure)
+                </span>
               </div>
             </div>
 
             <div className="pt-2 flex justify-end">
               <button
-                type="button"
                 onClick={() => setSipModalOpen(false)}
-                className="px-4 py-2 rounded-lg bg-primary-container text-on-primary font-bold shadow-sm hover:shadow hover:bg-primary transition"
+                className="btn-gradient-primary text-white font-bold text-xs px-5 py-2 rounded-full shadow-sm"
               >
-                Done
+                Close
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Remove Agent Confirmation Modal */}
+      {/* Delete Agent Confirmation Modal */}
       <ConfirmModal
         isOpen={!!agentToDelete}
         onClose={() => setAgentToDelete(null)}
         onConfirm={() => {
           if (agentToDelete) {
-            handleDelete(agentToDelete.id, agentToDelete.name);
+            handleDeleteAgent(agentToDelete.id, agentToDelete.name);
             setAgentToDelete(null);
           }
         }}
-        title="Remove Agent"
-        description={`Are you sure you want to remove ${agentToDelete?.name} (Ext #${agentToDelete?.extension})? Their softphone line will be disconnected and unassigned from active queues.`}
-        confirmText="Remove Agent"
+        title="Delete Agent"
+        description={`Are you sure you want to remove ${agentToDelete?.name}? Extension #${agentToDelete?.extension} will be unassigned and softphone access revoked.`}
+        confirmText="Delete Agent"
         variant="danger"
         icon="delete"
       />

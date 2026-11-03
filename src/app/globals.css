@@ -3,33 +3,33 @@
 @tailwind utilities;
 
 :root {
-  --color-surface: 248 249 252;
+  --color-surface: 242 237 243; /* Purple React $content-bg: #f2edf3 */
   --color-surface-dim: 236 240 248;
   --color-surface-bright: 255 255 255;
   --color-surface-container-lowest: 255 255 255;
-  --color-surface-container-low: 244 246 251;
-  --color-surface-container: 238 241 248;
-  --color-surface-container-high: 229 234 244;
-  --color-surface-container-highest: 219 226 238;
-  --color-surface-variant: 228 233 245;
+  --color-surface-container-low: 247 245 249;
+  --color-surface-container: 240 236 244;
+  --color-surface-container-high: 232 226 238;
+  --color-surface-container-highest: 220 212 230;
+  --color-surface-variant: 235 230 242;
 
-  --color-on-surface: 26 21 35;
-  --color-on-surface-variant: 107 100 120;
+  --color-on-surface: 46 56 62; /* Purple React $darkslategray: #2e383e */
+  --color-on-surface-variant: 122 130 144;
   --color-inverse-surface: 33 49 69;
   --color-inverse-on-surface: 234 241 255;
 
-  --color-outline: 140 133 152;
-  --color-outline-variant: 226 220 235;
+  --color-outline: 200 195 210;
+  --color-outline-variant: 215 218 228; /* Thin defined card border */
 
-  --color-background: 248 249 252;
-  --color-on-background: 26 21 35;
+  --color-background: 242 237 243;
+  --color-on-background: 46 56 62;
 
-  --card-shadow: 0 4px 20px -2px rgba(65, 18, 100, 0.05);
+  --card-shadow: 0 2px 18px 0 rgba(0, 0, 0, 0.05);
 }
 
 .dark {
-  --color-surface: 15 10 22;
-  --color-surface-dim: 12 8 18;
+  --color-surface: 13 8 21; /* Same purple but more dark (#0d0815) */
+  --color-surface-dim: 10 6 16;
   --color-surface-bright: 28 20 40;
   --color-surface-container-lowest: 22 15 33;
   --color-surface-container-low: 30 21 44;
@@ -47,7 +47,7 @@
   --color-outline: 168 158 184;
   --color-outline-variant: 70 54 94;
 
-  --color-background: 15 10 22;
+  --color-background: 13 8 21;
   --color-on-background: 250 248 255;
 
   --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
@@ -103,6 +103,358 @@
 
 .dark .text-outline {
   color: #c4bad4 !important;
+}
+
+/* ============================================================
+   BENTO GRID SYSTEM
+   ============================================================ */
+@layer utilities {
+  /* Base bento card surface */
+  .bento-card {
+    position: relative;
+    overflow: hidden;
+    transition:
+      transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .bento-card:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Spotlight radial gradient via mouse-tracked CSS vars */
+  .bento-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 300ms cubic-bezier(0.22, 1, 0.36, 1);
+    background: radial-gradient(
+      360px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(65, 18, 100, 0.05),
+      transparent 60%
+    );
+    z-index: 0;
+  }
+  .dark .bento-card::before {
+    background: radial-gradient(
+      360px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(225, 182, 255, 0.09),
+      transparent 60%
+    );
+  }
+  .bento-card:hover::before {
+    opacity: 1;
+  }
+  .bento-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px -8px rgba(65, 18, 100, 0.07);
+  }
+  .dark .bento-card:hover {
+    box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  }
+  .bento-card:focus-within {
+    outline: 2px solid rgba(65, 18, 100, 0.4);
+    outline-offset: 2px;
+  }
+  .dark .bento-card:focus-within {
+    outline: 2px solid rgba(225, 182, 255, 0.4);
+    outline-offset: 2px;
+  }
+
+  /* Staggered entrance animation */
+  .bento-enter {
+    opacity: 0;
+    transform: translateY(16px) scale(0.985);
+    animation: bento-rise 640ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+
+  @keyframes bento-rise {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Respect prefers-reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    .bento-enter {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+    .bento-card:hover {
+      transform: none;
+    }
+  }
+
+  /* ============================================================
+     PURPLE REACT TEMPLATE STYLING (BOOTSTRAP DASH SIGNATURE)
+     ============================================================ */
+
+  /* Gradient Cards with Circular Watermark */
+  .card-img-holder {
+    position: relative;
+    overflow: hidden;
+  }
+  .card-img-holder::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 140px;
+    height: 100%;
+    background-image: url('/images/circle.svg');
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: contain;
+    pointer-events: none;
+    opacity: 0.9;
+  }
+
+  /* Gradients */
+  .bg-gradient-primary {
+    background: linear-gradient(to right, #da8cff, #9a55ff) !important;
+  }
+  .bg-gradient-danger {
+    background: linear-gradient(to right, #ffbf96, #fe7096) !important;
+  }
+  .bg-gradient-info {
+    background: linear-gradient(to right, #90caf9, #047edf 99%) !important;
+  }
+  .bg-gradient-success {
+    background: linear-gradient(to right, #84d9d2, #07cdae) !important;
+  }
+  .bg-gradient-warning {
+    background: linear-gradient(to right, #f6e384, #ffd500) !important;
+  }
+  .bg-gradient-dark {
+    background: linear-gradient(89deg, #5e7188, #3e4b5b) !important;
+  }
+
+  /* Purple React Gradient Buttons */
+  .btn-gradient-primary {
+    background: linear-gradient(to right, #da8cff, #9a55ff);
+    color: #ffffff !important;
+    border: none;
+    box-shadow: 0 4px 12px rgba(154, 85, 255, 0.3);
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn-gradient-primary:hover {
+    opacity: 0.92;
+    transform: translateY(-1.5px);
+    box-shadow: 0 6px 18px rgba(154, 85, 255, 0.45);
+  }
+  .btn-gradient-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(154, 85, 255, 0.3);
+  }
+
+  .btn-gradient-success {
+    background: linear-gradient(to right, #84d9d2, #07cdae);
+    color: #ffffff !important;
+    border: none;
+    box-shadow: 0 4px 12px rgba(7, 205, 174, 0.3);
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn-gradient-success:hover {
+    opacity: 0.92;
+    transform: translateY(-1.5px);
+    box-shadow: 0 6px 18px rgba(7, 205, 174, 0.45);
+  }
+
+  .btn-gradient-danger {
+    background: linear-gradient(to right, #ffbf96, #fe7096);
+    color: #ffffff !important;
+    border: none;
+    box-shadow: 0 4px 12px rgba(254, 112, 150, 0.3);
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn-gradient-danger:hover {
+    opacity: 0.92;
+    transform: translateY(-1.5px);
+    box-shadow: 0 6px 18px rgba(254, 112, 150, 0.45);
+  }
+
+  .btn-gradient-info {
+    background: linear-gradient(to right, #90caf9, #047edf 99%);
+    color: #ffffff !important;
+    border: none;
+    box-shadow: 0 4px 12px rgba(4, 126, 223, 0.3);
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn-gradient-info:hover {
+    opacity: 0.92;
+    transform: translateY(-1.5px);
+    box-shadow: 0 6px 18px rgba(4, 126, 223, 0.45);
+  }
+
+  .btn-gradient-warning {
+    background: linear-gradient(to right, #f6e384, #ffd500);
+    color: inherit;
+    border: none;
+    box-shadow: 0 4px 12px rgba(255, 213, 0, 0.35);
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn-gradient-warning:hover {
+    opacity: 0.92;
+    transform: translateY(-1.5px);
+    box-shadow: 0 6px 18px rgba(255, 213, 0, 0.5);
+  }
+
+  /* Status Badges Styled as Purple React Rounded Gradient Buttons (+10% Height, Slight Gradients, All White Text) */
+  .badge-solid-success,
+  .badge-gradient-success {
+    background: linear-gradient(to right, #84d9d2, #07cdae) !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 2px 6px rgba(7, 205, 174, 0.25);
+  }
+
+  .badge-solid-warning,
+  .badge-gradient-warning {
+    background: linear-gradient(to right, #f6e384, #ffd500) !important;
+    color: #ffffff !important;
+    border: none !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+    box-shadow: 0 2px 6px rgba(255, 213, 0, 0.3);
+  }
+
+  /* CANCELLED: Red with slight gradient */
+  .badge-solid-danger,
+  .badge-gradient-danger {
+    background: linear-gradient(to right, #f87171, #ef4444) !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25);
+  }
+
+  /* TRANSFERRED: Pink with slight gradient (previous cancel color) */
+  .badge-solid-primary,
+  .badge-gradient-primary,
+  .badge-status-transferred {
+    background: linear-gradient(to right, #ffbf96, #fe7096) !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 2px 6px rgba(254, 112, 150, 0.25);
+  }
+
+  /* BUSY: Sky Blue with slight gradient */
+  .badge-solid-info,
+  .badge-gradient-info {
+    background: linear-gradient(to right, #38bdf8, #0ea5e9) !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 2px 6px rgba(14, 165, 233, 0.25);
+  }
+
+  /* RETRY QUEUED: Cyan with slight gradient */
+  .badge-status-retry {
+    background: linear-gradient(to right, #22d3ee, #06b6d4) !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 2px 6px rgba(6, 182, 212, 0.25);
+  }
+
+  /* Purple React Rounded Button Badges (Increased height by 10%+, pill rounded 50px) */
+  .badge,
+  .badge-solid-success,
+  .badge-solid-warning,
+  .badge-solid-danger,
+  .badge-solid-primary,
+  .badge-solid-info,
+  .badge-status-transferred,
+  .badge-status-retry,
+  .badge-inverse-success,
+  .badge-inverse-danger,
+  .badge-inverse-warning,
+  .badge-inverse-primary,
+  .badge-inverse-info,
+  .badge-gradient-primary,
+  .badge-gradient-success,
+  .badge-gradient-danger,
+  .badge-gradient-warning,
+  .badge-gradient-info {
+    border-radius: 9999px !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    padding: 0.44rem 0.95rem !important; /* +10% height increase */
+    min-height: 28px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.025em;
+  }
+
+  .badge-gradient-primary {
+    background: linear-gradient(to right, #da8cff, #9a55ff);
+    color: #ffffff;
+  }
+  .badge-gradient-success {
+    background: linear-gradient(to right, #84d9d2, #07cdae);
+    color: #ffffff;
+  }
+  .badge-gradient-danger {
+    background: linear-gradient(to right, #ffbf96, #fe7096);
+    color: #ffffff;
+  }
+  .badge-gradient-info {
+    background: linear-gradient(to right, #90caf9, #047edf 99%);
+    color: #ffffff;
+  }
+  .badge-gradient-warning {
+    background: linear-gradient(to right, #f6e384, #ffd500);
+    color: #1a1002;
+  }
+
+  .badge-inverse-success {
+    background-color: rgba(7, 205, 174, 0.15);
+    color: #059b84;
+    border: 1px solid rgba(7, 205, 174, 0.25);
+  }
+  .dark .badge-inverse-success {
+    background-color: rgba(7, 205, 174, 0.2);
+    color: #4edea3;
+    border: 1px solid rgba(7, 205, 174, 0.35);
+  }
+
+  .badge-inverse-danger {
+    background-color: rgba(254, 112, 150, 0.15);
+    color: #dc3545;
+    border: 1px solid rgba(254, 112, 150, 0.25);
+  }
+  .dark .badge-inverse-danger {
+    background-color: rgba(254, 112, 150, 0.2);
+    color: #ff8fa3;
+    border: 1px solid rgba(254, 112, 150, 0.35);
+  }
+
+  .badge-inverse-warning {
+    background-color: rgba(255, 213, 0, 0.18);
+    color: #997404;
+    border: 1px solid rgba(255, 213, 0, 0.3);
+  }
+  .dark .badge-inverse-warning {
+    background-color: rgba(255, 213, 0, 0.2);
+    color: #ffdd72;
+    border: 1px solid rgba(255, 213, 0, 0.35);
+  }
+
+  .badge-inverse-primary {
+    background-color: rgba(182, 109, 255, 0.15);
+    color: #9a55ff;
+    border: 1px solid rgba(182, 109, 255, 0.25);
+  }
+  .dark .badge-inverse-primary {
+    background-color: rgba(182, 109, 255, 0.22);
+    color: #da8cff;
+    border: 1px solid rgba(182, 109, 255, 0.35);
+  }
 }
 
 ::-webkit-scrollbar {

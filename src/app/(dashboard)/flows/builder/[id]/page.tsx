@@ -159,53 +159,56 @@ export default function FlowBuilderPage() {
   };
 
   return (
-    <div className="flex flex-col w-full pb-20 space-y-8">
+    <div className="flex flex-col w-full pb-20 space-y-6">
       {/* 1. Top Action & Navigation Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-surface-container">
+      <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-gray-200 dark:border-white/10">
         <div className="flex items-center gap-4 flex-wrap">
           <Link
             href="/flows"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container transition-all shadow-sm hover:shadow border border-outline-variant/30 active:scale-95"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white dark:bg-white/5 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/10 transition-all shadow-sm border border-gray-200 dark:border-white/10 active:scale-95 cursor-pointer font-bold text-xs"
           >
-            <Icon name="arrow_back" size={18} className="text-on-surface-variant" />
-            <span className="font-semibold text-sm">Back to Flows</span>
+            <Icon name="arrow_back" size={16} className="text-gray-400" />
+            <span>Back to Flows</span>
           </Link>
-          <div className="h-5 w-px bg-outline-variant/30 hidden sm:block" />
+          <div className="h-5 w-px bg-gray-200 dark:bg-white/10 hidden sm:block" />
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl md:text-3xl font-extrabold text-on-surface tracking-tight">
+            <span className="w-9 h-9 rounded-xl bg-gradient-primary flex items-center justify-center text-white shadow-md shadow-purple-500/20">
+              <Icon name="schema" size={20} />
+            </span>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
               {flowName}
             </h1>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed text-xs font-bold shadow-xs">
-              <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
+            <span className="badge-inverse-warning flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
               Start Menu: {activeMenuName}
             </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <button
             onClick={() => showToast("Draft saved to browser storage", "info")}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container transition-all shadow-sm hover:shadow border border-outline-variant/30 font-semibold text-sm active:scale-95"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white dark:bg-white/5 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/10 transition-all shadow-sm border border-gray-200 dark:border-white/10 font-bold text-xs active:scale-95 cursor-pointer"
             type="button"
           >
-            <Icon name="save" size={18} className="text-on-surface-variant" />
+            <Icon name="save" size={16} className="text-gray-400" />
             <span>Save Draft</span>
           </button>
           <button
             onClick={handleValidate}
             disabled={isValidating}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container text-primary font-bold text-sm transition-all shadow-sm hover:shadow border border-outline-variant/30 active:scale-95"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full btn-gradient-info text-white font-bold text-xs transition-all shadow-sm hover:shadow active:scale-95 cursor-pointer"
             type="button"
           >
-            <Icon name="check_circle" size={18} />
+            <Icon name="check_circle" size={16} />
             <span>{isValidating ? "Validating..." : "Validate Flow"}</span>
           </button>
           <button
             onClick={handlePublish}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary-container text-on-primary hover:bg-primary transition-all shadow-md hover:shadow-lg font-bold text-sm active:scale-95"
+            className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full btn-gradient-primary text-white font-bold text-xs shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer"
             type="button"
           >
-            <Icon name="rocket_launch" size={18} />
+            <Icon name="rocket_launch" size={16} />
             <span>Publish Flow</span>
           </button>
         </div>

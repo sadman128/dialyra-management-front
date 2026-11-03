@@ -2,9 +2,28 @@
 
 import React, { useState } from "react";
 import { useBusiness } from "@/context/BusinessContext";
-import { Icon } from "@/components/ui/Icon";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
 import { mockDncList } from "@/mock/mockData";
+import {
+  Settings,
+  User,
+  Clock,
+  Ban,
+  Code,
+  Shield,
+  Key,
+  Copy,
+  Eye,
+  EyeOff,
+  Save,
+  RotateCcw,
+  Trash2,
+  Plus,
+  ChevronRight,
+  ChevronDown,
+  X,
+  Check,
+} from "lucide-react";
 
 type SettingsTab = "profile" | "hours" | "dnc" | "api";
 
@@ -162,39 +181,51 @@ export default function SettingsPage() {
   return (
     <div className="flex flex-col w-full space-y-6 pb-24 relative">
       {/* 1. Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl text-on-surface tracking-tight font-bold">
-            Settings
+          <div className="flex items-center gap-2 text-xs font-semibold text-on-surface-variant/70 mb-1">
+            <span>Dashboard</span>
+            <ChevronRight size={13} />
+            <span className="text-[#9a55ff] font-bold">Settings</span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-on-surface flex items-center gap-3">
+            <span className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center text-white shadow-md shadow-purple-500/20">
+              <Settings size={20} />
+            </span>
+            Store Settings &amp; Configuration
           </h1>
-          <p className="text-xs sm:text-sm text-on-surface-variant mt-0.5 font-medium">
-            Account profile, calling hours, number suppression, and API keys.
+          <p className="text-sm text-on-surface-variant mt-1 font-medium">
+            Account profile, calling hours, number suppression, and API integration keys for{" "}
+            <strong className="text-on-surface font-bold">{activeBusiness.name}</strong>.
           </p>
         </div>
       </div>
 
       {/* 2. Navigation Tabs */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-surface-container pb-3">
+      <div className="flex flex-wrap items-center gap-2 bg-surface-container-low p-1.5 rounded-full w-fit border border-outline-variant/30">
         {[
-          { id: "profile", label: "Profile", icon: "person" },
-          { id: "hours", label: "Calling Hours", icon: "schedule" },
-          { id: "dnc", label: "Do Not Call", icon: "block" },
-          { id: "api", label: "API & Webhooks", icon: "code" },
-        ].map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id as SettingsTab)}
-            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-sm border ${
-              activeTab === tab.id
-                ? "bg-primary-container text-on-primary border-primary-container shadow"
-                : "bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container border-outline-variant/30"
-            }`}
-            type="button"
-          >
-            <Icon name={tab.icon} size={16} />
-            <span>{tab.label}</span>
-          </button>
-        ))}
+          { id: "profile", label: "Profile", icon: User },
+          { id: "hours", label: "Calling Hours", icon: Clock },
+          { id: "dnc", label: "Do Not Call", icon: Ban },
+          { id: "api", label: "API & Webhooks", icon: Code },
+        ].map((tab) => {
+          const IconComp = tab.icon;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as SettingsTab)}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all active:scale-95 cursor-pointer ${
+                activeTab === tab.id
+                  ? "btn-gradient-primary text-white shadow-xs"
+                  : "text-on-surface-variant hover:text-on-surface"
+              }`}
+              type="button"
+            >
+              <IconComp size={15} />
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* 3. Tab Contents */}
@@ -203,13 +234,13 @@ export default function SettingsPage() {
       {activeTab === "profile" && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Account Profile Card */}
-          <div className="bg-surface-container-lowest rounded-2xl p-5 shadow-stitch-card border border-outline-variant/30 space-y-4">
-            <div className="flex items-center gap-2.5 border-b border-surface-container pb-3">
-              <Icon name="person" size={20} className="text-primary-container" />
-              <h2 className="text-base font-bold text-on-surface">Store Profile</h2>
+          <div className="bg-white dark:bg-[#1a1329] rounded-2xl p-6 border border-outline-variant/30 shadow-sm space-y-4">
+            <div className="flex items-center gap-2.5 border-b border-outline-variant/20 pb-3">
+              <span className="w-2.5 h-2.5 rounded-full bg-gradient-primary" />
+              <h2 className="text-base sm:text-lg font-bold text-on-surface">Store Profile</h2>
             </div>
 
-            <div className="space-y-3.5 text-xs sm:text-sm">
+            <div className="space-y-4 text-xs sm:text-sm">
               <div>
                 <label className="block text-on-surface font-semibold mb-1">
                   Store / Business Name
@@ -221,7 +252,7 @@ export default function SettingsPage() {
                     setProfileForm({ ...profileForm, businessName: e.target.value });
                     setHasChanges(true);
                   }}
-                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-semibold text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
+                  className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl p-2.5 font-semibold text-on-surface focus:outline-none focus:border-[#9a55ff]"
                 />
               </div>
 
@@ -236,7 +267,7 @@ export default function SettingsPage() {
                     setProfileForm({ ...profileForm, ownerName: e.target.value });
                     setHasChanges(true);
                   }}
-                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-semibold text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
+                  className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl p-2.5 font-semibold text-on-surface focus:outline-none focus:border-[#9a55ff]"
                 />
               </div>
 
@@ -252,7 +283,7 @@ export default function SettingsPage() {
                       setProfileForm({ ...profileForm, email: e.target.value });
                       setHasChanges(true);
                     }}
-                    className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-semibold text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
+                    className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl p-2.5 font-semibold text-on-surface focus:outline-none focus:border-[#9a55ff]"
                   />
                 </div>
                 <div>
@@ -266,7 +297,7 @@ export default function SettingsPage() {
                       setProfileForm({ ...profileForm, phone: e.target.value });
                       setHasChanges(true);
                     }}
-                    className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-semibold text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
+                    className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl p-2.5 font-semibold text-on-surface focus:outline-none focus:border-[#9a55ff]"
                   />
                 </div>
               </div>
@@ -282,26 +313,26 @@ export default function SettingsPage() {
                       setProfileForm({ ...profileForm, timezone: e.target.value });
                       setHasChanges(true);
                     }}
-                    className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-semibold text-on-surface focus:outline-none focus:border-primary-container appearance-none pr-8 shadow-xs"
+                    className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl p-2.5 font-semibold text-on-surface focus:outline-none focus:border-[#9a55ff] appearance-none pr-8 cursor-pointer"
                   >
                     <option value="Asia/Dhaka (GMT+6)">Asia/Dhaka (GMT+6)</option>
                     <option value="Asia/Kolkata (GMT+5:30)">Asia/Kolkata (GMT+5:30)</option>
                     <option value="UTC (GMT+0)">UTC (GMT+0)</option>
                   </select>
-                  <Icon name="arrow_drop_down" size={20} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
+                  <ChevronDown size={15} className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
                 </div>
               </div>
             </div>
           </div>
 
           {/* Security & Password Update Card */}
-          <div className="bg-surface-container-lowest rounded-2xl p-5 shadow-stitch-card border border-outline-variant/30 space-y-4">
-            <div className="flex items-center gap-2.5 border-b border-surface-container pb-3">
-              <Icon name="lock" size={20} className="text-secondary" />
-              <h2 className="text-base font-bold text-on-surface">Security &amp; Password</h2>
+          <div className="bg-white dark:bg-[#1a1329] rounded-2xl p-6 border border-outline-variant/30 shadow-sm space-y-4">
+            <div className="flex items-center gap-2.5 border-b border-outline-variant/20 pb-3">
+              <span className="w-2.5 h-2.5 rounded-full bg-gradient-danger" />
+              <h2 className="text-base sm:text-lg font-bold text-on-surface">Security &amp; Password</h2>
             </div>
 
-            <form onSubmit={handleRequestPasswordChange} className="space-y-3.5 text-xs sm:text-sm">
+            <form onSubmit={handleRequestPasswordChange} className="space-y-4 text-xs sm:text-sm">
               <div>
                 <label className="block text-on-surface font-semibold mb-1">
                   Current Password
@@ -312,7 +343,7 @@ export default function SettingsPage() {
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-mono text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
+                  className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl p-2.5 font-mono text-on-surface focus:outline-none focus:border-[#9a55ff]"
                 />
               </div>
 
@@ -326,7 +357,7 @@ export default function SettingsPage() {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="At least 8 characters"
-                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-mono text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
+                  className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl p-2.5 font-mono text-on-surface focus:outline-none focus:border-[#9a55ff]"
                 />
               </div>
 
@@ -340,18 +371,18 @@ export default function SettingsPage() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Repeat new password"
-                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-mono text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
+                  className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl p-2.5 font-mono text-on-surface focus:outline-none focus:border-[#9a55ff]"
                 />
               </div>
 
-              <div className="p-3 rounded-xl bg-surface-container-low border border-outline-variant/20 text-xs text-on-surface-variant flex items-center gap-2">
-                <Icon name="shield" size={18} className="text-primary-container shrink-0" />
+              <div className="p-3.5 rounded-xl bg-purple-500/10 border border-purple-500/20 text-xs text-[#9a55ff] flex items-center gap-2">
+                <Shield size={18} className="text-[#9a55ff] shrink-0" />
                 <span>Password changes require 6-digit OTP verification sent to your phone.</span>
               </div>
 
               <button
                 type="submit"
-                className="w-full py-2.5 rounded-xl bg-primary-container text-on-primary font-bold text-xs sm:text-sm shadow-sm hover:shadow hover:bg-primary transition-all active:scale-[0.99]"
+                className="w-full py-2.5 rounded-full btn-gradient-primary text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all active:scale-[0.99] cursor-pointer"
               >
                 Change Password
               </button>
@@ -362,10 +393,13 @@ export default function SettingsPage() {
 
       {/* TAB 2: CALLING HOURS */}
       {activeTab === "hours" && (
-        <div className="bg-surface-container-lowest rounded-2xl p-5 md:p-6 shadow-stitch-card border border-outline-variant/30 space-y-6">
+        <div className="bg-white dark:bg-[#1a1329] rounded-2xl p-6 border border-outline-variant/30 shadow-sm space-y-6">
           <div>
-            <h2 className="text-base font-bold text-on-surface">Calling Window</h2>
-            <p className="text-xs sm:text-sm text-on-surface-variant mt-0.5">
+            <h2 className="text-base sm:text-lg font-bold text-on-surface flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-gradient-info" />
+              Calling Window
+            </h2>
+            <p className="text-xs sm:text-sm text-on-surface-variant mt-0.5 font-medium">
               Automated calls will only dispatch to customers within these hours.
             </p>
           </div>
@@ -382,13 +416,13 @@ export default function SettingsPage() {
                     setStartTime(e.target.value);
                     setHasChanges(true);
                   }}
-                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-semibold text-on-surface focus:outline-none focus:border-primary-container appearance-none pr-8 shadow-xs text-xs sm:text-sm"
+                  className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl p-2.5 font-semibold text-on-surface focus:outline-none focus:border-[#9a55ff] appearance-none pr-8 text-xs sm:text-sm cursor-pointer"
                 >
                   <option value="08:00 AM">08:00 AM</option>
                   <option value="09:00 AM">09:00 AM (Standard)</option>
                   <option value="10:00 AM">10:00 AM</option>
                 </select>
-                <Icon name="arrow_drop_down" size={20} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
+                <ChevronDown size={15} className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
               </div>
             </div>
 
@@ -403,19 +437,19 @@ export default function SettingsPage() {
                     setEndTime(e.target.value);
                     setHasChanges(true);
                   }}
-                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-semibold text-on-surface focus:outline-none focus:border-primary-container appearance-none pr-8 shadow-xs text-xs sm:text-sm"
+                  className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl p-2.5 font-semibold text-on-surface focus:outline-none focus:border-[#9a55ff] appearance-none pr-8 text-xs sm:text-sm cursor-pointer"
                 >
                   <option value="08:00 PM">08:00 PM</option>
                   <option value="09:00 PM">09:00 PM (Standard)</option>
                   <option value="10:00 PM">10:00 PM</option>
                 </select>
-                <Icon name="arrow_drop_down" size={20} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
+                <ChevronDown size={15} className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
               </div>
             </div>
           </div>
 
-          <div className="space-y-3 pt-2 border-t border-surface-container text-xs sm:text-sm">
-            <div className="flex items-center justify-between p-3 rounded-xl bg-surface-container-low border border-outline-variant/20">
+          <div className="space-y-3 pt-2 border-t border-outline-variant/20 text-xs sm:text-sm">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/20">
               <div>
                 <span className="font-bold text-on-surface block">Hold Night Orders</span>
                 <span className="text-xs text-on-surface-variant">
@@ -429,11 +463,11 @@ export default function SettingsPage() {
                   setNightQueueHolding(e.target.checked);
                   setHasChanges(true);
                 }}
-                className="w-5 h-5 accent-primary-container rounded cursor-pointer"
+                className="w-5 h-5 accent-purple-600 rounded cursor-pointer"
               />
             </div>
 
-            <div className="flex items-center justify-between p-3 rounded-xl bg-surface-container-low border border-outline-variant/20">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/20">
               <div>
                 <span className="font-bold text-on-surface block">Friday Prayer Break</span>
                 <span className="text-xs text-on-surface-variant">
@@ -447,7 +481,7 @@ export default function SettingsPage() {
                   setFridayPrayerPause(e.target.checked);
                   setHasChanges(true);
                 }}
-                className="w-5 h-5 accent-primary-container rounded cursor-pointer"
+                className="w-5 h-5 accent-purple-600 rounded cursor-pointer"
               />
             </div>
           </div>
@@ -456,16 +490,19 @@ export default function SettingsPage() {
 
       {/* TAB 3: DNC REGISTRY */}
       {activeTab === "dnc" && (
-        <div className="bg-surface-container-lowest rounded-2xl p-5 md:p-6 shadow-stitch-card border border-outline-variant/30 space-y-6">
+        <div className="bg-white dark:bg-[#1a1329] rounded-2xl p-6 border border-outline-variant/30 shadow-sm space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h2 className="text-base font-bold text-on-surface">Do Not Call List</h2>
-              <p className="text-xs sm:text-sm text-on-surface-variant mt-0.5">
+              <h2 className="text-base sm:text-lg font-bold text-on-surface flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-gradient-danger" />
+                Do Not Call (DNC) List
+              </h2>
+              <p className="text-xs sm:text-sm text-on-surface-variant mt-0.5 font-medium">
                 Suppressed numbers that will never receive automated calls.
               </p>
             </div>
-            <span className="px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant text-xs font-bold self-start sm:self-auto">
-              {dncList.length} Suppressed
+            <span className="badge-inverse-danger text-xs font-bold">
+              {dncList.length} Suppressed Numbers
             </span>
           </div>
 
@@ -477,18 +514,18 @@ export default function SettingsPage() {
               value={newDncPhone}
               onChange={(e) => setNewDncPhone(e.target.value)}
               placeholder="Phone: 01711223344"
-              className="flex-1 bg-surface-container-low border border-outline-variant/40 rounded-xl px-3 py-2 text-xs sm:text-sm font-semibold text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
+              className="flex-1 bg-surface-container-low border border-outline-variant/30 rounded-full px-4 py-2 text-xs sm:text-sm font-semibold text-on-surface focus:outline-none focus:border-[#9a55ff]"
             />
             <input
               type="text"
               value={newDncReason}
               onChange={(e) => setNewDncReason(e.target.value)}
               placeholder="Reason (Optional)"
-              className="flex-1 bg-surface-container-low border border-outline-variant/40 rounded-xl px-3 py-2 text-xs sm:text-sm text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
+              className="flex-1 bg-surface-container-low border border-outline-variant/30 rounded-full px-4 py-2 text-xs sm:text-sm text-on-surface focus:outline-none focus:border-[#9a55ff]"
             />
             <button
               type="submit"
-              className="px-4 py-2 rounded-xl bg-primary-container text-on-primary font-bold text-xs sm:text-sm shadow-sm hover:shadow hover:bg-primary transition-all active:scale-95 shrink-0"
+              className="btn-gradient-danger text-white font-bold text-xs sm:text-sm px-5 py-2 rounded-full shadow-md hover:shadow-lg transition-all active:scale-95 shrink-0 cursor-pointer"
             >
               Add Number
             </button>
@@ -498,29 +535,29 @@ export default function SettingsPage() {
           <div className="overflow-x-auto border border-outline-variant/20 rounded-xl">
             <table className="w-full text-left border-collapse text-xs sm:text-sm">
               <thead>
-                <tr className="bg-surface-container-low border-b border-surface-container text-outline text-[11px] uppercase tracking-wider font-bold">
-                  <th className="py-2.5 px-4">Phone Number</th>
-                  <th className="py-2.5 px-4">Reason</th>
-                  <th className="py-2.5 px-4">Date Added</th>
-                  <th className="py-2.5 px-4 text-right">Action</th>
+                <tr className="bg-surface-container-low/70 border-b border-outline-variant/20 text-on-surface-variant text-xs uppercase tracking-wider font-bold">
+                  <th className="py-3 px-4">Phone Number</th>
+                  <th className="py-3 px-4">Reason</th>
+                  <th className="py-3 px-4">Date Added</th>
+                  <th className="py-3 px-4 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-surface-container-low text-on-surface">
+              <tbody className="divide-y divide-outline-variant/15 text-on-surface">
                 {dncList.map((item) => (
-                  <tr key={item.id} className="hover:bg-surface-container-low/40">
-                    <td className="py-2.5 px-4 font-mono font-bold">{item.normalizedPhone}</td>
-                    <td className="py-2.5 px-4 text-on-surface-variant">{item.reason}</td>
-                    <td className="py-2.5 px-4 text-outline font-mono text-xs">{item.addedAt}</td>
-                    <td className="py-2.5 px-4 text-right">
+                  <tr key={item.id} className="hover:bg-purple-500/[0.03]">
+                    <td className="py-3 px-4 font-mono font-bold text-on-surface">{item.normalizedPhone}</td>
+                    <td className="py-3 px-4 text-on-surface-variant">{item.reason}</td>
+                    <td className="py-3 px-4 text-on-surface-variant font-mono text-xs">{item.addedAt}</td>
+                    <td className="py-3 px-4 text-right">
                       <button
                         onClick={() =>
                           setDncToRemove({ id: item.id, phone: item.normalizedPhone })
                         }
-                        className="p-1 rounded text-outline hover:text-error hover:bg-error-container/20 shadow-xs transition-colors"
+                        className="p-1.5 rounded-lg text-on-surface-variant hover:text-rose-600 hover:bg-rose-500/10 transition-colors cursor-pointer"
                         title="Remove"
                         type="button"
                       >
-                        <Icon name="delete" size={16} />
+                        <Trash2 size={15} />
                       </button>
                     </td>
                   </tr>
@@ -533,10 +570,13 @@ export default function SettingsPage() {
 
       {/* TAB 4: API & WEBHOOKS */}
       {activeTab === "api" && (
-        <div className="bg-surface-container-lowest rounded-2xl p-5 md:p-6 shadow-stitch-card border border-outline-variant/30 space-y-6">
+        <div className="bg-white dark:bg-[#1a1329] rounded-2xl p-6 border border-outline-variant/30 shadow-sm space-y-6">
           <div>
-            <h2 className="text-base font-bold text-on-surface">API Credentials &amp; Webhooks</h2>
-            <p className="text-xs sm:text-sm text-on-surface-variant mt-0.5">
+            <h2 className="text-base sm:text-lg font-bold text-on-surface flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-gradient-info" />
+              API Credentials &amp; Webhooks
+            </h2>
+            <p className="text-xs sm:text-sm text-on-surface-variant mt-0.5 font-medium">
               Secure keys for integrating Dialyra with your WooCommerce or Shopify backend.
             </p>
           </div>
@@ -544,8 +584,8 @@ export default function SettingsPage() {
           <div className="space-y-4 text-xs sm:text-sm">
             {/* Live Webhook */}
             <div>
-              <label className="text-outline uppercase text-[10px] font-bold tracking-wider block mb-1">
-                Order Webhook URL
+              <label className="text-on-surface-variant uppercase text-[10px] font-bold tracking-wider block mb-1">
+                Order Inbound Webhook URL
               </label>
               <div className="flex items-center gap-2 p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/30">
                 <code className="font-mono text-on-surface text-xs truncate flex-1">
@@ -558,18 +598,18 @@ export default function SettingsPage() {
                       "Webhook URL"
                     )
                   }
-                  className="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary-container shadow-xs"
+                  className="p-1.5 rounded-lg text-[#9a55ff] hover:bg-purple-500/10 transition-colors cursor-pointer"
                   type="button"
                 >
-                  <Icon name="save" size={16} />
+                  <Copy size={15} />
                 </button>
               </div>
             </div>
 
             {/* Signing Secret */}
             <div>
-              <label className="text-outline uppercase text-[10px] font-bold tracking-wider block mb-1">
-                Signing Secret
+              <label className="text-on-surface-variant uppercase text-[10px] font-bold tracking-wider block mb-1">
+                Webhook HMAC Signing Secret
               </label>
               <div className="flex items-center gap-2 p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/30">
                 <code className="font-mono text-on-surface text-xs truncate flex-1">
@@ -579,52 +619,52 @@ export default function SettingsPage() {
                 </code>
                 <button
                   onClick={() => setWebhookSecretRevealed(!webhookSecretRevealed)}
-                  className="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant shadow-xs"
+                  className="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface cursor-pointer"
                   type="button"
                 >
-                  <Icon name={webhookSecretRevealed ? "visibility_off" : "visibility"} size={16} />
+                  {webhookSecretRevealed ? <EyeOff size={15} /> : <Eye size={15} />}
                 </button>
                 <button
                   onClick={() =>
                     handleCopy(
                       "whsec_live_948f217e293041c7fa10982348",
-                      "Signing Secret"
+                      "Webhook Signing Secret"
                     )
                   }
-                  className="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary-container shadow-xs"
+                  className="p-1.5 rounded-lg text-[#9a55ff] hover:bg-purple-500/10 transition-colors cursor-pointer"
                   type="button"
                 >
-                  <Icon name="save" size={16} />
+                  <Copy size={15} />
                 </button>
               </div>
             </div>
 
             {/* REST API Token */}
             <div>
-              <label className="text-outline uppercase text-[10px] font-bold tracking-wider block mb-1">
-                REST API Bearer Token
+              <label className="text-on-surface-variant uppercase text-[10px] font-bold tracking-wider block mb-1">
+                Dialyra REST API Bearer Token
               </label>
               <div className="flex items-center gap-2 p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/30">
                 <code className="font-mono text-on-surface text-xs truncate flex-1">
                   {apiTokenRevealed
-                    ? "dly_live_tok_991823746198471928374"
-                    : "dly_live_tok_•••••••••••••••••••••"}
+                    ? "dly_live_token_719a0293bcf9128374a"
+                    : "dly_live_token_••••••••••••••••••••"}
                 </code>
                 <button
                   onClick={() => setApiTokenRevealed(!apiTokenRevealed)}
-                  className="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant shadow-xs"
+                  className="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface cursor-pointer"
                   type="button"
                 >
-                  <Icon name={apiTokenRevealed ? "visibility_off" : "visibility"} size={16} />
+                  {apiTokenRevealed ? <EyeOff size={15} /> : <Eye size={15} />}
                 </button>
                 <button
                   onClick={() =>
-                    handleCopy("dly_live_tok_991823746198471928374", "API Token")
+                    handleCopy("dly_live_token_719a0293bcf9128374a", "API Bearer Token")
                   }
-                  className="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary-container shadow-xs"
+                  className="p-1.5 rounded-lg text-[#9a55ff] hover:bg-purple-500/10 transition-colors cursor-pointer"
                   type="button"
                 >
-                  <Icon name="save" size={16} />
+                  <Copy size={15} />
                 </button>
               </div>
             </div>
@@ -632,67 +672,48 @@ export default function SettingsPage() {
         </div>
       )}
 
-      {/* 4. Floating Save / Discard Bar (Only shown if anything has changed) */}
+      {/* Floating Save Action Bar */}
       {hasChanges && (
-        <div className="fixed bottom-6 right-6 z-40 bg-surface-container-lowest/95 backdrop-blur-md rounded-2xl px-5 py-3 shadow-2xl border border-outline-variant/40 flex items-center gap-3 animate-in slide-in-from-bottom-4">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-4 border border-white/20 animate-in fade-in slide-in-from-bottom-3 duration-200">
+          <span className="text-xs sm:text-sm font-semibold">You have unsaved changes</span>
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse" />
-            <span className="text-xs font-bold text-on-surface">Unsaved Changes</span>
+            <button
+              onClick={() => setDiscardModalOpen(true)}
+              className="px-3.5 py-1.5 rounded-full text-xs font-semibold hover:bg-white/10 transition cursor-pointer"
+              type="button"
+            >
+              Discard
+            </button>
+            <button
+              onClick={handleSaveAll}
+              disabled={isSaving}
+              className="btn-gradient-primary px-4 py-1.5 rounded-full text-xs font-bold shadow-md hover:shadow-lg transition active:scale-95 cursor-pointer"
+              type="button"
+            >
+              {isSaving ? "Saving..." : "Save Changes"}
+            </button>
           </div>
-
-          <div className="h-4 w-px bg-surface-container" />
-
-          <button
-            onClick={() => setDiscardModalOpen(true)}
-            disabled={isSaving}
-            className="px-3.5 py-1.5 rounded-xl border border-outline-variant/40 text-on-surface hover:bg-surface-container text-xs font-bold shadow-xs transition-all active:scale-95"
-            type="button"
-          >
-            Discard
-          </button>
-
-          <button
-            onClick={handleSaveAll}
-            disabled={isSaving}
-            className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-primary-container text-on-primary hover:bg-primary text-xs font-bold shadow-sm hover:shadow transition-all active:scale-95"
-            type="button"
-          >
-            {isSaving ? (
-              <>
-                <span className="w-3.5 h-3.5 border-2 border-on-primary border-t-transparent rounded-full animate-spin" />
-                <span>Saving...</span>
-              </>
-            ) : (
-              <>
-                <Icon name="save" size={15} />
-                <span>Save Changes</span>
-              </>
-            )}
-          </button>
         </div>
       )}
 
-      {/* 5. 6-Digit OTP Verification Modal */}
+      {/* OTP Password Verification Modal */}
       {otpModalOpen && (
         <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-          <div className="bg-surface-container-lowest rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
-            <div className="flex items-center justify-between border-b border-surface-container pb-3">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-primary-container/15 text-primary-container flex items-center justify-center font-bold">
-                  <Icon name="security" size={18} />
-                </div>
-                <h3 className="text-base font-bold text-on-surface">Verify Security Code</h3>
-              </div>
+          <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
+            <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
+              <h3 className="text-base sm:text-lg font-bold text-on-surface">
+                Verify OTP Code
+              </h3>
               <button
                 onClick={() => setOtpModalOpen(false)}
                 className="text-on-surface-variant hover:text-on-surface"
               >
-                <Icon name="close" size={18} />
+                <X size={18} />
               </button>
             </div>
 
             <p className="text-xs text-on-surface-variant">
-              Enter the 6-digit verification code sent to <strong>{profileForm.phone}</strong>:
+              Enter the 6-digit code sent via SMS to {profileForm.phone} to confirm password change.
             </p>
 
             <form onSubmit={handleVerifyOtp} className="space-y-4">
@@ -705,19 +726,23 @@ export default function SettingsPage() {
                     maxLength={1}
                     value={digit}
                     onChange={(e) => handleOtpChange(idx, e.target.value)}
-                    className="w-10 h-12 text-center text-lg font-bold font-mono bg-surface-container-low border border-outline-variant/40 rounded-xl text-on-surface focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 shadow-xs"
+                    className="w-10 h-12 text-center text-lg font-mono font-bold bg-surface-container-low border border-outline-variant/30 rounded-xl focus:outline-none focus:border-[#9a55ff] text-on-surface"
                   />
                 ))}
               </div>
 
               <div className="flex items-center justify-between text-xs text-on-surface-variant">
-                <span>Code expires in 05:00</span>
+                <span>Resend code in {otpTimer}s</span>
                 <button
                   type="button"
-                  onClick={() => showToast("Resent OTP code to your phone", "info")}
-                  className="text-primary-container font-bold hover:underline"
+                  disabled={otpTimer > 0}
+                  onClick={() => {
+                    setOtpTimer(30);
+                    showToast("New OTP sent", "info");
+                  }}
+                  className="text-[#9a55ff] font-bold hover:underline disabled:opacity-50 cursor-pointer"
                 >
-                  Resend Code
+                  Resend OTP
                 </button>
               </div>
 
@@ -725,13 +750,13 @@ export default function SettingsPage() {
                 <button
                   type="button"
                   onClick={() => setOtpModalOpen(false)}
-                  className="px-4 py-2 rounded-lg border border-outline-variant/40 text-on-surface hover:bg-surface-container-low text-xs font-semibold shadow-xs"
+                  className="px-4 py-2 rounded-full border border-outline-variant/30 text-on-surface text-xs font-semibold"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-lg bg-primary-container text-on-primary font-bold text-xs shadow-sm hover:shadow hover:bg-primary transition"
+                  className="btn-gradient-primary text-white font-bold text-xs px-5 py-2 rounded-full shadow-sm"
                 >
                   Verify &amp; Update
                 </button>
@@ -741,7 +766,22 @@ export default function SettingsPage() {
         </div>
       )}
 
-      {/* Remove from DNC Confirmation Modal */}
+      {/* Discard Confirmation Modal */}
+      <ConfirmModal
+        isOpen={discardModalOpen}
+        onClose={() => setDiscardModalOpen(false)}
+        onConfirm={() => {
+          setDiscardModalOpen(false);
+          handleDiscard();
+        }}
+        title="Discard Changes"
+        description="Are you sure you want to discard your unsaved changes? All modified fields will revert to their previous values."
+        confirmText="Discard Changes"
+        variant="warning"
+        icon="history"
+      />
+
+      {/* Remove DNC Confirmation Modal */}
       <ConfirmModal
         isOpen={!!dncToRemove}
         onClose={() => setDncToRemove(null)}
@@ -751,26 +791,11 @@ export default function SettingsPage() {
             setDncToRemove(null);
           }
         }}
-        title="Remove from Do Not Call"
-        description={`Are you sure you want to remove ${dncToRemove?.phone} from the suppression list? This number will become eligible to receive automated order calls again.`}
+        title="Remove from DNC"
+        description={`Are you sure you want to remove ${dncToRemove?.phone} from the suppression list? This number will be eligible to receive automated order confirmation calls.`}
         confirmText="Remove Number"
-        variant="warning"
-        icon="block"
-      />
-
-      {/* Discard Changes Confirmation Modal */}
-      <ConfirmModal
-        isOpen={discardModalOpen}
-        onClose={() => setDiscardModalOpen(false)}
-        onConfirm={() => {
-          setDiscardModalOpen(false);
-          handleDiscard();
-        }}
-        title="Discard Unsaved Changes"
-        description="Are you sure you want to discard your unsaved modifications? All recent settings adjustments will be reset."
-        confirmText="Discard Changes"
-        variant="warning"
-        icon="undo"
+        variant="danger"
+        icon="delete"
       />
     </div>
   );

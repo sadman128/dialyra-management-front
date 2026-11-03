@@ -12,7 +12,7 @@ import { Icon } from "@/components/ui/Icon";
 interface Toast {
   id: string;
   message: string;
-  type: "success" | "info" | "warning";
+  type: "success" | "info" | "warning" | "error";
 }
 
 interface BusinessContextType {
@@ -24,7 +24,7 @@ interface BusinessContextType {
   allCalls: CallRecord[];
   retryCall: (orderId: string) => void;
   topUpBalance: (amount: number) => void;
-  showToast: (message: string, type?: "success" | "info" | "warning") => void;
+  showToast: (message: string, type?: "success" | "info" | "warning" | "error") => void;
 }
 
 const BusinessContext = createContext<BusinessContextType | undefined>(undefined);
@@ -48,7 +48,7 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
 
   const showToast = (
     message: string,
-    type: "success" | "info" | "warning" = "info"
+    type: "success" | "info" | "warning" | "error" = "info"
   ) => {
     const id = `toast-${Date.now()}`;
     setToasts((prev) => [...prev, { id, message, type }]);
@@ -127,6 +127,8 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
                 ? "bg-emerald-900 text-emerald-100 border-emerald-700"
                 : toast.type === "warning"
                 ? "bg-amber-900 text-amber-100 border-amber-700"
+                : toast.type === "error"
+                ? "bg-rose-900 text-rose-100 border-rose-700"
                 : "bg-[#411264] text-white border-purple-500"
             }`}
           >
@@ -135,7 +137,9 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
                 toast.type === "success"
                   ? "check_circle"
                   : toast.type === "warning"
-                  ? "info"
+                  ? "warning"
+                  : toast.type === "error"
+                  ? "error"
                   : "info"
               }
               size={18}

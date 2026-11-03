@@ -2,8 +2,21 @@
 
 import React, { useState } from "react";
 import { useBusiness } from "@/context/BusinessContext";
-import { Icon } from "@/components/ui/Icon";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
+import {
+  Wrench,
+  ChevronRight,
+  PhoneCall,
+  Send,
+  Copy,
+  Trash2,
+  Server,
+  Activity,
+  CheckCircle2,
+  AlertCircle,
+  ChevronDown,
+  Info,
+} from "lucide-react";
 
 export default function TestToolsPage() {
   const { accountBalance, showToast } = useBusiness();
@@ -107,126 +120,132 @@ export default function TestToolsPage() {
   return (
     <div className="flex flex-col w-full space-y-6 pb-16">
       {/* 1. Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2.5">
-            <h1 className="text-xl sm:text-2xl text-on-surface tracking-tight font-bold">
-              Test Tools
-            </h1>
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              Sandbox Active
-            </span>
+          <div className="flex items-center gap-2 text-xs font-semibold text-on-surface-variant/70 mb-1">
+            <span>Dashboard</span>
+            <ChevronRight size={13} />
+            <span className="text-[#9a55ff] font-bold">Test Tools</span>
           </div>
-          <p className="text-xs sm:text-sm text-on-surface-variant mt-0.5 font-medium">
-            Simulate outbound phone calls, verify key responses, and test store webhooks.
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-on-surface flex items-center gap-3">
+            <span className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center text-white shadow-md shadow-purple-500/20">
+              <Wrench size={20} />
+            </span>
+            Telephony &amp; Webhook Diagnostics
+          </h1>
+          <p className="text-sm text-on-surface-variant mt-1 font-medium">
+            Simulate outbound phone calls, verify DTMF responses, and test e-commerce webhook payloads.
           </p>
         </div>
 
         {/* Quick Action Controls */}
         <div className="flex items-center gap-2.5">
+          <span className="badge-inverse-success flex items-center gap-1.5 py-1 px-3 text-xs font-bold rounded-full">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            Sandbox Active
+          </span>
           <button
             onClick={() => setClearConfirmOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-on-surface text-xs sm:text-sm font-bold shadow-xs transition-colors border border-outline-variant/30 active:scale-95 cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-white dark:bg-[#1a1329] hover:bg-surface-container text-on-surface text-xs sm:text-sm font-bold shadow-2xs transition-colors border border-outline-variant/30 active:scale-95 cursor-pointer"
             title="Clear logs"
             type="button"
           >
-            <Icon name="cleaning_services" size={16} className="text-on-surface-variant" />
+            <Trash2 size={14} className="text-rose-500" />
             <span>Clear Logs</span>
           </button>
         </div>
       </div>
 
-      {/* 2. Compact Metrics Strip */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant/30 flex items-center justify-between">
-          <div>
-            <span className="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">
+      {/* 2. Signature Purple React Gradient Metric Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        {/* Metric 1: Voice Trunk */}
+        <div className="card-img-holder bg-gradient-primary text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+          <div className="flex items-center justify-between z-10">
+            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
               Voice Trunk
             </span>
-            <div className="flex items-baseline gap-2 mt-0.5">
-              <span className="text-2xl font-bold text-on-surface">
-                BD-02
-              </span>
-              <span className="text-xs text-on-tertiary-container font-semibold">
-                Online
-              </span>
-            </div>
-            <span className="text-[10px] text-on-surface-variant font-mono">
-              Latency: 18ms · Jitter: 1.2ms
+            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
+              <Server size={18} />
             </span>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-primary-container">
-            <Icon name="dns" size={22} />
+          <div className="mt-4 z-10">
+            <div className="flex items-baseline gap-2">
+              <span className="text-3xl sm:text-4xl font-extrabold tracking-tight">BD-02</span>
+              <span className="text-xs font-bold text-white/80 bg-white/20 px-2.5 py-0.5 rounded-full">
+                Primary
+              </span>
+            </div>
+            <div className="text-xs text-white/90 font-medium mt-1">
+              SIP Trunk · 5 Channels online
+            </div>
           </div>
         </div>
 
-        <div className="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant/30 flex items-center justify-between">
-          <div>
-            <span className="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">
+        {/* Metric 2: Telecom Latency */}
+        <div className="card-img-holder bg-gradient-success text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+          <div className="flex items-center justify-between z-10">
+            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
+              Media Latency
+            </span>
+            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
+              <Activity size={18} />
+            </span>
+          </div>
+          <div className="mt-4 z-10">
+            <div className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+              18ms
+            </div>
+            <div className="text-xs text-white/90 font-medium mt-1">
+              Zero jitter · Local PSTN gateway
+            </div>
+          </div>
+        </div>
+
+        {/* Metric 3: Account Balance */}
+        <div className="card-img-holder bg-gradient-info text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+          <div className="flex items-center justify-between z-10">
+            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
               Account Balance
             </span>
-            <div className="flex items-baseline gap-1.5 mt-0.5">
-              <span className="text-2xl font-bold text-on-surface">
-                ৳ {accountBalance.toFixed(2)}
-              </span>
-              <span className="text-xs text-on-surface-variant font-medium">BDT</span>
+            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
+              ৳
+            </span>
+          </div>
+          <div className="mt-4 z-10">
+            <div className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+              ৳ {accountBalance.toFixed(2)}
             </div>
-            <span className="text-[10px] text-on-surface-variant font-medium">
-              Shared across all businesses
-            </span>
-          </div>
-          <div className="w-10 h-10 rounded-xl bg-secondary-fixed/50 flex items-center justify-center text-on-secondary-fixed-variant">
-            <Icon name="account_balance_wallet" size={22} />
-          </div>
-        </div>
-
-        <div className="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant/30 flex items-center justify-between">
-          <div>
-            <span className="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">
-              Webhook Engine
-            </span>
-            <div className="flex items-baseline gap-2 mt-0.5">
-              <span className="text-2xl font-bold text-on-surface">Ready</span>
-              <span className="text-xs text-on-tertiary-container font-semibold">
-                0 Pending
-              </span>
+            <div className="text-xs text-white/90 font-medium mt-1">
+              Shared telecom balance pool
             </div>
-            <span className="text-[10px] text-on-surface-variant font-mono">
-              Status: Idle · Listening
-            </span>
-          </div>
-          <div className="w-10 h-10 rounded-xl bg-primary-container/10 flex items-center justify-center text-primary-container">
-            <Icon name="webhook" size={22} />
           </div>
         </div>
       </div>
 
-      {/* 3. Main Section: Two Cards Side-by-Side */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-        {/* CARD 1: Manual Outbound Test Call Generator */}
-        <div className="bg-surface-container-lowest rounded-2xl shadow-stitch-card flex flex-col overflow-hidden border border-outline-variant/30">
+      {/* 3. Diagnostic Testing Consoles: 2 Columns */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* CARD 1: Outbound Test Dialing */}
+        <div className="bg-white dark:bg-[#1a1329] rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden flex flex-col">
           {/* Card Header */}
-          <div className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-surface-container-lowest border-b border-surface-container">
+          <div className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-outline-variant/20">
             <div className="space-y-0.5 min-w-0">
               <div className="flex items-center gap-2">
-                <Icon name="phone_in_talk" size={20} className="text-primary-container" />
+                <span className="w-2.5 h-2.5 rounded-full bg-gradient-primary" />
                 <h2 className="text-base sm:text-lg text-on-surface font-bold">
-                  Make a Test Call
+                  Outbound Test Call Simulator
                 </h2>
               </div>
               <p className="text-xs sm:text-sm text-on-surface-variant font-medium">
-                Dial your phone to test voice audio, menu prompts, and key responses.
+                Originate a real phone call to verify TTS voice and DTMF detection.
               </p>
             </div>
-            <span className="shrink-0 flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-container/10 text-primary-container text-xs font-bold self-start sm:self-auto">
-              <Icon name="call_made" size={14} />
-              <span>Outbound Dispatcher</span>
+            <span className="badge-inverse-info shrink-0 self-start sm:self-auto text-xs font-bold">
+              Outbound Dispatcher
             </span>
           </div>
 
           {/* Form Body */}
-          <div className="p-5 flex flex-col gap-4 bg-surface-container-lowest">
+          <div className="p-5 flex flex-col gap-4">
             {/* Field 1: Destination Phone Number */}
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center justify-between">
@@ -237,20 +256,20 @@ export default function TestToolsPage() {
               </div>
               <div className="relative flex items-center">
                 <span className="absolute left-3 text-on-surface-variant flex items-center gap-1 select-none pointer-events-none">
-                  <Icon name="call" size={16} />
-                  <span className="text-xs font-semibold px-1 py-0.5 rounded bg-surface-container text-on-surface">
+                  <PhoneCall size={16} />
+                  <span className="text-xs font-bold px-1.5 py-0.5 rounded-full bg-surface-container text-on-surface">
                     +880
                   </span>
                 </span>
                 <input
                   value={testPhone}
                   onChange={(e) => setTestPhone(e.target.value)}
-                  className="w-full pl-24 pr-3 py-2 rounded-xl bg-surface-container-low text-on-surface text-xs sm:text-sm shadow-xs focus:outline-none focus:ring-2 focus:ring-primary-container/20 transition-all border border-outline-variant/30 font-mono font-bold"
+                  className="w-full pl-24 pr-4 py-2.5 bg-surface-container-low rounded-xl text-sm text-on-surface placeholder:text-on-surface-variant/70 focus:bg-white dark:focus:bg-[#1a1329] focus:outline-none focus:ring-2 focus:ring-[#9a55ff]/20 transition-all border border-outline-variant/30 font-mono font-bold"
                   type="text"
                 />
               </div>
-              <p className="text-[11px] text-on-surface-variant flex items-center gap-1">
-                <Icon name="info" size={13} className="text-primary-container shrink-0" />
+              <p className="text-xs text-on-surface-variant flex items-center gap-1.5">
+                <Info size={13} className="text-[#9a55ff] shrink-0" />
                 <span>Reachable Bangladesh mobile number for live test.</span>
               </p>
             </div>
@@ -261,25 +280,31 @@ export default function TestToolsPage() {
                 <label className="text-xs sm:text-sm text-on-surface font-semibold">
                   Select Call Flow
                 </label>
-                <select
-                  value={testFlow}
-                  onChange={(e) => setTestFlow(e.target.value)}
-                  className="w-full py-2 px-3 rounded-xl bg-surface-container-low text-on-surface text-xs sm:text-sm shadow-xs focus:outline-none focus:ring-2 focus:ring-primary-container/20 transition-all border border-outline-variant/30 font-semibold"
-                >
-                  <option>Order Confirmation Flow (v1.4)</option>
-                  <option>VIP Verification Flow (v2.1)</option>
-                  <option>Grocery Express Flow (v2.1)</option>
-                </select>
+                <div className="relative">
+                  <select
+                    value={testFlow}
+                    onChange={(e) => setTestFlow(e.target.value)}
+                    className="w-full py-2.5 px-3 rounded-xl bg-surface-container-low text-on-surface text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#9a55ff]/20 transition-all border border-outline-variant/30 font-semibold appearance-none pr-8 cursor-pointer"
+                  >
+                    <option>Order Confirmation Flow (v1.4)</option>
+                    <option>VIP Verification Flow (v2.1)</option>
+                    <option>Grocery Express Flow (v2.1)</option>
+                  </select>
+                  <ChevronDown size={15} className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
+                </div>
               </div>
 
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs sm:text-sm text-on-surface font-semibold">
                   Voice Trunk
                 </label>
-                <select className="w-full py-2 px-3 rounded-xl bg-surface-container-low text-on-surface text-xs sm:text-sm shadow-xs focus:outline-none focus:ring-2 focus:ring-primary-container/20 transition-all border border-outline-variant/30 font-semibold">
-                  <option>Trunk #20 (Asterisk Primary)</option>
-                  <option>Trunk #21 (Backup Trunk)</option>
-                </select>
+                <div className="relative">
+                  <select className="w-full py-2.5 px-3 rounded-xl bg-surface-container-low text-on-surface text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#9a55ff]/20 transition-all border border-outline-variant/30 font-semibold appearance-none pr-8 cursor-pointer">
+                    <option>Trunk #20 (Asterisk Primary)</option>
+                    <option>Trunk #21 (Backup Trunk)</option>
+                  </select>
+                  <ChevronDown size={15} className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
+                </div>
               </div>
             </div>
 
@@ -287,29 +312,28 @@ export default function TestToolsPage() {
             <button
               onClick={() => setCallConfirmOpen(true)}
               disabled={calling}
-              className="w-full py-2.5 px-4 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-bold text-xs sm:text-sm transition-all shadow-sm hover:shadow flex items-center justify-center gap-2 mt-1 active:scale-95 cursor-pointer"
+              className="w-full py-3 px-4 rounded-full btn-gradient-primary text-white font-bold text-xs sm:text-sm transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 mt-1 active:scale-95 cursor-pointer"
               type="button"
             >
-              <Icon
-                name="phone_in_talk"
-                size={18}
+              <PhoneCall
+                size={16}
                 className={calling ? "animate-bounce" : ""}
               />
-              <span>{calling ? "Calling..." : "Make Test Call"}</span>
+              <span>{calling ? "Calling Phone..." : "Make Test Call"}</span>
             </button>
 
             {/* Live Console Output */}
             {callProgress.length > 0 && (
-              <div className="p-3.5 rounded-xl bg-inverse-surface text-inverse-on-surface font-mono text-xs space-y-1.5 border border-outline shadow-inner">
-                <div className="flex items-center justify-between pb-1 border-b border-white/10 text-secondary-fixed">
+              <div className="p-3.5 rounded-xl bg-[#0f0c1a] text-purple-100 font-mono text-xs space-y-1.5 border border-purple-900/40 shadow-inner">
+                <div className="flex items-center justify-between pb-1 border-b border-white/10 text-purple-400">
                   <span className="font-bold uppercase tracking-wider text-[11px]">
                     Live Telemetry Console:
                   </span>
-                  <span className="text-[11px] text-surface-variant font-mono">Node-BD-02 :5060</span>
+                  <span className="text-[11px] text-gray-400 font-mono">Node-BD-02 :5060</span>
                 </div>
                 {callProgress.map((line, idx) => (
                   <div key={idx} className="flex items-start gap-1.5">
-                    <span className="text-tertiary-fixed-dim font-bold">➔</span>
+                    <span className="text-emerald-400 font-bold">➔</span>
                     <span>{line}</span>
                   </div>
                 ))}
@@ -319,12 +343,12 @@ export default function TestToolsPage() {
         </div>
 
         {/* CARD 2: Inbound Webhook Simulator */}
-        <div className="bg-surface-container-lowest rounded-2xl shadow-stitch-card flex flex-col overflow-hidden border border-outline-variant/30">
+        <div className="bg-white dark:bg-[#1a1329] rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden flex flex-col">
           {/* Card Header */}
-          <div className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-surface-container-lowest border-b border-surface-container">
+          <div className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-outline-variant/20">
             <div className="space-y-0.5 min-w-0">
               <div className="flex items-center gap-2">
-                <Icon name="webhook" size={20} className="text-primary-container" />
+                <span className="w-2.5 h-2.5 rounded-full bg-gradient-info" />
                 <h2 className="text-base sm:text-lg text-on-surface font-bold">
                   Inbound Webhook Simulator
                 </h2>
@@ -333,13 +357,12 @@ export default function TestToolsPage() {
                 Simulate an order event from WooCommerce or Shopify with signed headers.
               </p>
             </div>
-            <span className="shrink-0 flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-container/15 text-on-tertiary-container text-xs font-semibold self-start sm:self-auto">
-              <Icon name="verified" size={14} />
-              <span>Signed HMAC</span>
+            <span className="badge-inverse-success shrink-0 self-start sm:self-auto text-xs font-bold">
+              Signed HMAC SHA-256
             </span>
           </div>
 
-          <div className="p-5 flex flex-col gap-4 bg-surface-container-lowest">
+          <div className="p-5 flex flex-col gap-4">
             {/* Presets */}
             <div className="flex flex-col gap-1.5">
               <label className="text-xs sm:text-sm text-on-surface font-semibold">
@@ -349,30 +372,44 @@ export default function TestToolsPage() {
                 <button
                   type="button"
                   onClick={() => setWebhookPayload(presetWooCommerce)}
-                  className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-surface-container-low text-on-surface hover:bg-surface-container transition border border-outline-variant/30"
+                  className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-surface-container-low text-on-surface hover:bg-surface-container transition border border-outline-variant/30 cursor-pointer active:scale-95 shadow-2xs"
                 >
                   WooCommerce COD #999
                 </button>
                 <button
                   type="button"
                   onClick={() => setWebhookPayload(presetShopify)}
-                  className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-surface-container-low text-on-surface hover:bg-surface-container transition border border-outline-variant/30"
+                  className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-surface-container-low text-on-surface hover:bg-surface-container transition border border-outline-variant/30 cursor-pointer active:scale-95 shadow-2xs"
                 >
                   Shopify Order #1045
                 </button>
               </div>
             </div>
 
-            {/* JSON Textarea */}
+            {/* JSON Textarea with Secondary Yellow Copy Button */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs sm:text-sm text-on-surface font-semibold">
-                JSON Webhook Payload
-              </label>
+              <div className="flex items-center justify-between">
+                <label className="text-xs sm:text-sm text-on-surface font-semibold">
+                  JSON Webhook Payload
+                </label>
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigator.clipboard.writeText(webhookPayload);
+                    showToast("Webhook payload copied to clipboard", "success");
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400 hover:bg-amber-300 text-gray-950 font-bold text-xs shadow-xs transition active:scale-95 cursor-pointer"
+                  title="Copy JSON Payload"
+                >
+                  <Copy size={13} />
+                  <span>Copy Payload</span>
+                </button>
+              </div>
               <textarea
                 rows={7}
                 value={webhookPayload}
                 onChange={(e) => setWebhookPayload(e.target.value)}
-                className="w-full bg-surface-container-low text-on-surface font-mono text-xs p-3 rounded-xl border border-outline-variant/30 focus:outline-none focus:border-primary-container shadow-xs"
+                className="w-full bg-[#0f0c1a] text-purple-200 font-mono text-xs p-3.5 rounded-xl border border-outline-variant/30 focus:outline-none focus:ring-2 focus:ring-[#9a55ff]/20 shadow-inner leading-relaxed"
               />
             </div>
 
@@ -380,21 +417,21 @@ export default function TestToolsPage() {
             <button
               onClick={handleSendWebhook}
               disabled={webhookLoading}
-              className="w-full py-2.5 px-4 rounded-xl bg-primary-container text-on-primary font-bold text-xs sm:text-sm shadow-sm hover:shadow hover:bg-primary transition-all flex items-center justify-center gap-2 active:scale-95 cursor-pointer"
+              className="w-full py-3 px-4 rounded-full btn-gradient-info text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95 cursor-pointer"
               type="button"
             >
-              <Icon name="send" size={18} />
-              <span>{webhookLoading ? "Ingesting..." : "Send Test Webhook"}</span>
+              <Send size={15} />
+              <span>{webhookLoading ? "Ingesting Webhook..." : "Send Test Webhook"}</span>
             </button>
 
             {/* Response Console */}
             {webhookResponse && (
-              <div className="p-3.5 rounded-xl bg-inverse-surface text-tertiary-fixed font-mono text-xs space-y-1.5 border border-outline shadow-inner">
-                <div className="flex items-center justify-between pb-1 border-b border-white/10 text-on-surface-variant">
+              <div className="p-3.5 rounded-xl bg-[#0f0c1a] text-emerald-300 font-mono text-xs space-y-1.5 border border-emerald-900/40 shadow-inner">
+                <div className="flex items-center justify-between pb-1 border-b border-white/10 text-gray-400">
                   <span className="font-bold uppercase tracking-wider text-[11px]">
                     Response (HTTP 200 OK):
                   </span>
-                  <span className="text-[11px] text-tertiary-fixed-dim font-bold">Latency: 38ms</span>
+                  <span className="text-[11px] text-emerald-400 font-bold font-mono">Latency: 38ms</span>
                 </div>
                 <pre className="overflow-x-auto text-xs leading-relaxed pt-1">
                   {webhookResponse}

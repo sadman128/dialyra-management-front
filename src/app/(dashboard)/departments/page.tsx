@@ -2,8 +2,21 @@
 
 import React, { useState } from "react";
 import { useBusiness } from "@/context/BusinessContext";
-import { Icon } from "@/components/ui/Icon";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
+import {
+  Network,
+  Plus,
+  Edit3,
+  Trash2,
+  Users,
+  Clock,
+  ChevronRight,
+  PhoneCall,
+  RotateCw,
+  BellRing,
+  X,
+  CheckCircle2,
+} from "lucide-react";
 
 interface Department {
   id: string;
@@ -12,11 +25,9 @@ interface Department {
   priority: string;
   strategy: string;
   strategyDesc: string;
-  strategyIcon: string;
   timeout: string;
   fallback: string;
   agentCount: number;
-  agentInitials: string[];
   status: string;
 }
 
@@ -31,11 +42,9 @@ export default function DepartmentsPage() {
       priority: "Priority Inbound",
       strategy: "Round Robin",
       strategyDesc: "Distribute calls evenly",
-      strategyIcon: "autorenew",
       timeout: "30s",
       fallback: "Voicemail",
       agentCount: 3,
-      agentInitials: ["SK", "CR", "AL"],
       status: "Active",
     },
     {
@@ -45,11 +54,9 @@ export default function DepartmentsPage() {
       priority: "Urgent Delivery",
       strategy: "Simultaneous Ring",
       strategyDesc: "Ring all phones together",
-      strategyIcon: "notifications_active",
       timeout: "20s",
       fallback: "Supervisor #103",
       agentCount: 2,
-      agentInitials: ["DL", "MN"],
       status: "Active",
     },
   ]);
@@ -106,12 +113,9 @@ export default function DepartmentsPage() {
         formData.strategy === "Round Robin"
           ? "Distribute calls evenly"
           : "Ring all phones together",
-      strategyIcon:
-        formData.strategy === "Round Robin" ? "autorenew" : "notifications_active",
       timeout: formData.timeout,
       fallback: formData.fallback,
       agentCount: 1,
-      agentInitials: ["AD"],
       status: "Active",
     };
 
@@ -154,76 +158,93 @@ export default function DepartmentsPage() {
   return (
     <div className="flex flex-col w-full space-y-6 pb-16">
       {/* 1. Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl text-on-surface tracking-tight font-bold">
-            Departments
+          <div className="flex items-center gap-2 text-xs font-semibold text-on-surface-variant/70 mb-1">
+            <span>Dashboard</span>
+            <ChevronRight size={13} />
+            <span className="text-[#9a55ff] font-bold">Departments</span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-on-surface flex items-center gap-3">
+            <span className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center text-white shadow-md shadow-purple-500/20">
+              <Network size={20} />
+            </span>
+            Departments &amp; Call Queues
           </h1>
-          <p className="text-xs sm:text-sm text-on-surface-variant mt-0.5 font-medium">
-            Manage call routing queues and agent distribution.
+          <p className="text-sm text-on-surface-variant mt-1 font-medium">
+            Configure ACD call queues, ring strategies, and operator assignments.
           </p>
         </div>
 
         <button
           onClick={handleOpenAdd}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-container text-on-primary font-bold text-xs sm:text-sm shadow-sm hover:shadow hover:bg-primary transition-all active:scale-[0.99] self-start sm:self-auto"
+          className="btn-gradient-primary text-white text-xs sm:text-sm px-4 py-2.5 rounded-full inline-flex items-center gap-2 font-bold shadow-md hover:shadow-lg active:scale-95 transition-all cursor-pointer"
           type="button"
         >
-          <Icon name="add" size={18} />
+          <Plus size={16} />
           <span>Add Department</span>
         </button>
       </div>
 
-      {/* 2. Metrics */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant/30 flex items-center justify-between">
-          <div>
-            <span className="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">
+      {/* 2. Signature Purple React Gradient Metric Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        {/* Metric 1 */}
+        <div className="card-img-holder bg-gradient-primary text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+          <div className="flex items-center justify-between z-10">
+            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
               Active Queues
             </span>
-            <div className="flex items-baseline gap-2 mt-0.5">
-              <span className="text-2xl font-bold text-on-surface">
-                {departments.length}
-              </span>
-              <span className="text-xs text-on-tertiary-container font-semibold">
-                Online
-              </span>
-            </div>
+            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
+              <Network size={18} />
+            </span>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-primary-container">
-            <Icon name="call_split" size={22} />
+          <div className="mt-4 z-10">
+            <div className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+              {departments.length}
+            </div>
+            <div className="text-xs text-white/90 font-medium mt-1">
+              Operational call queues
+            </div>
           </div>
         </div>
 
-        <div className="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant/30 flex items-center justify-between">
-          <div>
-            <span className="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">
+        {/* Metric 2 */}
+        <div className="card-img-holder bg-gradient-success text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+          <div className="flex items-center justify-between z-10">
+            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
               Total Agents
             </span>
-            <div className="flex items-baseline gap-1.5 mt-0.5">
-              <span className="text-2xl font-bold text-on-surface">
-                {departments.reduce((acc, d) => acc + d.agentCount, 0)}
-              </span>
-              <span className="text-xs text-on-surface-variant font-medium">Assigned</span>
-            </div>
+            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
+              <Users size={18} />
+            </span>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-secondary">
-            <Icon name="support_agent" size={22} />
+          <div className="mt-4 z-10">
+            <div className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+              {departments.reduce((acc, d) => acc + d.agentCount, 0)}
+            </div>
+            <div className="text-xs text-white/90 font-medium mt-1">
+              Live human supervisors &amp; reps
+            </div>
           </div>
         </div>
 
-        <div className="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant/30 flex items-center justify-between">
-          <div>
-            <span className="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">
-              Default Timeout
+        {/* Metric 3 */}
+        <div className="card-img-holder bg-gradient-info text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+          <div className="flex items-center justify-between z-10">
+            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
+              Average Timeout
             </span>
-            <div className="flex items-baseline gap-1.5 mt-0.5">
-              <span className="text-2xl font-bold text-on-surface">25s</span>
-              <span className="text-xs text-on-surface-variant font-medium">Average</span>
-            </div>
+            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
+              <Clock size={18} />
+            </span>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant">
-            <Icon name="timer" size={22} />
+          <div className="mt-4 z-10">
+            <div className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+              25s
+            </div>
+            <div className="text-xs text-white/90 font-medium mt-1">
+              Automated fallback
+            </div>
           </div>
         </div>
       </div>
@@ -233,90 +254,89 @@ export default function DepartmentsPage() {
         {departments.map((dept) => (
           <div
             key={dept.id}
-            className="bg-surface-container-lowest rounded-2xl p-5 shadow-stitch-card border border-outline-variant/30 flex flex-col justify-between space-y-4"
+            className="bg-white dark:bg-[#1a1329] rounded-2xl p-6 border border-outline-variant/30 shadow-sm flex flex-col justify-between space-y-4 transition-all"
           >
-            <div className="space-y-3">
+            <div className="space-y-4">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-primary-container/15 text-primary-container flex items-center justify-center font-bold shrink-0">
-                    <Icon name={dept.strategyIcon} size={22} />
+                  <div className="w-10 h-10 rounded-xl bg-purple-500/10 text-[#9a55ff] border border-purple-500/20 flex items-center justify-center font-bold shrink-0 shadow-2xs">
+                    {dept.strategy === "Round Robin" ? (
+                      <RotateCw size={20} />
+                    ) : (
+                      <BellRing size={20} />
+                    )}
                   </div>
                   <div>
-                    <h3 className="font-bold text-base text-on-surface">
+                    <h3 className="font-bold text-base sm:text-lg text-on-surface">
                       {dept.name}
                     </h3>
-                    <span className="text-xs font-mono text-outline">
+                    <span className="text-xs font-mono text-on-surface-variant font-medium">
                       Queue #{dept.queueNumber} · {dept.priority}
                     </span>
                   </div>
                 </div>
 
-                <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                <span className="badge-inverse-success text-xs font-bold">
                   {dept.status}
                 </span>
               </div>
 
               {/* Routing Strategy & Timeout details */}
-              <div className="grid grid-cols-2 gap-2.5 p-3 rounded-xl bg-surface-container-low/70 border border-outline-variant/20 text-xs">
+              <div className="grid grid-cols-2 gap-3 p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/20 text-xs sm:text-sm">
                 <div>
-                  <span className="text-outline uppercase text-[10px] font-bold tracking-wider block">
+                  <span className="text-on-surface-variant uppercase text-[10px] font-bold tracking-wider block">
                     Strategy
                   </span>
-                  <span className="font-semibold text-on-surface">
+                  <span className="font-bold text-on-surface">
                     {dept.strategy}
                   </span>
-                  <span className="text-[11px] text-on-surface-variant block mt-0.5">
+                  <span className="text-xs text-on-surface-variant block mt-0.5">
                     {dept.strategyDesc}
                   </span>
                 </div>
                 <div>
-                  <span className="text-outline uppercase text-[10px] font-bold tracking-wider block">
+                  <span className="text-on-surface-variant uppercase text-[10px] font-bold tracking-wider block">
                     Timeout &amp; Fallback
                   </span>
-                  <span className="font-semibold text-on-surface">
+                  <span className="font-bold text-on-surface">
                     {dept.timeout}
                   </span>
-                  <span className="text-[11px] text-on-surface-variant block mt-0.5">
+                  <span className="text-xs text-on-surface-variant block mt-0.5">
                     Fallback: {dept.fallback}
                   </span>
                 </div>
               </div>
 
-              {/* Assigned Agents */}
-              <div className="flex items-center justify-between pt-1 text-xs">
-                <span className="text-on-surface-variant font-medium">
-                  {dept.agentCount} Agents Assigned
+              {/* Assigned Agents (Clean text, no circle initials as requested) */}
+              <div className="flex items-center justify-between pt-1 text-xs sm:text-sm">
+                <span className="text-on-surface-variant font-semibold flex items-center gap-1.5">
+                  <Users size={16} className="text-[#9a55ff]" />
+                  <span>{dept.agentCount} Agents Assigned</span>
                 </span>
-                <div className="flex -space-x-1.5">
-                  {dept.agentInitials.map((init, i) => (
-                    <div
-                      key={i}
-                      className="w-7 h-7 rounded-full bg-primary-container text-on-primary text-[11px] font-bold flex items-center justify-center border-2 border-surface-container-lowest shadow-xs"
-                    >
-                      {init}
-                    </div>
-                  ))}
-                </div>
+                <span className="text-xs text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-full">
+                  Queue Active
+                </span>
               </div>
             </div>
 
-            {/* Actions */}
-            <div className="pt-3 border-t border-surface-container flex items-center justify-end gap-2">
+            {/* Actions: Edit + Red Delete Button with Trash icon & 'Delete' text */}
+            <div className="pt-3 border-t border-outline-variant/20 flex items-center justify-end gap-2.5">
               <button
                 onClick={() => handleOpenEdit(dept)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-bold shadow-xs hover:shadow transition-all"
+                className="btn-gradient-primary text-white text-xs px-4 py-1.5 rounded-full inline-flex items-center gap-1.5 font-bold shadow-2xs hover:shadow active:scale-95 transition-all cursor-pointer"
                 type="button"
               >
-                <Icon name="edit" size={15} />
+                <Edit3 size={13} />
                 <span>Edit</span>
               </button>
               <button
                 onClick={() => setDeptToDelete(dept)}
-                className="p-1.5 rounded-xl text-outline hover:text-error hover:bg-error-container/20 shadow-xs transition-colors"
+                className="px-3.5 py-1.5 rounded-full bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30 text-xs font-bold inline-flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-2xs"
                 title="Delete Department"
                 type="button"
               >
-                <Icon name="delete" size={16} />
+                <Trash2 size={13} className="text-rose-600 dark:text-rose-400" />
+                <span>Delete</span>
               </button>
             </div>
           </div>
@@ -326,104 +346,95 @@ export default function DepartmentsPage() {
       {/* Add Department Modal */}
       {addModalOpen && (
         <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-          <div className="bg-surface-container-lowest rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
-            <div className="flex items-center justify-between border-b border-surface-container pb-3">
-              <h3 className="text-base sm:text-lg font-bold text-on-surface">
+          <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
+            <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
+              <h3 className="text-lg font-bold text-on-surface">
                 Add Department
               </h3>
               <button
                 onClick={() => setAddModalOpen(false)}
-                className="text-on-surface-variant hover:text-on-surface"
+                className="p-1 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container"
               >
-                <Icon name="close" size={20} />
+                <X size={18} />
               </button>
             </div>
 
-            <form onSubmit={handleSaveAdd} className="space-y-4 text-xs sm:text-sm">
+            <form onSubmit={handleSaveAdd} className="space-y-4">
               <div>
-                <label className="block text-on-surface font-semibold mb-1">
+                <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
                   Department Name
                 </label>
                 <input
-                  type="text"
-                  required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="e.g. Sales & Support"
-                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-semibold text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
+                  placeholder="e.g., Billing & Returns"
+                  required
+                  className="w-full bg-surface-container-low px-3.5 py-2 rounded-xl text-sm border border-outline-variant/30 focus:outline-none focus:border-[#9a55ff]"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-on-surface font-semibold mb-1">
+                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
                     Queue Number
                   </label>
                   <input
-                    type="text"
-                    required
                     value={formData.queueNumber}
                     onChange={(e) => setFormData({ ...formData, queueNumber: e.target.value })}
-                    className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-mono text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
+                    className="w-full bg-surface-container-low px-3.5 py-2 rounded-xl text-sm font-mono border border-outline-variant/30 focus:outline-none focus:border-[#9a55ff]"
                   />
                 </div>
                 <div>
-                  <label className="block text-on-surface font-semibold mb-1">
+                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+                    Ring Strategy
+                  </label>
+                  <select
+                    value={formData.strategy}
+                    onChange={(e) => setFormData({ ...formData, strategy: e.target.value })}
+                    className="w-full bg-surface-container-low px-3 py-2 rounded-xl text-sm border border-outline-variant/30 focus:outline-none focus:border-[#9a55ff]"
+                  >
+                    <option>Round Robin</option>
+                    <option>Simultaneous Ring</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
                     Timeout
                   </label>
                   <input
-                    type="text"
                     value={formData.timeout}
                     onChange={(e) => setFormData({ ...formData, timeout: e.target.value })}
-                    className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-mono text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
+                    className="w-full bg-surface-container-low px-3.5 py-2 rounded-xl text-sm border border-outline-variant/30 focus:outline-none focus:border-[#9a55ff]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+                    Fallback Action
+                  </label>
+                  <input
+                    value={formData.fallback}
+                    onChange={(e) => setFormData({ ...formData, fallback: e.target.value })}
+                    className="w-full bg-surface-container-low px-3.5 py-2 rounded-xl text-sm border border-outline-variant/30 focus:outline-none focus:border-[#9a55ff]"
                   />
                 </div>
               </div>
 
-              <div>
-                <label className="block text-on-surface font-semibold mb-1">
-                  Routing Strategy
-                </label>
-                <div className="relative">
-                  <select
-                    value={formData.strategy}
-                    onChange={(e) => setFormData({ ...formData, strategy: e.target.value })}
-                    className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-semibold text-on-surface focus:outline-none focus:border-primary-container appearance-none pr-8 shadow-xs"
-                  >
-                    <option value="Round Robin">Round Robin (Distribute evenly)</option>
-                    <option value="Simultaneous Ring">Simultaneous Ring (Ring all phones)</option>
-                    <option value="Least Busy">Least Busy (Route to idle agent)</option>
-                  </select>
-                  <Icon name="arrow_drop_down" size={20} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-on-surface font-semibold mb-1">
-                  Fallback Destination
-                </label>
-                <input
-                  type="text"
-                  value={formData.fallback}
-                  onChange={(e) => setFormData({ ...formData, fallback: e.target.value })}
-                  placeholder="e.g. Voicemail or Supervisor #103"
-                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-semibold text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
-                />
-              </div>
-
-              <div className="pt-2 flex justify-end gap-2">
+              <div className="pt-2 flex items-center justify-end gap-2.5">
                 <button
                   type="button"
                   onClick={() => setAddModalOpen(false)}
-                  className="px-4 py-2 rounded-lg border border-outline-variant/40 text-on-surface hover:bg-surface-container-low font-semibold shadow-xs"
+                  className="px-4 py-2 rounded-full text-xs font-semibold text-on-surface-variant hover:bg-surface-container transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-lg bg-primary-container text-on-primary font-bold shadow-sm hover:shadow hover:bg-primary transition"
+                  className="btn-gradient-primary px-5 py-2 rounded-full text-xs font-bold text-white shadow-sm"
                 >
-                  Create
+                  Save Department
                 </button>
               </div>
             </form>
@@ -434,100 +445,92 @@ export default function DepartmentsPage() {
       {/* Edit Department Modal */}
       {editModalOpen && (
         <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-          <div className="bg-surface-container-lowest rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
-            <div className="flex items-center justify-between border-b border-surface-container pb-3">
-              <h3 className="text-base sm:text-lg font-bold text-on-surface">
+          <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
+            <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
+              <h3 className="text-lg font-bold text-on-surface">
                 Edit Department
               </h3>
               <button
                 onClick={() => setEditModalOpen(false)}
-                className="text-on-surface-variant hover:text-on-surface"
+                className="p-1 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container"
               >
-                <Icon name="close" size={20} />
+                <X size={18} />
               </button>
             </div>
 
-            <form onSubmit={handleSaveEdit} className="space-y-4 text-xs sm:text-sm">
+            <form onSubmit={handleSaveEdit} className="space-y-4">
               <div>
-                <label className="block text-on-surface font-semibold mb-1">
+                <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
                   Department Name
                 </label>
                 <input
-                  type="text"
-                  required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-semibold text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
+                  required
+                  className="w-full bg-surface-container-low px-3.5 py-2 rounded-xl text-sm border border-outline-variant/30 focus:outline-none focus:border-[#9a55ff]"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-on-surface font-semibold mb-1">
+                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
                     Queue Number
                   </label>
                   <input
-                    type="text"
-                    required
                     value={formData.queueNumber}
                     onChange={(e) => setFormData({ ...formData, queueNumber: e.target.value })}
-                    className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-mono text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
+                    className="w-full bg-surface-container-low px-3.5 py-2 rounded-xl text-sm font-mono border border-outline-variant/30 focus:outline-none focus:border-[#9a55ff]"
                   />
                 </div>
                 <div>
-                  <label className="block text-on-surface font-semibold mb-1">
+                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+                    Ring Strategy
+                  </label>
+                  <select
+                    value={formData.strategy}
+                    onChange={(e) => setFormData({ ...formData, strategy: e.target.value })}
+                    className="w-full bg-surface-container-low px-3 py-2 rounded-xl text-sm border border-outline-variant/30 focus:outline-none focus:border-[#9a55ff]"
+                  >
+                    <option>Round Robin</option>
+                    <option>Simultaneous Ring</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
                     Timeout
                   </label>
                   <input
-                    type="text"
                     value={formData.timeout}
                     onChange={(e) => setFormData({ ...formData, timeout: e.target.value })}
-                    className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-mono text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
+                    className="w-full bg-surface-container-low px-3.5 py-2 rounded-xl text-sm border border-outline-variant/30 focus:outline-none focus:border-[#9a55ff]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+                    Fallback Action
+                  </label>
+                  <input
+                    value={formData.fallback}
+                    onChange={(e) => setFormData({ ...formData, fallback: e.target.value })}
+                    className="w-full bg-surface-container-low px-3.5 py-2 rounded-xl text-sm border border-outline-variant/30 focus:outline-none focus:border-[#9a55ff]"
                   />
                 </div>
               </div>
 
-              <div>
-                <label className="block text-on-surface font-semibold mb-1">
-                  Routing Strategy
-                </label>
-                <div className="relative">
-                  <select
-                    value={formData.strategy}
-                    onChange={(e) => setFormData({ ...formData, strategy: e.target.value })}
-                    className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-semibold text-on-surface focus:outline-none focus:border-primary-container appearance-none pr-8 shadow-xs"
-                  >
-                    <option value="Round Robin">Round Robin (Distribute evenly)</option>
-                    <option value="Simultaneous Ring">Simultaneous Ring (Ring all phones)</option>
-                    <option value="Least Busy">Least Busy (Route to idle agent)</option>
-                  </select>
-                  <Icon name="arrow_drop_down" size={20} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-on-surface font-semibold mb-1">
-                  Fallback Destination
-                </label>
-                <input
-                  type="text"
-                  value={formData.fallback}
-                  onChange={(e) => setFormData({ ...formData, fallback: e.target.value })}
-                  className="w-full bg-surface-container-low border border-outline-variant/40 rounded-lg p-2.5 font-semibold text-on-surface focus:outline-none focus:border-primary-container shadow-xs"
-                />
-              </div>
-
-              <div className="pt-2 flex justify-end gap-2">
+              <div className="pt-2 flex items-center justify-end gap-2.5">
                 <button
                   type="button"
                   onClick={() => setEditModalOpen(false)}
-                  className="px-4 py-2 rounded-lg border border-outline-variant/40 text-on-surface hover:bg-surface-container-low font-semibold shadow-xs"
+                  className="px-4 py-2 rounded-full text-xs font-semibold text-on-surface-variant hover:bg-surface-container transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-lg bg-primary-container text-on-primary font-bold shadow-sm hover:shadow hover:bg-primary transition"
+                  className="btn-gradient-primary px-5 py-2 rounded-full text-xs font-bold text-white shadow-sm"
                 >
                   Save Changes
                 </button>
@@ -537,7 +540,7 @@ export default function DepartmentsPage() {
         </div>
       )}
 
-      {/* Delete Department Confirmation Modal */}
+      {/* Delete Confirmation Modal */}
       <ConfirmModal
         isOpen={!!deptToDelete}
         onClose={() => setDeptToDelete(null)}
@@ -548,7 +551,7 @@ export default function DepartmentsPage() {
           }
         }}
         title="Delete Department"
-        description={`Are you sure you want to delete "${deptToDelete?.name}" (Queue #${deptToDelete?.queueNumber})? Inbound calls will no longer route to this team.`}
+        description={`Are you sure you want to delete "${deptToDelete?.name}"? Calls to Queue #${deptToDelete?.queueNumber} will no longer be routed.`}
         confirmText="Delete Department"
         variant="danger"
         icon="delete"
