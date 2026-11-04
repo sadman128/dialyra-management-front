@@ -75,6 +75,26 @@ export default function ExtensionsPage() {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [extToDelete, setExtToDelete] = useState<Extension | null>(null);
 
+  // Close modals on focus loss or Escape
+  React.useEffect(() => {
+    const handleBlur = () => {
+      setCreateModalOpen(false);
+      setExtToDelete(null);
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setCreateModalOpen(false);
+        setExtToDelete(null);
+      }
+    };
+    window.addEventListener("blur", handleBlur);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("blur", handleBlur);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   const [formData, setFormData] = useState({
     number: "104",
     type: "Agent" as "Agent" | "Department",
@@ -129,7 +149,7 @@ export default function ExtensionsPage() {
             Extensions
           </h1>
           <p className="text-sm text-on-surface-variant mt-1 font-medium">
-            Internal 3-digit and 4-digit routing numbers assigned to agents and ACD queues.
+            Internal routing numbers for agents and queues.
           </p>
         </div>
 
@@ -143,61 +163,52 @@ export default function ExtensionsPage() {
         </button>
       </div>
 
-      {/* 2. Signature Purple React Gradient Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div className="card-img-holder bg-gradient-primary text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+      {/* 2. Signature Purple React Gradient Metric Cards (Compact height, subtle text shadow) */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-3 [&>*:last-child]:col-span-2 md:[&>*:last-child]:col-span-1">
+        <div className="card-img-holder bg-gradient-primary text-gray-900 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg shadow-sm shadow-purple-500/20 relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-900/80 text-subtle-shadow">
               Total Extensions
             </span>
-            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
-              <PhoneCall size={18} />
+            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-black/10 flex items-center justify-center text-gray-900/80">
+              <PhoneCall size={14} />
             </span>
           </div>
-          <div className="mt-4 z-10">
-            <div className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+          <div className="mt-1 z-10">
+            <div className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">
               {extensions.length}
             </div>
-            <div className="text-xs text-white/90 font-medium mt-1">
-              Active dialplan endpoints
-            </div>
           </div>
         </div>
 
-        <div className="card-img-holder bg-gradient-success text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+        <div className="card-img-holder bg-gradient-success text-gray-900 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg shadow-sm shadow-emerald-500/20 relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-900/80 text-subtle-shadow">
               Agent Direct Lines
             </span>
-            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
-              <Users size={18} />
+            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-black/10 flex items-center justify-center text-gray-900/80">
+              <Users size={14} />
             </span>
           </div>
-          <div className="mt-4 z-10">
-            <div className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+          <div className="mt-1 z-10">
+            <div className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">
               {agentCount}
-            </div>
-            <div className="text-xs text-white/90 font-medium mt-1">
-              Direct SIP extensions
             </div>
           </div>
         </div>
 
-        <div className="card-img-holder bg-gradient-info text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+        <div className="card-img-holder bg-gradient-info text-gray-900 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg shadow-sm shadow-blue-500/20 relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-900/80 text-subtle-shadow">
               ACD Queue Numbers
             </span>
-            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
-              <Network size={18} />
+            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-black/10 flex items-center justify-center text-gray-900/80">
+              <Network size={14} />
             </span>
           </div>
-          <div className="mt-4 z-10">
-            <div className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+          <div className="mt-1 z-10">
+            <div className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">
               {deptCount}
-            </div>
-            <div className="text-xs text-white/90 font-medium mt-1">
-              Hunt group &amp; IVR queues
             </div>
           </div>
         </div>
@@ -261,9 +272,9 @@ export default function ExtensionsPage() {
                     {ext.protocol}
                   </td>
                   <td className="py-4 px-5">
-                    <span className="badge-inverse-success text-xs font-bold">
+                    <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-500">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                      {ext.status}
+                      <span>{ext.status}</span>
                     </span>
                   </td>
                   <td className="py-4 px-5 text-right">
@@ -286,7 +297,12 @@ export default function ExtensionsPage() {
 
       {/* Create Extension Modal */}
       {createModalOpen && (
-        <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+        <div
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setCreateModalOpen(false);
+          }}
+          className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4"
+        >
           <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
             <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
               <h3 className="text-lg font-bold text-on-surface">

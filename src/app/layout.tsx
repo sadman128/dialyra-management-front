@@ -5,7 +5,7 @@ import { BusinessProvider } from "@/context/BusinessContext";
 
 export const metadata: Metadata = {
   title: "Dialyra Management",
-  description: "Autonomous Telephony Engine, IVR Call Flows & Multi-Tenant Storefront Middleware",
+  description: "Autonomous Telephony Engine, Call Flows & Multi-Tenant Storefront Middleware",
 };
 
 export default function RootLayout({

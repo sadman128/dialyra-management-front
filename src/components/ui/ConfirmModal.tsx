@@ -34,13 +34,20 @@ export function ConfirmModal({
         onClose();
       }
     };
+    const handleBlur = () => {
+      if (isOpen && !isLoading) {
+        onClose();
+      }
+    };
     if (isOpen) {
       document.body.style.overflow = "hidden";
       window.addEventListener("keydown", handleKeyDown);
+      window.addEventListener("blur", handleBlur);
     }
     return () => {
       document.body.style.overflow = "unset";
       window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("blur", handleBlur);
     };
   }, [isOpen, isLoading, onClose]);
 

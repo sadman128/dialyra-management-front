@@ -11,6 +11,7 @@ import {
   Users,
   Clock,
   ChevronRight,
+  ChevronDown,
   PhoneCall,
   RotateCw,
   BellRing,
@@ -66,6 +67,36 @@ export default function DepartmentsPage() {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedDept, setSelectedDept] = useState<Department | null>(null);
   const [deptToDelete, setDeptToDelete] = useState<Department | null>(null);
+  const [expandedDeptIds, setExpandedDeptIds] = useState<Record<string, boolean>>({});
+
+  const toggleExpand = (deptId: string) => {
+    setExpandedDeptIds((prev) => ({
+      ...prev,
+      [deptId]: !prev[deptId],
+    }));
+  };
+
+  // Close modals on focus loss or Escape
+  React.useEffect(() => {
+    const handleBlur = () => {
+      setAddModalOpen(false);
+      setEditModalOpen(false);
+      setDeptToDelete(null);
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setAddModalOpen(false);
+        setEditModalOpen(false);
+        setDeptToDelete(null);
+      }
+    };
+    window.addEventListener("blur", handleBlur);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("blur", handleBlur);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   // Form states
   const [formData, setFormData] = useState({
@@ -169,10 +200,10 @@ export default function DepartmentsPage() {
             <span className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center text-white shadow-md shadow-purple-500/20">
               <Network size={20} />
             </span>
-            Departments &amp; Call Queues
+            Departments
           </h1>
           <p className="text-sm text-on-surface-variant mt-1 font-medium">
-            Configure ACD call queues, ring strategies, and operator assignments.
+            Configure departments, queues, and operator assignments.
           </p>
         </div>
 
@@ -186,166 +217,229 @@ export default function DepartmentsPage() {
         </button>
       </div>
 
-      {/* 2. Signature Purple React Gradient Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+      {/* 2. Signature Purple React Gradient Metric Cards (Compact height, subtle text shadow) */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-3 [&>*:last-child]:col-span-2 md:[&>*:last-child]:col-span-1">
         {/* Metric 1 */}
-        <div className="card-img-holder bg-gradient-primary text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+        <div className="card-img-holder bg-gradient-primary text-gray-900 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg shadow-sm shadow-purple-500/20 relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-900/80 text-subtle-shadow">
               Active Queues
             </span>
-            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
-              <Network size={18} />
+            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-black/10 flex items-center justify-center text-gray-900/80">
+              <Network size={14} />
             </span>
           </div>
-          <div className="mt-4 z-10">
-            <div className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+          <div className="mt-1 z-10">
+            <div className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">
               {departments.length}
-            </div>
-            <div className="text-xs text-white/90 font-medium mt-1">
-              Operational call queues
             </div>
           </div>
         </div>
 
         {/* Metric 2 */}
-        <div className="card-img-holder bg-gradient-success text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+        <div className="card-img-holder bg-gradient-success text-gray-900 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg shadow-sm shadow-emerald-500/20 relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-900/80 text-subtle-shadow">
               Total Agents
             </span>
-            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
-              <Users size={18} />
+            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-black/10 flex items-center justify-center text-gray-900/80">
+              <Users size={14} />
             </span>
           </div>
-          <div className="mt-4 z-10">
-            <div className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+          <div className="mt-1 z-10">
+            <div className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">
               {departments.reduce((acc, d) => acc + d.agentCount, 0)}
-            </div>
-            <div className="text-xs text-white/90 font-medium mt-1">
-              Live human supervisors &amp; reps
             </div>
           </div>
         </div>
 
         {/* Metric 3 */}
-        <div className="card-img-holder bg-gradient-info text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+        <div className="card-img-holder bg-gradient-info text-gray-900 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg shadow-sm shadow-blue-500/20 relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-900/80 text-subtle-shadow">
               Average Timeout
             </span>
-            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
-              <Clock size={18} />
+            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-black/10 flex items-center justify-center text-gray-900/80">
+              <Clock size={14} />
             </span>
           </div>
-          <div className="mt-4 z-10">
-            <div className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+          <div className="mt-1 z-10">
+            <div className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">
               25s
-            </div>
-            <div className="text-xs text-white/90 font-medium mt-1">
-              Automated fallback
             </div>
           </div>
         </div>
       </div>
 
-      {/* 3. Department Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {departments.map((dept) => (
-          <div
-            key={dept.id}
-            className="bg-white dark:bg-[#1a1329] rounded-2xl p-6 border border-outline-variant/30 shadow-sm flex flex-col justify-between space-y-4 transition-all"
-          >
-            <div className="space-y-4">
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-purple-500/10 text-[#9a55ff] border border-purple-500/20 flex items-center justify-center font-bold shrink-0 shadow-2xs">
-                    {dept.strategy === "Round Robin" ? (
-                      <RotateCw size={20} />
-                    ) : (
-                      <BellRing size={20} />
-                    )}
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-base sm:text-lg text-on-surface">
-                      {dept.name}
-                    </h3>
-                    <span className="text-xs font-mono text-on-surface-variant font-medium">
-                      Queue #{dept.queueNumber} · {dept.priority}
-                    </span>
-                  </div>
-                </div>
+      {/* 3. Departments Table with Expandable Details */}
+      <div className="bg-white dark:bg-[#1a1329] rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse" style={{ minWidth: "750px" }}>
+            <thead>
+              <tr className="bg-surface-container-low/80 text-on-surface text-xs font-bold uppercase tracking-wider border-b border-outline-variant/20">
+                <th className="w-12 px-4 py-3.5 text-center"></th>
+                <th className="px-5 py-3.5">Department</th>
+                <th className="px-5 py-3.5">Queue Number</th>
+                <th className="px-5 py-3.5">Strategy</th>
+                <th className="px-5 py-3.5">Agents</th>
+                <th className="px-5 py-3.5">Status</th>
+                <th className="px-5 py-3.5 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-outline-variant/15 text-sm text-on-surface">
+              {departments.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="py-8 text-center text-on-surface-variant text-sm font-medium">
+                    No departments found.
+                  </td>
+                </tr>
+              ) : (
+                departments.map((dept) => {
+                  const isExpanded = !!expandedDeptIds[dept.id];
+                  return (
+                    <React.Fragment key={dept.id}>
+                      {/* Summary Row */}
+                      <tr
+                        onClick={() => toggleExpand(dept.id)}
+                        className="hover:bg-purple-500/[0.04] transition-colors cursor-pointer group"
+                      >
+                        <td className="px-4 py-3.5 text-center">
+                          <button
+                            className="w-6 h-6 rounded-full bg-surface-container-low text-on-surface-variant hover:text-[#9a55ff] flex items-center justify-center transition-transform"
+                            type="button"
+                            aria-label="Toggle details"
+                          >
+                            <ChevronDown
+                              size={15}
+                              className={`transition-transform duration-200 ${
+                                isExpanded ? "rotate-0" : "-rotate-90"
+                              }`}
+                            />
+                          </button>
+                        </td>
 
-                <span className="badge-inverse-success text-xs font-bold">
-                  {dept.status}
-                </span>
-              </div>
+                        <td className="px-5 py-3.5">
+                          <div className="flex items-center gap-2.5">
+                            <div className="w-8 h-8 rounded-lg bg-purple-500/10 text-[#9a55ff] flex items-center justify-center shrink-0">
+                              {dept.strategy === "Round Robin" ? (
+                                <RotateCw size={16} />
+                              ) : (
+                                <BellRing size={16} />
+                              )}
+                            </div>
+                            <span className="font-bold text-sm text-on-surface group-hover:text-[#9a55ff] transition-colors">
+                              {dept.name}
+                            </span>
+                          </div>
+                        </td>
 
-              {/* Routing Strategy & Timeout details */}
-              <div className="grid grid-cols-2 gap-3 p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/20 text-xs sm:text-sm">
-                <div>
-                  <span className="text-on-surface-variant uppercase text-[10px] font-bold tracking-wider block">
-                    Strategy
-                  </span>
-                  <span className="font-bold text-on-surface">
-                    {dept.strategy}
-                  </span>
-                  <span className="text-xs text-on-surface-variant block mt-0.5">
-                    {dept.strategyDesc}
-                  </span>
-                </div>
-                <div>
-                  <span className="text-on-surface-variant uppercase text-[10px] font-bold tracking-wider block">
-                    Timeout &amp; Fallback
-                  </span>
-                  <span className="font-bold text-on-surface">
-                    {dept.timeout}
-                  </span>
-                  <span className="text-xs text-on-surface-variant block mt-0.5">
-                    Fallback: {dept.fallback}
-                  </span>
-                </div>
-              </div>
+                        <td className="px-5 py-3.5">
+                          <span className="font-mono text-xs sm:text-sm font-bold text-[#9a55ff] dark:text-[#da8cff]">
+                            #{dept.queueNumber}
+                          </span>
+                        </td>
 
-              {/* Assigned Agents (Clean text, no circle initials as requested) */}
-              <div className="flex items-center justify-between pt-1 text-xs sm:text-sm">
-                <span className="text-on-surface-variant font-semibold flex items-center gap-1.5">
-                  <Users size={16} className="text-[#9a55ff]" />
-                  <span>{dept.agentCount} Agents Assigned</span>
-                </span>
-                <span className="text-xs text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-full">
-                  Queue Active
-                </span>
-              </div>
-            </div>
+                        <td className="px-5 py-3.5">
+                          <span className="font-mono text-xs px-2.5 py-1 rounded-full bg-surface-container-low border border-outline-variant/30 text-on-surface font-medium">
+                            {dept.strategy}
+                          </span>
+                        </td>
 
-            {/* Actions: Edit + Red Delete Button with Trash icon & 'Delete' text */}
-            <div className="pt-3 border-t border-outline-variant/20 flex items-center justify-end gap-2.5">
-              <button
-                onClick={() => handleOpenEdit(dept)}
-                className="btn-gradient-primary text-white text-xs px-4 py-1.5 rounded-full inline-flex items-center gap-1.5 font-bold shadow-2xs hover:shadow active:scale-95 transition-all cursor-pointer"
-                type="button"
-              >
-                <Edit3 size={13} />
-                <span>Edit</span>
-              </button>
-              <button
-                onClick={() => setDeptToDelete(dept)}
-                className="px-3.5 py-1.5 rounded-full bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30 text-xs font-bold inline-flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-2xs"
-                title="Delete Department"
-                type="button"
-              >
-                <Trash2 size={13} className="text-rose-600 dark:text-rose-400" />
-                <span>Delete</span>
-              </button>
-            </div>
-          </div>
-        ))}
+                        <td className="px-5 py-3.5 font-medium text-xs sm:text-sm text-on-surface">
+                          {dept.agentCount} {dept.agentCount === 1 ? "Agent" : "Agents"}
+                        </td>
+
+                        <td className="px-5 py-3.5">
+                          <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-500 select-none">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                            <span>{dept.status}</span>
+                          </span>
+                        </td>
+
+                        <td className="px-5 py-3.5 text-right" onClick={(e) => e.stopPropagation()}>
+                          <div className="flex items-center justify-end gap-2">
+                            <button
+                              onClick={() => handleOpenEdit(dept)}
+                              className="px-3 py-1 rounded-full btn-gradient-primary text-white text-xs font-bold shadow-2xs hover:shadow active:scale-95 transition-all cursor-pointer inline-flex items-center gap-1"
+                              type="button"
+                            >
+                              <Edit3 size={12} />
+                              <span>Edit</span>
+                            </button>
+                            <button
+                              onClick={() => setDeptToDelete(dept)}
+                              className="px-2.5 py-1 rounded-full bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30 text-xs font-bold inline-flex items-center gap-1 transition-all active:scale-95 cursor-pointer shadow-2xs"
+                              title="Delete Department"
+                              type="button"
+                            >
+                              <Trash2 size={12} />
+                              <span>Delete</span>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+
+                      {/* Expanded Details Row */}
+                      {isExpanded && (
+                        <tr className="bg-surface-container-low/40">
+                          <td colSpan={7} className="px-6 py-4 border-t border-outline-variant/15">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-4xl">
+                              <div className="p-3 rounded-xl bg-white dark:bg-[#1a1329] border border-outline-variant/30 shadow-2xs">
+                                <span className="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider block">
+                                  Strategy Details
+                                </span>
+                                <span className="text-xs sm:text-sm font-bold text-on-surface block mt-0.5">
+                                  {dept.strategy}
+                                </span>
+                                <span className="text-xs text-on-surface-variant block mt-0.5">
+                                  {dept.strategyDesc}
+                                </span>
+                              </div>
+
+                              <div className="p-3 rounded-xl bg-white dark:bg-[#1a1329] border border-outline-variant/30 shadow-2xs">
+                                <span className="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider block">
+                                  Timeout & Fallback
+                                </span>
+                                <span className="text-xs sm:text-sm font-bold text-on-surface block mt-0.5">
+                                  {dept.timeout} Timeout
+                                </span>
+                                <span className="text-xs text-on-surface-variant block mt-0.5">
+                                  Fallback: {dept.fallback}
+                                </span>
+                              </div>
+
+                              <div className="p-3 rounded-xl bg-white dark:bg-[#1a1329] border border-outline-variant/30 shadow-2xs">
+                                <span className="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider block">
+                                  Priority & Queue
+                                </span>
+                                <span className="text-xs sm:text-sm font-bold text-on-surface block mt-0.5">
+                                  {dept.priority}
+                                </span>
+                                <span className="text-xs text-emerald-600 dark:text-emerald-400 font-bold block mt-0.5">
+                                  Queue Active ({dept.agentCount} Agents Assigned)
+                                </span>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Add Department Modal */}
       {addModalOpen && (
-        <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+        <div
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setAddModalOpen(false);
+          }}
+          className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4"
+        >
           <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
             <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
               <h3 className="text-lg font-bold text-on-surface">
@@ -444,7 +538,12 @@ export default function DepartmentsPage() {
 
       {/* Edit Department Modal */}
       {editModalOpen && (
-        <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+        <div
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setEditModalOpen(false);
+          }}
+          className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4"
+        >
           <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
             <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
               <h3 className="text-lg font-bold text-on-surface">

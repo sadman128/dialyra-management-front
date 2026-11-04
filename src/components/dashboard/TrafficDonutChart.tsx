@@ -141,29 +141,15 @@ export function TrafficDonutChart({
   return (
     <div className="flex flex-col items-center justify-center w-full">
       {/* Chart Canvas with 50% Cutout Doughnut */}
-      <div className="relative w-48 h-48 sm:w-56 sm:h-56 mx-auto">
+      <div className="relative w-40 h-40 sm:w-48 sm:h-48 mx-auto">
         <canvas ref={canvasRef} />
       </div>
 
-      {/* Designed "Total Calls" Metric Card */}
-      <div className="mt-4 w-full max-w-[260px] mx-auto p-3.5 rounded-2xl bg-gradient-to-br from-purple-500/[0.08] via-surface-container-low to-purple-500/[0.02] dark:from-purple-900/25 dark:via-[#1a1329] dark:to-purple-950/20 border border-purple-500/25 dark:border-purple-400/30 shadow-xs flex items-center justify-between transition-all hover:scale-[1.01] hover:shadow-sm">
-        <div className="flex flex-col text-left">
-          <span className="inline-flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wider text-[#9a55ff] dark:text-[#c084fc]">
-            <span className="w-2 h-2 rounded-full bg-[#07cdae] animate-pulse" />
-            <span>Total Calls</span>
-          </span>
-          <span className="text-[11px] text-on-surface-variant font-medium mt-0.5">
-            Period: {timeframeLabel}
-          </span>
-        </div>
-        <div className="text-right">
-          <span className="text-2xl sm:text-3xl font-black text-on-surface font-mono tracking-tight leading-none block">
-            {totalOrders.toLocaleString()}
-          </span>
-          <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mt-0.5 block">
-            Completed
-          </span>
-        </div>
+      {/* Simple Total Calls */}
+      <div className="mt-2 text-center">
+        <span className="text-xs sm:text-sm font-bold text-on-surface">
+          Total Calls : <span className="font-mono text-[#9a55ff] dark:text-[#c084fc] font-extrabold text-sm sm:text-base">{totalOrders.toLocaleString()}</span>
+        </span>
       </div>
     </div>
   );

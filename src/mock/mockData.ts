@@ -11,6 +11,8 @@ export interface BusinessStore {
   cachedBalance: number;
   activeFlowId: string;
   boundFlowName: string;
+  allowGlobalSipFallback: boolean;
+  sipLoginPrefix: string;
 }
 
 export interface CallAttempt {
@@ -72,6 +74,8 @@ export const mockBusinesses: BusinessStore[] = [
     cachedBalance: 500.0,
     activeFlowId: "flow-1",
     boundFlowName: "Order Confirmation Flow (v1.4)",
+    allowGlobalSipFallback: true,
+    sipLoginPrefix: "0001",
   },
   {
     id: "biz-2",
@@ -86,6 +90,8 @@ export const mockBusinesses: BusinessStore[] = [
     cachedBalance: 500.0,
     activeFlowId: "flow-2",
     boundFlowName: "Grocery Express Flow (v2.1)",
+    allowGlobalSipFallback: false,
+    sipLoginPrefix: "0002",
   },
 ];
 
@@ -499,4 +505,151 @@ export const mockAgents = [
 export const mockDncList = [
   { id: "dnc-1", normalizedPhone: "+8801700000001", reason: "Customer requested verbal opt-out", addedAt: "2026-10-28" },
   { id: "dnc-2", normalizedPhone: "+8801900000002", reason: "Repeated prank dial / blocked buyer", addedAt: "2026-10-30" },
+];
+
+export interface FlowSummary {
+  id: string;
+  businessId: string;
+  name: string;
+  version: string;
+  isDefault: boolean;
+  dialyraId: string;
+  rule: string;
+}
+
+export const mockFlows: FlowSummary[] = [
+  // biz-1 (SongsharerBazar)
+  {
+    id: "flow-1",
+    businessId: "biz-1",
+    name: "Order Confirmation Flow",
+    version: "1.4",
+    isDefault: true,
+    dialyraId: "104",
+    rule: "Standard Ingest Orders (All webhooks)",
+  },
+  {
+    id: "flow-1b",
+    businessId: "biz-1",
+    name: "High Value Verification Flow",
+    version: "1.2",
+    isDefault: false,
+    dialyraId: "105",
+    rule: "Order Amount >= ৳ 3,000 BDT",
+  },
+  // biz-2 (Uttara Super Shop)
+  {
+    id: "flow-201",
+    businessId: "biz-2",
+    name: "Grocery Express Flow",
+    version: "2.1",
+    isDefault: true,
+    dialyraId: "201",
+    rule: "Standard Grocery Orders (All orders)",
+  },
+  {
+    id: "flow-202",
+    businessId: "biz-2",
+    name: "Bulk Wholesale Flow",
+    version: "1.0",
+    isDefault: false,
+    dialyraId: "202",
+    rule: "Order Amount >= ৳ 5,000 BDT (Wholesale)",
+  },
+];
+
+export interface ProductItem {
+  id: string;
+  businessId: string;
+  productId: string;
+  name: string;
+  flowId: string;
+  flowName: string;
+  price?: string;
+  createdAt: string;
+}
+
+export const mockProducts: ProductItem[] = [
+  // Business 1: SongsharerBazar (biz-1)
+  {
+    id: "prod-1",
+    businessId: "biz-1",
+    productId: "PRD-101",
+    name: "Basmati Premium Rice 5kg",
+    flowId: "flow-1",
+    flowName: "Order Confirmation Flow",
+    price: "৳ 850",
+    createdAt: "2026-11-01",
+  },
+  {
+    id: "prod-2",
+    businessId: "biz-1",
+    productId: "PRD-102",
+    name: "Pure Mustard Oil 1L",
+    flowId: "flow-1",
+    flowName: "Order Confirmation Flow",
+    price: "৳ 320",
+    createdAt: "2026-11-01",
+  },
+  {
+    id: "prod-3",
+    businessId: "biz-1",
+    productId: "PRD-103",
+    name: "Imported Saffron Kashmiri 2g",
+    flowId: "flow-1b",
+    flowName: "High Value Verification Flow",
+    price: "৳ 3,450",
+    createdAt: "2026-11-02",
+  },
+  {
+    id: "prod-4",
+    businessId: "biz-1",
+    productId: "PRD-104",
+    name: "Organic Raw Honey 500g",
+    flowId: "flow-1",
+    flowName: "Order Confirmation Flow",
+    price: "৳ 650",
+    createdAt: "2026-11-03",
+  },
+  {
+    id: "prod-5",
+    businessId: "biz-1",
+    productId: "PRD-105",
+    name: "Premium Kalijeera Rice 2kg",
+    flowId: "flow-1",
+    flowName: "Order Confirmation Flow",
+    price: "৳ 290",
+    createdAt: "2026-11-03",
+  },
+  // Business 2: Uttara Super Shop (biz-2)
+  {
+    id: "prod-201",
+    businessId: "biz-2",
+    productId: "GROC-201",
+    name: "Fresh Farm Eggs (12 pcs)",
+    flowId: "flow-201",
+    flowName: "Grocery Express Flow",
+    price: "৳ 160",
+    createdAt: "2026-11-01",
+  },
+  {
+    id: "prod-202",
+    businessId: "biz-2",
+    productId: "GROC-202",
+    name: "Green Farm Dairy Milk 1L",
+    flowId: "flow-201",
+    flowName: "Grocery Express Flow",
+    price: "৳ 95",
+    createdAt: "2026-11-02",
+  },
+  {
+    id: "prod-203",
+    businessId: "biz-2",
+    productId: "WHSL-501",
+    name: "Bulk Sugar Sack 50kg",
+    flowId: "flow-202",
+    flowName: "Bulk Wholesale Flow",
+    price: "৳ 6,800",
+    createdAt: "2026-11-03",
+  },
 ];

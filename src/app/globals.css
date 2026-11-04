@@ -200,35 +200,27 @@
     position: relative;
     overflow: hidden;
     border: none !important;
-  }
-  .card-img-holder * {
-    text-shadow: inherit;
+    color: rgba(17, 24, 39, 0.8);
   }
 
-  /* Card text: Heavy shadow + very thin matching darker text border/outline */
-  .card-img-holder.bg-gradient-primary {
-    border: none !important;
-    text-shadow: 0 0 1.5px #641eb4, 0 1px 2px rgba(0, 0, 0, 0.75), 0 2px 6px rgba(0, 0, 0, 0.5);
+  /* Subtle, crisp text shadow for readability and polish on colorful cards */
+  .text-subtle-shadow,
+  .card-img-holder,
+  .card-img-holder span,
+  .card-img-holder div,
+  .card-img-holder p,
+  .card-img-holder strong {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   }
-  .card-img-holder.bg-gradient-danger {
-    border: none !important;
-    text-shadow: 0 0 1.5px #b8284e, 0 1px 2px rgba(0, 0, 0, 0.75), 0 2px 6px rgba(0, 0, 0, 0.5);
-  }
-  .card-img-holder.bg-gradient-info {
-    border: none !important;
-    text-shadow: 0 0 1.5px #024e8a, 0 1px 2px rgba(0, 0, 0, 0.75), 0 2px 6px rgba(0, 0, 0, 0.5);
-  }
-  .card-img-holder.bg-gradient-success {
-    border: none !important;
-    text-shadow: 0 0 1.5px #047c6a, 0 1px 2px rgba(0, 0, 0, 0.75), 0 2px 6px rgba(0, 0, 0, 0.5);
-  }
-  .card-img-holder.bg-gradient-warning {
-    border: none !important;
-    text-shadow: 0 0 1.5px #b37400, 0 1px 2px rgba(0, 0, 0, 0.75), 0 2px 6px rgba(0, 0, 0, 0.5);
-  }
+
+  /* Card text: Clean suitable text styling, subtle text depth, no card borders */
+  .card-img-holder.bg-gradient-primary,
+  .card-img-holder.bg-gradient-danger,
+  .card-img-holder.bg-gradient-info,
+  .card-img-holder.bg-gradient-success,
+  .card-img-holder.bg-gradient-warning,
   .card-img-holder.bg-gradient-dark {
     border: none !important;
-    text-shadow: 0 0 1.5px #1e262f, 0 1px 2px rgba(0, 0, 0, 0.75), 0 2px 6px rgba(0, 0, 0, 0.5);
   }
   .card-img-holder::after {
     content: "";
@@ -242,27 +234,27 @@
     background-position: right top;
     background-size: contain;
     pointer-events: none;
-    opacity: 0.9;
+    opacity: 0.85;
   }
 
-  /* Gradients */
+  /* Gradients - Solid with 20% Lighter Starting Stop */
   .bg-gradient-primary {
-    background: linear-gradient(to right, #da8cff, #9a55ff) !important;
+    background: linear-gradient(to right, #e1a3ff, #9a55ff) !important;
   }
   .bg-gradient-danger {
-    background: linear-gradient(to right, #ffbf96, #fe7096) !important;
+    background: linear-gradient(to right, #ffccab, #fe7096) !important;
   }
   .bg-gradient-info {
-    background: linear-gradient(to right, #90caf9, #047edf 99%) !important;
+    background: linear-gradient(to right, #a6d5fa, #047edf 99%) !important;
   }
   .bg-gradient-success {
-    background: linear-gradient(to right, #84d9d2, #07cdae) !important;
+    background: linear-gradient(to right, #9de1db, #07cdae) !important;
   }
   .bg-gradient-warning {
-    background: linear-gradient(to right, #f6e384, #ffd500) !important;
+    background: linear-gradient(to right, #f8e99d, #ffd500) !important;
   }
   .bg-gradient-dark {
-    background: linear-gradient(89deg, #5e7188, #3e4b5b) !important;
+    background: linear-gradient(89deg, #7e8da0, #3e4b5b) !important;
   }
 
   /* Purple React Gradient Buttons */
@@ -335,58 +327,75 @@
     box-shadow: 0 6px 18px rgba(255, 213, 0, 0.5);
   }
 
-  /* Status Badges Styled as Purple React Rounded Gradient Buttons (+10% Height, Slight Gradients, All White Text) */
+  /* Outcome Status: Clean bold text with outcome colors (no rounded background box) */
   .badge-solid-success,
   .badge-gradient-success {
-    background: linear-gradient(to right, #84d9d2, #07cdae) !important;
-    color: #ffffff !important;
+    background: transparent !important;
+    color: #10b981 !important;
     border: none !important;
-    box-shadow: 0 2px 6px rgba(7, 205, 174, 0.25);
+    box-shadow: none !important;
+    padding: 0 !important;
+    min-height: auto !important;
+    font-weight: 700 !important;
   }
 
   .badge-solid-warning,
   .badge-gradient-warning {
-    background: linear-gradient(to right, #f6e384, #ffd500) !important;
-    color: #ffffff !important;
+    background: transparent !important;
+    color: #f59e0b !important;
     border: none !important;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) !important;
-    box-shadow: 0 2px 6px rgba(255, 213, 0, 0.3);
+    box-shadow: none !important;
+    padding: 0 !important;
+    min-height: auto !important;
+    font-weight: 700 !important;
   }
 
-  /* CANCELLED: Red with slight gradient */
+  /* CANCELLED: Red text */
   .badge-solid-danger,
   .badge-gradient-danger {
-    background: linear-gradient(to right, #f87171, #ef4444) !important;
-    color: #ffffff !important;
+    background: transparent !important;
+    color: #ef4444 !important;
     border: none !important;
-    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25);
+    box-shadow: none !important;
+    padding: 0 !important;
+    min-height: auto !important;
+    font-weight: 700 !important;
   }
 
-  /* TRANSFERRED: Pink with slight gradient (previous cancel color) */
+  /* TRANSFERRED: Pink text */
   .badge-solid-primary,
   .badge-gradient-primary,
   .badge-status-transferred {
-    background: linear-gradient(to right, #ffbf96, #fe7096) !important;
-    color: #ffffff !important;
+    background: transparent !important;
+    color: #ec4899 !important;
     border: none !important;
-    box-shadow: 0 2px 6px rgba(254, 112, 150, 0.25);
+    box-shadow: none !important;
+    padding: 0 !important;
+    min-height: auto !important;
+    font-weight: 700 !important;
   }
 
-  /* BUSY: Sky Blue with slight gradient */
+  /* BUSY: Sky Blue text */
   .badge-solid-info,
   .badge-gradient-info {
-    background: linear-gradient(to right, #38bdf8, #0ea5e9) !important;
-    color: #ffffff !important;
+    background: transparent !important;
+    color: #0ea5e9 !important;
     border: none !important;
-    box-shadow: 0 2px 6px rgba(14, 165, 233, 0.25);
+    box-shadow: none !important;
+    padding: 0 !important;
+    min-height: auto !important;
+    font-weight: 700 !important;
   }
 
-  /* RETRY QUEUED: Cyan with slight gradient */
+  /* RETRY QUEUED: Cyan text */
   .badge-status-retry {
-    background: linear-gradient(to right, #22d3ee, #06b6d4) !important;
-    color: #ffffff !important;
+    background: transparent !important;
+    color: #06b6d4 !important;
     border: none !important;
-    box-shadow: 0 2px 6px rgba(6, 182, 212, 0.25);
+    box-shadow: none !important;
+    padding: 0 !important;
+    min-height: auto !important;
+    font-weight: 700 !important;
   }
 
   /* Purple React Rounded Button Badges (Increased height by 10%+, pill rounded 50px) */

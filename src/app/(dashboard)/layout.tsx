@@ -26,17 +26,19 @@ import {
   Bell,
   User,
   LogOut,
+  Package,
 } from "lucide-react";
 
 const NAV_ITEMS = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Businesses", href: "/businesses", icon: Building2 },
   { name: "Flows", href: "/flows", icon: GitBranch },
+  { name: "Products", href: "/products", icon: Package },
   { name: "Call History", href: "/call-history", icon: History },
   { name: "Departments", href: "/departments", icon: Network },
   { name: "Agents", href: "/agents", icon: Users },
   { name: "Extensions", href: "/extensions", icon: PhoneCall },
-  { name: "Audio and Voice", href: "/audio", icon: Volume2 },
+  { name: "Audio", href: "/audio", icon: Volume2 },
   { name: "Settings", href: "/settings", icon: Settings },
 ];
 
@@ -82,6 +84,39 @@ export default function DashboardLayout({
   const [notifModalOpen, setNotifModalOpen] = useState(false);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
+
+  // Close all popovers and drawers on focus loss, click outside, or Escape
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest("[data-popover]")) {
+        setStoreDropdownOpen(false);
+        setNotifModalOpen(false);
+        setProfileModalOpen(false);
+      }
+    };
+    const handleBlur = () => {
+      setStoreDropdownOpen(false);
+      setNotifModalOpen(false);
+      setProfileModalOpen(false);
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setStoreDropdownOpen(false);
+        setNotifModalOpen(false);
+        setProfileModalOpen(false);
+        setMobileDrawerOpen(false);
+      }
+    };
+    window.addEventListener("click", handleOutsideClick);
+    window.addEventListener("blur", handleBlur);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("click", handleOutsideClick);
+      window.removeEventListener("blur", handleBlur);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   // Spotlight hover effect for all bento-card elements
   useEffect(() => {
@@ -161,19 +196,16 @@ export default function DashboardLayout({
           </nav>
         </div>
 
-        {/* User Session Footer */}
+        {/* User Logout Footer */}
         <div className="p-4 pb-6 border-t border-outline-variant/20">
-          <div className="flex items-center justify-between p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/30 text-xs">
-            <span className="text-on-surface-variant font-medium">Session: Owner</span>
-            <button
-              onClick={() => setLogoutModalOpen(true)}
-              className="p-1.5 rounded-lg text-rose-500 hover:text-rose-600 hover:bg-rose-500/10 transition-colors flex items-center justify-center cursor-pointer"
-              type="button"
-              title="Logout"
-            >
-              <LogOut size={16} />
-            </button>
-          </div>
+          <button
+            onClick={() => setLogoutModalOpen(true)}
+            className="w-full py-2.5 px-4 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/25 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition active:scale-95 cursor-pointer shadow-2xs"
+            type="button"
+          >
+            <LogOut size={16} />
+            <span>Log Out</span>
+          </button>
         </div>
       </aside>
 
@@ -266,7 +298,7 @@ export default function DashboardLayout({
             </button>
 
             {/* Active Business Dropdown Switcher */}
-            <div className="relative min-w-0">
+            <div className="relative min-w-0" data-popover>
               <button
                 onClick={() => setStoreDropdownOpen(!storeDropdownOpen)}
                 className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-surface-container-low text-on-surface text-xs sm:text-sm font-semibold hover:bg-surface-container transition-all border border-outline-variant/30 max-w-[220px] sm:max-w-none shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer"
@@ -338,7 +370,7 @@ export default function DashboardLayout({
             </button>
 
             {/* Notifications Bell with Modal Dropdown */}
-            <div className="relative">
+            <div className="relative" data-popover>
               <button
                 onClick={() => setNotifModalOpen(!notifModalOpen)}
                 className="relative p-2 sm:p-2.5 rounded-xl bg-surface-container-low text-on-surface hover:bg-surface-container transition-all flex items-center justify-center border border-outline-variant/30 shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer"
@@ -431,7 +463,7 @@ export default function DashboardLayout({
             </div>
 
             {/* User Profile Button with Modal */}
-            <div className="relative">
+            <div className="relative" data-popover>
               <button
                 onClick={() => setProfileModalOpen(!profileModalOpen)}
                 className="flex items-center gap-2 p-1.5 sm:px-3 sm:py-2 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface border border-outline-variant/30 shadow-2xs hover:shadow transition-all cursor-pointer"
@@ -471,7 +503,7 @@ export default function DashboardLayout({
                       className="flex items-center gap-2 px-3 py-2 rounded-xl text-on-surface hover:bg-surface-container-low transition"
                     >
                       <Settings size={15} className="text-[#9a55ff]" />
-                      <span>Settings &amp; Profile</span>
+                      <span>Settings</span>
                     </Link>
                     <Link
                       href="/businesses"

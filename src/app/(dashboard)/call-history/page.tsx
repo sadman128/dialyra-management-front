@@ -18,6 +18,8 @@ import {
   CheckCircle2,
   XCircle,
   AlertCircle,
+  Play,
+  Volume2,
 } from "lucide-react";
 
 export default function CallHistoryPage() {
@@ -25,6 +27,7 @@ export default function CallHistoryPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [expandedCallId, setExpandedCallId] = useState<string | null>(null);
+  const [playingCallId, setPlayingCallId] = useState<string | null>(null);
   const [callToRetry, setCallToRetry] = useState<typeof calls[0] | null>(null);
   const [showAll, setShowAll] = useState(false);
 
@@ -88,10 +91,10 @@ export default function CallHistoryPage() {
             <span className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center text-white shadow-md shadow-purple-500/20">
               <History size={20} />
             </span>
-            Call History &amp; Logs
+            Call History
           </h1>
           <p className="text-sm text-on-surface-variant mt-1 font-medium">
-            Real-time telephony interaction logs, voice confirmations, and retry timelines for{" "}
+            Call records and interaction logs for{" "}
             <strong className="text-on-surface font-bold">{activeBusiness.name}</strong>.
           </p>
         </div>
@@ -132,7 +135,7 @@ export default function CallHistoryPage() {
               onClick={() => setStatusFilter(tab.id)}
               className={`px-3.5 py-1.5 rounded-full flex items-center gap-1.5 text-xs font-bold transition-all active:scale-95 whitespace-nowrap cursor-pointer ${
                 statusFilter === tab.id
-                  ? "btn-gradient-primary text-white shadow-xs"
+                  ? "btn-gradient-warning text-gray-950 font-bold shadow-xs"
                   : "text-on-surface-variant hover:text-on-surface"
               }`}
               type="button"
@@ -155,7 +158,7 @@ export default function CallHistoryPage() {
           </button>
           <button
             onClick={handleExportCSV}
-            className="btn-gradient-info text-white text-xs sm:text-sm px-4 py-2 rounded-full flex items-center gap-1.5 shadow-sm hover:shadow-md transition-all font-bold active:scale-95 cursor-pointer"
+            className="btn-gradient-primary text-white text-xs sm:text-sm px-4 py-2 rounded-full flex items-center gap-1.5 shadow-sm hover:shadow-md transition-all font-bold active:scale-95 cursor-pointer"
             type="button"
           >
             <Download size={15} />
@@ -255,32 +258,32 @@ export default function CallHistoryPage() {
                         </td>
                         <td className="px-5 py-4">
                           {call.outcome === "CONFIRMED" && (
-                            <span className="badge-solid-success select-none cursor-default">
+                            <span className="font-bold text-xs sm:text-sm text-emerald-500 select-none">
                               CONFIRMED
                             </span>
                           )}
                           {call.outcome === "NO_ANSWER" && (
-                            <span className="badge-solid-warning select-none cursor-default">
+                            <span className="font-bold text-xs sm:text-sm text-amber-500 select-none">
                               NO ANSWER
                             </span>
                           )}
                           {call.outcome === "CANCELLED" && (
-                            <span className="badge-solid-danger select-none cursor-default">
+                            <span className="font-bold text-xs sm:text-sm text-rose-500 select-none">
                               CANCELLED
                             </span>
                           )}
                           {call.outcome === "BUSY" && (
-                            <span className="badge-solid-info select-none cursor-default">
+                            <span className="font-bold text-xs sm:text-sm text-sky-500 select-none">
                               BUSY
                             </span>
                           )}
                           {call.outcome === "TRANSFERRED" && (
-                            <span className="badge-status-transferred select-none cursor-default">
+                            <span className="font-bold text-xs sm:text-sm text-pink-500 select-none">
                               TRANSFERRED
                             </span>
                           )}
                           {call.outcome === "RETRY_QUEUED" && (
-                            <span className="badge-status-retry select-none cursor-default">
+                            <span className="font-bold text-xs sm:text-sm text-cyan-500 select-none">
                               RETRY QUEUED
                             </span>
                           )}
@@ -308,9 +311,38 @@ export default function CallHistoryPage() {
                         <tr className="bg-surface-container-low/40">
                           <td colSpan={10} className="p-4 pl-12 sm:pl-16">
                             <div className="bg-white dark:bg-[#161022] rounded-2xl p-4 border border-purple-950/20 dark:border-purple-400/25 shadow-sm space-y-3">
-                              <span className="text-xs font-bold uppercase tracking-wider text-[#9a55ff] block">
-                                Multi-Attempt Redial Timeline for Order #{call.orderId}
-                              </span>
+                              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-outline-variant/15 pb-2.5">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-xs font-bold uppercase tracking-wider text-[#9a55ff]">
+                                    Call Session Diagnostics for Order #{call.orderId}
+                                  </span>
+                                  <span className="text-[11px] font-mono text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded-md border border-outline-variant/20">
+                                    Trunk: Trunk #20 (PJSIP Main)
+                                  </span>
+                                </div>
+                                {call.recordingUrl ? (
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      if (playingCallId === call.id) {
+                                        setPlayingCallId(null);
+                                      } else {
+                                        setPlayingCallId(call.id);
+                                        showToast(`Playing recording for order #${call.orderId}`, "info");
+                                      }
+                                    }}
+                                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full btn-gradient-primary text-white text-xs font-bold shadow-xs hover:shadow transition active:scale-95 cursor-pointer"
+                                  >
+                                    <Play size={12} className={playingCallId === call.id ? "animate-pulse" : ""} />
+                                    <span>{playingCallId === call.id ? "Playing Audio..." : "Play Recording"}</span>
+                                  </button>
+                                ) : (
+                                  <span className="text-[11px] text-on-surface-variant font-medium">
+                                    No audio recording (call unanswered)
+                                  </span>
+                                )}
+                              </div>
+
                               <div className="space-y-2">
                                 {call.attempts.map((att, idx) => (
                                  <div

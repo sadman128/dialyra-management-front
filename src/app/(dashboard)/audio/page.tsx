@@ -19,8 +19,7 @@ import {
 } from "lucide-react";
 
 export default function AudioLibraryPage() {
-  const { showToast } = useBusiness();
-  const [assets, setAssets] = useState<AudioAsset[]>(mockAudioAssets);
+  const { audioAssets, addAudioAsset, deleteAudioAsset, showToast } = useBusiness();
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
@@ -28,7 +27,27 @@ export default function AudioLibraryPage() {
   const [newFileName, setNewFileName] = useState("");
   const [newCategory, setNewCategory] = useState<"ivr_prompt" | "hold_music" | "voicemail">("ivr_prompt");
 
-  const filtered = assets.filter((a) => {
+  // Close modals on focus loss or Escape
+  React.useEffect(() => {
+    const handleBlur = () => {
+      setUploadModalOpen(false);
+      setAssetToDelete(null);
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setUploadModalOpen(false);
+        setAssetToDelete(null);
+      }
+    };
+    window.addEventListener("blur", handleBlur);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("blur", handleBlur);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  const filtered = audioAssets.filter((a) => {
     if (categoryFilter === "all") return true;
     return a.category === categoryFilter;
   });
@@ -47,19 +66,19 @@ export default function AudioLibraryPage() {
   };
 
   const handleDelete = (id: string, name: string) => {
-    setAssets((prev) => prev.filter((a) => a.id !== id));
-    showToast(`Deleted "${name}"`, "info");
+    deleteAudioAsset(id);
   };
 
   const handleUploadSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newFileName.trim()) return;
-    const item: AudioAsset = {
-      id: `audio-${Date.now()}`,
-      name:
-        newFileName.endsWith(".wav") || newFileName.endsWith(".mp3")
-          ? newFileName
-          : `${newFileName}.wav`,
+    const finalName =
+      newFileName.endsWith(".wav") || newFileName.endsWith(".mp3")
+        ? newFileName
+        : `${newFileName}.wav`;
+
+    addAudioAsset({
+      name: finalName,
       category: newCategory,
       durationSec: 15,
       fileSizeBytes: 240000,
@@ -67,11 +86,9 @@ export default function AudioLibraryPage() {
       referencedByFlows: ["Order Confirmation Flow"],
       url: "https://actions.google.com/sounds/v1/emergency/beeper_emergency_call.ogg",
       codec: "PCM Audio",
-    };
-    setAssets([...assets, item]);
+    });
     setUploadModalOpen(false);
     setNewFileName("");
-    showToast(`"${item.name}" uploaded successfully`, "success");
   };
 
   return (
@@ -82,16 +99,16 @@ export default function AudioLibraryPage() {
           <div className="flex items-center gap-2 text-xs font-semibold text-on-surface-variant/70 mb-1">
             <span>Dashboard</span>
             <ChevronRight size={13} />
-            <span className="text-[#9a55ff] font-bold">Audio and Voice</span>
+            <span className="text-[#9a55ff] font-bold">Audio</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-on-surface flex items-center gap-3">
             <span className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center text-white shadow-md shadow-purple-500/20">
               <Volume2 size={20} />
             </span>
-            Audio and Voice
+            Audio
           </h1>
           <p className="text-sm text-on-surface-variant mt-1 font-medium">
-            WAV and MP3 sound assets utilized by IVR flows, hold queues, and greetings.
+            Audio prompts and voice recordings.
           </p>
         </div>
 
@@ -105,52 +122,42 @@ export default function AudioLibraryPage() {
         </button>
       </div>
 
-      {/* 2. Signature Purple React Gradient Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <div className="card-img-holder bg-gradient-primary text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+      {/* 2. Signature Purple React Gradient Metric Cards (Compact height, subtle text shadow) */}
+      <div className="grid grid-cols-2 gap-2 sm:gap-3">
+        <div className="card-img-holder bg-gradient-primary text-gray-900 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg shadow-sm shadow-purple-500/20 relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-900/80 text-subtle-shadow">
               Storage Used
             </span>
-            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
-              <Radio size={18} />
+            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-black/10 flex items-center justify-center text-gray-900/80">
+              <Radio size={14} />
             </span>
           </div>
-          <div className="mt-4 z-10 flex items-baseline justify-between">
-            <div>
-              <div className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-                14.8 MB
-              </div>
-              <div className="text-xs text-white/90 font-medium mt-1">
-                Allocated out of 100 MB quota
-              </div>
+          <div className="mt-1 z-10 flex items-baseline justify-between">
+            <div className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">
+              14.8 MB
             </div>
-            <span className="font-mono text-xs font-bold bg-white/20 px-3 py-1 rounded-full backdrop-blur-xs">
+            <span className="font-mono text-[10px] sm:text-[11px] font-bold bg-black/10 text-gray-900 px-2 py-0.5 rounded-full border border-black/10 text-subtle-shadow">
               15% Used
             </span>
           </div>
         </div>
 
-        <div className="card-img-holder bg-gradient-success text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+        <div className="card-img-holder bg-gradient-success text-gray-900 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg shadow-sm shadow-emerald-500/20 relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-900/80 text-subtle-shadow">
               Total Audio Files
             </span>
-            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
-              <FileAudio size={18} />
+            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-black/10 flex items-center justify-center text-gray-900/80">
+              <FileAudio size={14} />
             </span>
           </div>
-          <div className="mt-4 z-10 flex items-baseline justify-between">
-            <div>
-              <div className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-                {assets.length}
-              </div>
-              <div className="text-xs text-white/90 font-medium mt-1">
-                High-fidelity PCM audio prompts
-              </div>
+          <div className="mt-1 z-10 flex items-baseline justify-between">
+            <div className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">
+              {audioAssets.length}
             </div>
-            <span className="font-mono text-xs font-bold bg-white/20 px-3 py-1 rounded-full backdrop-blur-xs">
-              All Ready
+            <span className="font-mono text-[10px] sm:text-[11px] font-bold bg-black/10 text-gray-900 px-2 py-0.5 rounded-full border border-black/10 text-subtle-shadow">
+              Ready
             </span>
           </div>
         </div>
@@ -159,7 +166,7 @@ export default function AudioLibraryPage() {
       {/* 3. Category Filter Pills */}
       <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 bg-surface-container-low p-1.5 rounded-full w-fit border border-outline-variant/30">
         {[
-          { id: "all", label: `All (${assets.length})` },
+          { id: "all", label: `All (${audioAssets.length})` },
           { id: "ivr_prompt", label: "Prompts" },
           { id: "hold_music", label: "Hold Music" },
           { id: "voicemail", label: "Voicemail" },
@@ -270,7 +277,12 @@ export default function AudioLibraryPage() {
 
       {/* Upload Audio Modal */}
       {uploadModalOpen && (
-        <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+        <div
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setUploadModalOpen(false);
+          }}
+          className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4"
+        >
           <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
             <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
               <h3 className="text-lg font-bold text-on-surface">

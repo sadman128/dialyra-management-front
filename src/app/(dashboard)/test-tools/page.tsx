@@ -22,6 +22,9 @@ export default function TestToolsPage() {
   const { accountBalance, showToast } = useBusiness();
   const [testPhone, setTestPhone] = useState("+880 1720 128825");
   const [testFlow, setTestFlow] = useState("Order Confirmation Flow (v1.4)");
+  const [testCustomerName, setTestCustomerName] = useState("Rahim Uddin");
+  const [testOrderId, setTestOrderId] = useState("TEST-9901");
+  const [testOrderTotal, setTestOrderTotal] = useState("1,500 BDT");
   const [callProgress, setCallProgress] = useState<string[]>([]);
   const [calling, setCalling] = useState(false);
   const [callConfirmOpen, setCallConfirmOpen] = useState(false);
@@ -61,7 +64,12 @@ export default function TestToolsPage() {
 
   const handleDialTest = () => {
     setCalling(true);
-    setCallProgress(["Dialing +8801720128825 via Asterisk AMI Trunk #20..."]);
+    setCallProgress([
+      "POST /api/v3/runtime/calls/originate (Auth: X-Dialyra-Access-Token)",
+      `Payload: { phone: "${testPhone.replace(/\\s+/g, '')}", flow_id: 104, webhook_variables: { customer_name: "${testCustomerName}", order_id: "${testOrderId}", order_total: "${testOrderTotal}" } }`,
+      "Dialyra Engine: HTTP 200 OK | session_id: 170 | action_id: 102bae32-7661",
+      "PJSIP AMI Channel: PJSIP/dialyra_b1_t20_trizync_ep/sip:+8801720128825@202.40.176.2",
+    ]);
 
     setTimeout(() => {
       setCallProgress((p) => [...p, "Phone ringing (SIP 180 Ringing)..."]);
@@ -70,7 +78,7 @@ export default function TestToolsPage() {
     setTimeout(() => {
       setCallProgress((p) => [
         ...p,
-        "Call answered (SIP 200 OK). Google Cloud TTS Greeting playing in bn-BD...",
+        `Call answered (SIP 200 OK). Google Cloud TTS playing for ${testCustomerName}...`,
       ]);
     }, 1500);
 
@@ -81,10 +89,10 @@ export default function TestToolsPage() {
     setTimeout(() => {
       setCallProgress((p) => [
         ...p,
-        "Order #999 confirmed in Dialyra middleware. Call completed in 32s. Trunk released.",
+        `Order #${testOrderId} confirmed in Dialyra middleware. Call completed in 32s. Trunk released. Billed: ৳ 1.20 BDT.`,
       ]);
       setCalling(false);
-      showToast("Manual test call completed successfully!", "success");
+      showToast("Manual test call completed successfully via v3 engine!", "success");
     }, 3200);
   };
 
@@ -131,10 +139,10 @@ export default function TestToolsPage() {
             <span className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center text-white shadow-md shadow-purple-500/20">
               <Wrench size={20} />
             </span>
-            Telephony &amp; Webhook Diagnostics
+            Test Tools
           </h1>
           <p className="text-sm text-on-surface-variant mt-1 font-medium">
-            Simulate outbound phone calls, verify DTMF responses, and test e-commerce webhook payloads.
+            Simulate outbound calls and test webhook payloads.
           </p>
         </div>
 
@@ -156,66 +164,66 @@ export default function TestToolsPage() {
         </div>
       </div>
 
-      {/* 2. Signature Purple React Gradient Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+      {/* 2. Signature Purple React Gradient Metric Cards (Compact height, subtle text shadow) */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         {/* Metric 1: Voice Trunk */}
-        <div className="card-img-holder bg-gradient-primary text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+        <div className="card-img-holder bg-gradient-primary text-gray-900 py-2.5 px-3.5 sm:py-3 sm:px-4 rounded-xl shadow-sm relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-900/80 text-subtle-shadow">
               Voice Trunk
             </span>
-            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
-              <Server size={18} />
+            <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-black/10 flex items-center justify-center text-gray-900/80">
+              <Server size={15} />
             </span>
           </div>
-          <div className="mt-4 z-10">
+          <div className="mt-1.5 z-10">
             <div className="flex items-baseline gap-2">
-              <span className="text-3xl sm:text-4xl font-extrabold tracking-tight">BD-02</span>
-              <span className="text-xs font-bold text-white/80 bg-white/20 px-2.5 py-0.5 rounded-full">
+              <span className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">BD-02</span>
+              <span className="text-[10px] font-bold text-gray-900 bg-black/10 px-2 py-0.5 rounded-full border border-black/10 text-subtle-shadow">
                 Primary
               </span>
             </div>
-            <div className="text-xs text-white/90 font-medium mt-1">
+            <div className="text-[11px] text-gray-900/80 font-medium mt-0.5 text-subtle-shadow">
               SIP Trunk · 5 Channels online
             </div>
           </div>
         </div>
 
         {/* Metric 2: Telecom Latency */}
-        <div className="card-img-holder bg-gradient-success text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+        <div className="card-img-holder bg-gradient-success text-gray-900 py-2.5 px-3.5 sm:py-3 sm:px-4 rounded-xl shadow-sm relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-900/80 text-subtle-shadow">
               Media Latency
             </span>
-            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
-              <Activity size={18} />
+            <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-black/10 flex items-center justify-center text-gray-900/80">
+              <Activity size={15} />
             </span>
           </div>
-          <div className="mt-4 z-10">
-            <div className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+          <div className="mt-1.5 z-10">
+            <div className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">
               18ms
             </div>
-            <div className="text-xs text-white/90 font-medium mt-1">
+            <div className="text-[11px] text-gray-900/80 font-medium mt-0.5 text-subtle-shadow">
               Zero jitter · Local PSTN gateway
             </div>
           </div>
         </div>
 
         {/* Metric 3: Account Balance */}
-        <div className="card-img-holder bg-gradient-info text-white p-6 rounded-2xl shadow-md relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-lg">
+        <div className="card-img-holder bg-gradient-info text-gray-900 py-2.5 px-3.5 sm:py-3 sm:px-4 rounded-xl shadow-sm relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-white/90">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-900/80 text-subtle-shadow">
               Account Balance
             </span>
-            <span className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
+            <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-black/10 flex items-center justify-center text-gray-900/80 text-xs font-bold">
               ৳
             </span>
           </div>
-          <div className="mt-4 z-10">
-            <div className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+          <div className="mt-1.5 z-10">
+            <div className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">
               ৳ {accountBalance.toFixed(2)}
             </div>
-            <div className="text-xs text-white/90 font-medium mt-1">
+            <div className="text-[11px] text-gray-900/80 font-medium mt-0.5 text-subtle-shadow">
               Shared telecom balance pool
             </div>
           </div>
@@ -304,6 +312,48 @@ export default function TestToolsPage() {
                     <option>Trunk #21 (Backup Trunk)</option>
                   </select>
                   <ChevronDown size={15} className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
+                </div>
+              </div>
+            </div>
+
+            {/* Dynamic Webhook Variables (v3 API Match) */}
+            <div className="p-3.5 rounded-xl bg-surface-container-low/60 border border-outline-variant/30 space-y-2">
+              <span className="text-[11px] font-bold text-[#9a55ff] uppercase tracking-wider block">
+                Runtime Webhook Variables (<code>webhook_variables</code>)
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div>
+                  <label className="block text-[10px] font-bold text-on-surface-variant mb-0.5">
+                    customer_name
+                  </label>
+                  <input
+                    type="text"
+                    value={testCustomerName}
+                    onChange={(e) => setTestCustomerName(e.target.value)}
+                    className="w-full bg-white dark:bg-[#1a1329] px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-outline-variant/30 text-on-surface focus:outline-none focus:border-[#9a55ff]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-on-surface-variant mb-0.5">
+                    order_id
+                  </label>
+                  <input
+                    type="text"
+                    value={testOrderId}
+                    onChange={(e) => setTestOrderId(e.target.value)}
+                    className="w-full bg-white dark:bg-[#1a1329] px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-outline-variant/30 text-on-surface focus:outline-none focus:border-[#9a55ff] font-mono"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-on-surface-variant mb-0.5">
+                    order_total
+                  </label>
+                  <input
+                    type="text"
+                    value={testOrderTotal}
+                    onChange={(e) => setTestOrderTotal(e.target.value)}
+                    className="w-full bg-white dark:bg-[#1a1329] px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-outline-variant/30 text-on-surface focus:outline-none focus:border-[#9a55ff]"
+                  />
                 </div>
               </div>
             </div>
