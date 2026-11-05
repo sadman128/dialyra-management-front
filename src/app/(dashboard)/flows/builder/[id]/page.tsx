@@ -1691,7 +1691,7 @@ export default function FlowBuilderPage() {
                             <option
                               key={k}
                               value={k}
-                              className="bg-white dark:bg-[#1a1329] text-on-surface"
+                              className="bg-white dark:bg-[#18181b] text-on-surface"
                             >
                               {k}
                             </option>
@@ -2144,7 +2144,7 @@ export default function FlowBuilderPage() {
           }}
           className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 animate-in fade-in duration-150"
         >
-          <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-outline-variant/30 space-y-5">
+          <div className="bg-white dark:bg-[#18181b] rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-outline-variant/30 dark:border-zinc-800 space-y-5">
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
               <div className="flex items-center gap-2.5">
@@ -2345,7 +2345,7 @@ export default function FlowBuilderPage() {
           }}
           className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 animate-in fade-in duration-150"
         >
-          <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-outline-variant/30 space-y-5 max-h-[90vh] overflow-y-auto">
+          <div className="bg-white dark:bg-[#18181b] rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-outline-variant/30 dark:border-zinc-800 space-y-5 max-h-[90vh] overflow-y-auto">
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
               <div className="flex items-center gap-2.5">
@@ -2546,7 +2546,7 @@ export default function FlowBuilderPage() {
           }}
           className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 animate-in fade-in duration-150"
         >
-          <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-5">
+          <div className="bg-white dark:bg-[#18181b] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 dark:border-zinc-800 space-y-5">
             <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center text-white">

@@ -248,7 +248,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="flex flex-col w-full space-y-6 pb-16">
+    <div className="flex flex-col w-full max-w-full min-w-0 space-y-6 pb-16 overflow-x-clip">
       {/* 1. Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1">
         <div className="flex items-center gap-3 flex-wrap">
@@ -266,7 +266,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="flex items-center gap-2.5 flex-wrap">
-          <span className="text-sm text-on-surface-variant font-medium bg-white dark:bg-[#1a1329] px-3.5 py-1.5 rounded-full border border-outline-variant/30 shadow-2xs">
+          <span className="text-sm text-on-surface-variant font-medium bg-white dark:bg-[#18181b] px-3.5 py-1.5 rounded-full border border-outline-variant/30 dark:border-zinc-800 shadow-2xs">
             Business: <strong className="text-on-surface font-bold">{activeBusiness.name}</strong>
           </span>
         </div>
@@ -310,12 +310,12 @@ export default function DashboardPage() {
       )}
 
       {/* 2. Bento Grid: Call Statistics (Wide Left Bento) + Account Balance (Right Bento) */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+      <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch w-full min-w-0">
         {/* Bento Card 1: Call Statistics (Spans 8 columns, reduced height) */}
-        <div className="lg:col-span-8 bg-white dark:bg-[#1a1329] rounded-2xl p-4 sm:p-5 shadow-sm border border-purple-950/20 dark:border-purple-400/25 flex flex-col justify-between transition-all">
+        <div className="lg:col-span-8 bg-white dark:bg-[#121215] rounded-2xl p-3.5 sm:p-5 shadow-sm border border-outline-variant/30 dark:border-zinc-800/80 flex flex-col justify-between transition-all w-full min-w-0 overflow-hidden">
           {/* Card Header */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-outline-variant/20">
-            <div className="flex items-center gap-3 min-w-0">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 border-b border-outline-variant/20 w-full min-w-0">
+            <div className="flex items-center gap-2.5 min-w-0">
               <div className="p-2 rounded-xl bg-purple-500/10 text-[#9a55ff] border border-purple-500/20 flex items-center justify-center shrink-0">
                 <PieChart size={18} />
               </div>
@@ -323,7 +323,7 @@ export default function DashboardPage() {
                 <span className="text-base sm:text-lg font-bold text-on-surface tracking-tight truncate">
                   Call Statistics
                 </span>
-                <span className="text-xs text-on-surface-variant font-medium">
+                <span className="text-xs text-on-surface-variant font-medium truncate">
                   {currentStats.summaryText}
                 </span>
               </div>
@@ -336,7 +336,7 @@ export default function DashboardPage() {
                   aria-label="Filter call statistics by timeframe"
                   value={timeframe}
                   onChange={(e) => setTimeframe(e.target.value as TimeframeKey)}
-                  className="appearance-none pl-3.5 pr-8 py-1.5 rounded-full bg-surface-container-low text-on-surface text-xs sm:text-sm font-bold border border-outline-variant/30 shadow-2xs hover:shadow focus:ring-2 focus:ring-[#9a55ff]/20 focus:outline-none transition-all cursor-pointer"
+                  className="appearance-none pl-3 pr-7 py-1.5 rounded-full bg-surface-container-low text-on-surface text-xs sm:text-sm font-bold border border-outline-variant/30 shadow-2xs hover:shadow focus:ring-2 focus:ring-[#9a55ff]/20 focus:outline-none transition-all cursor-pointer"
                 >
                   <option value="today">Today</option>
                   <option value="last_week">Last Week</option>
@@ -344,34 +344,26 @@ export default function DashboardPage() {
                   <option value="last_year">Last Year</option>
                   <option value="all_time">All Time</option>
                 </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2.5 text-on-surface-variant">
-                  <ChevronDown size={14} />
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-on-surface-variant">
+                  <ChevronDown size={13} />
                 </div>
               </div>
 
-              {/* Mobile View Chart Toggle Button */}
-              <button
-                onClick={() => setShowChartOnMobile(!showChartOnMobile)}
-                className="md:hidden px-3 py-1.5 rounded-full text-xs font-bold bg-surface-container-low text-[#9a55ff] border border-outline-variant/30 flex items-center gap-1.5 transition active:scale-95 cursor-pointer shadow-2xs"
-                type="button"
-              >
-                <PieChart size={14} />
-                <span>{showChartOnMobile ? "Hide Chart" : "View Chart"}</span>
-              </button>
-
               {/* Dynamic Success Rate Pill (Solid filled color, no gradient) */}
-              <span className="px-3.5 py-1.5 rounded-full bg-[#07cdae] text-xs font-bold tracking-wider uppercase text-white shadow-xs">
+              <span className="px-2.5 sm:px-3.5 py-1.5 rounded-full bg-[#07cdae] text-[11px] sm:text-xs font-bold tracking-wider uppercase text-white shadow-xs shrink-0">
                 {confirmedPercent.toFixed(1)}% Confirmed
               </span>
             </div>
           </div>
 
-          {/* Card Body: Bento 2-column layout (Pie Chart Left, Direct Text Summary Right) */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center py-2 sm:py-3">
-            {/* Left Column: Combined Pie/Doughnut Chart (Hidden on mobile by default, toggled with button) */}
+          {/* Card Body: Bento 2-column layout on Desktop, Stacked Cards -> Arrow -> Chart on Mobile */}
+          <div className="flex flex-col md:grid md:grid-cols-12 gap-4 items-center py-2 sm:py-3 transition-all duration-300 w-full min-w-0">
+            {/* Left Column on Desktop (Col 1-5) / Expands Below Cards & Arrow on Mobile (Order 3) */}
             <div
-              className={`md:col-span-5 flex-col items-center justify-center ${
-                showChartOnMobile ? "flex" : "hidden md:flex"
+              className={`md:col-span-5 md:order-1 order-3 flex-col items-center justify-center transition-all duration-300 w-full min-w-0 ${
+                showChartOnMobile
+                  ? "flex pt-4 mt-1 border-t border-outline-variant/20 md:border-t-0 md:pt-0 md:mt-0"
+                  : "hidden md:flex"
               }`}
             >
               <TrafficDonutChart
@@ -388,99 +380,115 @@ export default function DashboardPage() {
               />
             </div>
 
-            {/* Right Column: 2x2 Grid of Bento Cards (Reverted width as before, height matching other pages' cards) */}
+            {/* Right Column on Desktop (Col 6-12) / Top on Mobile (Order 1) */}
             <div
-              className={`${
-                showChartOnMobile ? "md:col-span-7" : "col-span-12 md:col-span-7"
-              } flex flex-col justify-center h-full`}
+              className="w-full md:col-span-7 md:order-2 order-1 col-span-12 flex flex-col justify-center h-full min-w-0"
             >
-              <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                {/* Bento Stat 1: Confirmed */}
-                <div className="p-3 sm:p-3.5 rounded-xl bg-gradient-success card-img-holder text-gray-900 shadow-sm shadow-[#07cdae]/20 flex flex-col justify-between relative overflow-hidden transition-all hover:scale-[1.01]">
-                  <div className="relative z-10 flex items-start justify-between gap-2">
-                    <span className="text-xs sm:text-sm font-bold tracking-tight text-gray-900/80 text-subtle-shadow">
+              <div className="grid grid-cols-2 gap-2 sm:gap-3 w-full min-w-0">
+                {/* Bento Stat 1: Confirmed (Estimated Runway Ash + Thin Emerald Border) */}
+                <div className="p-2.5 sm:p-3.5 rounded-xl card-img-holder bg-surface-container-low/70 border border-emerald-500/35 dark:border-emerald-400/35 shadow-xs flex flex-col justify-between relative overflow-hidden transition-all hover:scale-[1.01] min-w-0">
+                  <div className="relative z-10 flex items-start justify-between gap-1 sm:gap-2">
+                    <span className="text-xs sm:text-sm font-semibold tracking-tight text-black dark:text-white truncate">
                       Confirmed
                     </span>
-                    <span className="inline-flex shrink-0 items-center rounded-full bg-black/10 px-2 py-0.5 text-[10px] sm:text-xs font-bold tabular-nums text-gray-900 border border-black/10 text-subtle-shadow">
+                    <span className="inline-flex shrink-0 items-center rounded-full bg-emerald-500/15 dark:bg-emerald-500/25 text-emerald-800 dark:text-emerald-300 border border-emerald-500/20 px-1.5 py-0.5 sm:px-2 text-[9px] sm:text-xs font-semibold tabular-nums">
                       {confirmedPercent.toFixed(1)}%
                     </span>
                   </div>
-                  <div className="relative z-10 mt-2 flex items-end justify-between gap-2">
-                    <span className="text-2xl sm:text-3xl font-black leading-none text-gray-900/80 tabular-nums tracking-tight text-subtle-shadow">
+                  <div className="relative z-10 mt-2 flex items-end justify-between gap-1 sm:gap-2">
+                    <span className="text-xl sm:text-2xl md:text-3xl font-bold leading-none text-black dark:text-white tabular-nums tracking-tight">
                       {currentStats.confirmed.toLocaleString()}
                     </span>
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-black/5 text-gray-900/50">
+                    <span className="flex h-5 w-5 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-md bg-emerald-500/15 dark:bg-emerald-500/25 text-emerald-600 dark:text-emerald-400">
                       <CheckCircle2 size={15} strokeWidth={2.25} aria-hidden="true" />
                     </span>
                   </div>
                 </div>
 
-                {/* Bento Stat 2: No Answer */}
-                <div className="p-3 sm:p-3.5 rounded-xl bg-gradient-warning card-img-holder text-gray-900 shadow-sm shadow-[#ffd500]/25 flex flex-col justify-between relative overflow-hidden transition-all hover:scale-[1.01]">
-                  <div className="relative z-10 flex items-start justify-between gap-2">
-                    <span className="text-xs sm:text-sm font-bold tracking-tight text-gray-900/80 text-subtle-shadow">
+                {/* Bento Stat 2: No Answer (Estimated Runway Ash + Thin Amber Border) */}
+                <div className="p-2.5 sm:p-3.5 rounded-xl card-img-holder bg-surface-container-low/70 border border-amber-500/35 dark:border-amber-400/35 shadow-xs flex flex-col justify-between relative overflow-hidden transition-all hover:scale-[1.01] min-w-0">
+                  <div className="relative z-10 flex items-start justify-between gap-1 sm:gap-2">
+                    <span className="text-xs sm:text-sm font-semibold tracking-tight text-black dark:text-white truncate">
                       No Answer
                     </span>
-                    <span className="inline-flex shrink-0 items-center rounded-full bg-black/10 px-2 py-0.5 text-[10px] sm:text-xs font-bold tabular-nums text-gray-900 border border-black/10 text-subtle-shadow">
+                    <span className="inline-flex shrink-0 items-center rounded-full bg-amber-500/15 dark:bg-amber-500/25 text-amber-800 dark:text-amber-300 border border-amber-500/20 px-1.5 py-0.5 sm:px-2 text-[9px] sm:text-xs font-semibold tabular-nums">
                       {noAnswerPercent.toFixed(1)}%
                     </span>
                   </div>
-                  <div className="relative z-10 mt-2 flex items-end justify-between gap-2">
-                    <span className="text-2xl sm:text-3xl font-black leading-none text-gray-900/80 tabular-nums tracking-tight text-subtle-shadow">
+                  <div className="relative z-10 mt-2 flex items-end justify-between gap-1 sm:gap-2">
+                    <span className="text-xl sm:text-2xl md:text-3xl font-bold leading-none text-black dark:text-white tabular-nums tracking-tight">
                       {currentStats.noAnswer.toLocaleString()}
                     </span>
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-black/5 text-gray-900/50">
+                    <span className="flex h-5 w-5 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-md bg-amber-500/15 dark:bg-amber-500/25 text-amber-600 dark:text-amber-400">
                       <PhoneMissed size={15} strokeWidth={2.25} aria-hidden="true" />
                     </span>
                   </div>
                 </div>
 
-                {/* Bento Stat 3: Cancelled */}
-                <div className="p-3 sm:p-3.5 rounded-xl bg-gradient-danger card-img-holder text-gray-900 shadow-sm shadow-[#fe7096]/20 flex flex-col justify-between relative overflow-hidden transition-all hover:scale-[1.01]">
-                  <div className="relative z-10 flex items-start justify-between gap-2">
-                    <span className="text-xs sm:text-sm font-bold tracking-tight text-gray-900/80 text-subtle-shadow">
+                {/* Bento Stat 3: Cancelled (Estimated Runway Ash + Thin Rose Border) */}
+                <div className="p-2.5 sm:p-3.5 rounded-xl card-img-holder bg-surface-container-low/70 border border-rose-500/35 dark:border-rose-400/35 shadow-xs flex flex-col justify-between relative overflow-hidden transition-all hover:scale-[1.01] min-w-0">
+                  <div className="relative z-10 flex items-start justify-between gap-1 sm:gap-2">
+                    <span className="text-xs sm:text-sm font-semibold tracking-tight text-black dark:text-white truncate">
                       Cancelled
                     </span>
-                    <span className="inline-flex shrink-0 items-center rounded-full bg-black/10 px-2 py-0.5 text-[10px] sm:text-xs font-bold tabular-nums text-gray-900 border border-black/10 text-subtle-shadow">
+                    <span className="inline-flex shrink-0 items-center rounded-full bg-rose-500/15 dark:bg-rose-500/25 text-rose-800 dark:text-rose-300 border border-rose-500/20 px-1.5 py-0.5 sm:px-2 text-[9px] sm:text-xs font-semibold tabular-nums">
                       {cancelledPercent.toFixed(1)}%
                     </span>
                   </div>
-                  <div className="relative z-10 mt-2 flex items-end justify-between gap-2">
-                    <span className="text-2xl sm:text-3xl font-black leading-none text-gray-900/80 tabular-nums tracking-tight text-subtle-shadow">
+                  <div className="relative z-10 mt-2 flex items-end justify-between gap-1 sm:gap-2">
+                    <span className="text-xl sm:text-2xl md:text-3xl font-bold leading-none text-black dark:text-white tabular-nums tracking-tight">
                       {currentStats.cancelled.toLocaleString()}
                     </span>
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-black/5 text-gray-900/50">
+                    <span className="flex h-5 w-5 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-md bg-rose-500/15 dark:bg-rose-500/25 text-rose-600 dark:text-rose-400">
                       <XCircle size={15} strokeWidth={2.25} aria-hidden="true" />
                     </span>
                   </div>
                 </div>
 
-                {/* Bento Stat 4: In Queue */}
-                <div className="p-3 sm:p-3.5 rounded-xl bg-gradient-primary card-img-holder text-gray-900 shadow-sm shadow-[#9a55ff]/20 flex flex-col justify-between relative overflow-hidden transition-all hover:scale-[1.01]">
-                  <div className="relative z-10 flex items-start justify-between gap-2">
-                    <span className="text-xs sm:text-sm font-bold tracking-tight text-gray-900/80 text-subtle-shadow">
+                {/* Bento Stat 4: In Queue (Estimated Runway Ash + Thin Purple Border) */}
+                <div className="p-2.5 sm:p-3.5 rounded-xl card-img-holder bg-surface-container-low/70 border border-purple-500/35 dark:border-purple-400/35 shadow-xs flex flex-col justify-between relative overflow-hidden transition-all hover:scale-[1.01] min-w-0">
+                  <div className="relative z-10 flex items-start justify-between gap-1 sm:gap-2">
+                    <span className="text-xs sm:text-sm font-semibold tracking-tight text-black dark:text-white truncate">
                       In Queue
                     </span>
-                    <span className="inline-flex shrink-0 items-center rounded-full bg-black/10 px-2 py-0.5 text-[10px] sm:text-xs font-bold tabular-nums text-gray-900 border border-black/10 text-subtle-shadow">
+                    <span className="inline-flex shrink-0 items-center rounded-full bg-purple-500/15 dark:bg-purple-500/25 text-purple-800 dark:text-purple-300 border border-purple-500/20 px-1.5 py-0.5 sm:px-2 text-[9px] sm:text-xs font-semibold tabular-nums">
                       {inQueuePercent.toFixed(1)}%
                     </span>
                   </div>
-                  <div className="relative z-10 mt-2 flex items-end justify-between gap-2">
-                    <span className="text-2xl sm:text-3xl font-black leading-none text-gray-900/80 tabular-nums tracking-tight text-subtle-shadow">
+                  <div className="relative z-10 mt-2 flex items-end justify-between gap-1 sm:gap-2">
+                    <span className="text-xl sm:text-2xl md:text-3xl font-bold leading-none text-black dark:text-white tabular-nums tracking-tight">
                       {queuedCallsCount.toLocaleString()}
                     </span>
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-black/5 text-gray-900/50">
+                    <span className="flex h-5 w-5 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-md bg-purple-500/15 dark:bg-purple-500/25 text-purple-600 dark:text-purple-400">
                       <Layers size={15} strokeWidth={2.25} aria-hidden="true" />
                     </span>
                   </div>
                 </div>
+              </div>
+
+              {/* Mobile Dropdown Arrow (below cards): Only the arrow, no extra background */}
+              <div className="md:hidden flex justify-center pt-2.5">
+                <button
+                  type="button"
+                  onClick={() => setShowChartOnMobile(!showChartOnMobile)}
+                  className="p-1 bg-transparent border-0 shadow-none text-black dark:text-white hover:text-black/70 dark:hover:text-white/70 transition-transform duration-200 cursor-pointer focus:outline-none"
+                  aria-label={showChartOnMobile ? "Collapse chart breakdown" : "Expand chart breakdown"}
+                  title={showChartOnMobile ? "Collapse chart" : "Expand chart"}
+                >
+                  <ChevronDown
+                    size={22}
+                    className={`transition-transform duration-300 ${
+                      showChartOnMobile ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
               </div>
             </div>
           </div>
         </div>
 
         {/* Bento Card 2: Account Balance (Right Bento - Spans 4 columns, reduced height) */}
-        <div className="lg:col-span-4 bg-white dark:bg-[#1a1329] rounded-2xl p-4 sm:p-5 shadow-sm border border-purple-950/20 dark:border-purple-400/25 flex flex-col justify-between gap-3.5 transition-all">
+        <div className="lg:col-span-4 bg-white dark:bg-[#121215] rounded-2xl p-4 sm:p-5 shadow-sm border border-outline-variant/30 dark:border-zinc-800/80 flex flex-col justify-between gap-3.5 transition-all w-full min-w-0">
           {/* 1. Header */}
           <div className="flex items-center justify-between pb-2.5 border-b border-outline-variant/20">
             <div>
@@ -531,7 +539,7 @@ export default function DashboardPage() {
           </div>
 
           {/* 3. Distributed Multi-Business Pool Stats */}
-          <div className="p-2.5 sm:p-3 rounded-xl bg-surface-container-low/70 border border-purple-950/20 dark:border-purple-400/25 space-y-1.5 text-xs">
+          <div className="p-2.5 sm:p-3 rounded-xl bg-surface-container-low/70 border border-outline-variant/30 dark:border-zinc-800/80 space-y-1.5 text-xs">
             <div className="flex items-center justify-between">
               <span className="text-on-surface-variant font-medium flex items-center gap-1.5 text-[11px]">
                 <Clock size={12} className="text-[#9a55ff]" />
@@ -571,7 +579,7 @@ export default function DashboardPage() {
       </section>
 
       {/* 3. Recent Calls Table with Rounder Background & Paging */}
-      <section className="bg-white dark:bg-[#1a1329] w-full rounded-2xl shadow-sm border border-purple-950/20 dark:border-purple-400/25 overflow-hidden transition-all">
+      <section className="bg-white dark:bg-[#121215] w-full min-w-0 max-w-full rounded-2xl shadow-sm border border-outline-variant/30 dark:border-zinc-800/80 overflow-hidden transition-all">
         {/* Card Header with Search */}
         <div className="p-5 border-b border-outline-variant/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="space-y-0.5">
@@ -597,7 +605,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Streamlined Calls Table */}
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto w-full max-w-full min-w-0">
           <table className="w-full text-left border-collapse" style={{ minWidth: "750px" }}>
             <thead>
               <tr className="bg-surface-container-low/70 border-b border-outline-variant/20">
@@ -678,29 +686,14 @@ export default function DashboardPage() {
                           CONFIRMED
                         </span>
                       )}
-                      {call.outcome === "NO_ANSWER" && (
-                        <span className="font-bold text-xs sm:text-sm text-amber-500 select-none">
-                          NO ANSWER
-                        </span>
-                      )}
-                      {call.outcome === "BUSY" && (
-                        <span className="font-bold text-xs sm:text-sm text-sky-500 select-none">
-                          BUSY
-                        </span>
-                      )}
                       {call.outcome === "CANCELLED" && (
                         <span className="font-bold text-xs sm:text-sm text-rose-500 select-none">
                           CANCELLED
                         </span>
                       )}
-                      {call.outcome === "TRANSFERRED" && (
-                        <span className="font-bold text-xs sm:text-sm text-pink-500 select-none">
-                          TRANSFERRED
-                        </span>
-                      )}
-                      {call.outcome === "RETRY_QUEUED" && (
-                        <span className="font-bold text-xs sm:text-sm text-cyan-500 select-none">
-                          RETRY QUEUED
+                      {call.outcome !== "CONFIRMED" && call.outcome !== "CANCELLED" && (
+                        <span className="font-bold text-xs sm:text-sm text-amber-500 select-none">
+                          {call.outcome.replace("_", " ")}
                         </span>
                       )}
                     </td>
@@ -758,7 +751,7 @@ export default function DashboardPage() {
           }}
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs animate-in fade-in duration-200"
         >
-          <div className="w-full max-w-md bg-white dark:bg-[#1a1329] rounded-2xl shadow-2xl border border-outline-variant/30 p-6 space-y-5">
+          <div className="w-full max-w-md bg-white dark:bg-[#18181b] rounded-2xl shadow-2xl border border-outline-variant/30 dark:border-zinc-800 p-6 space-y-5">
             <div className="flex items-center justify-between pb-3 border-b border-outline-variant/20">
               <div className="flex items-center gap-2.5">
                 <div className="w-9 h-9 rounded-xl bg-purple-500/15 text-[#9a55ff] flex items-center justify-center font-bold">

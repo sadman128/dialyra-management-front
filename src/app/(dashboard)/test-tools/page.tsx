@@ -154,7 +154,7 @@ export default function TestToolsPage() {
           </span>
           <button
             onClick={() => setClearConfirmOpen(true)}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-white dark:bg-[#1a1329] hover:bg-surface-container text-on-surface text-xs sm:text-sm font-bold shadow-2xs transition-colors border border-outline-variant/30 active:scale-95 cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-white dark:bg-[#121215] hover:bg-surface-container text-on-surface text-xs sm:text-sm font-bold shadow-2xs transition-colors border border-outline-variant/30 dark:border-zinc-800/80 active:scale-95 cursor-pointer"
             title="Clear logs"
             type="button"
           >
@@ -164,66 +164,66 @@ export default function TestToolsPage() {
         </div>
       </div>
 
-      {/* 2. Signature Purple React Gradient Metric Cards (Compact height, subtle text shadow) */}
+      {/* 2. Signature Metric Cards (Pure White in Light, Dark Grey in Dark, Purple Half Circle Watermark) */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         {/* Metric 1: Voice Trunk */}
-        <div className="card-img-holder bg-gradient-primary text-gray-900 py-2.5 px-3.5 sm:py-3 sm:px-4 rounded-xl shadow-sm relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3.5 sm:py-3 sm:px-4 rounded-xl border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-900/80 text-subtle-shadow">
+            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-700 dark:text-zinc-300">
               Voice Trunk
             </span>
-            <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-black/10 flex items-center justify-center text-gray-900/80">
+            <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-purple-500/10 dark:bg-purple-500/20 flex items-center justify-center text-[#9a55ff] dark:text-[#c084fc]">
               <Server size={15} />
             </span>
           </div>
           <div className="mt-1.5 z-10">
             <div className="flex items-baseline gap-2">
-              <span className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">BD-02</span>
-              <span className="text-[10px] font-bold text-gray-900 bg-black/10 px-2 py-0.5 rounded-full border border-black/10 text-subtle-shadow">
+              <span className="text-xl sm:text-2xl font-bold text-gray-950 dark:text-white tracking-tight">BD-02</span>
+              <span className="text-[10px] font-semibold text-purple-800 dark:text-purple-200 bg-purple-500/15 dark:bg-purple-500/25 px-2 py-0.5 rounded-full border border-purple-500/20">
                 Primary
               </span>
             </div>
-            <div className="text-[11px] text-gray-900/80 font-medium mt-0.5 text-subtle-shadow">
+            <div className="text-[11px] text-gray-700 dark:text-zinc-400 font-medium mt-0.5">
               SIP Trunk · 5 Channels online
             </div>
           </div>
         </div>
 
         {/* Metric 2: Telecom Latency */}
-        <div className="card-img-holder bg-gradient-success text-gray-900 py-2.5 px-3.5 sm:py-3 sm:px-4 rounded-xl shadow-sm relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3.5 sm:py-3 sm:px-4 rounded-xl border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-900/80 text-subtle-shadow">
+            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-700 dark:text-zinc-300">
               Media Latency
             </span>
-            <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-black/10 flex items-center justify-center text-gray-900/80">
+            <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-500/10 dark:bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
               <Activity size={15} />
             </span>
           </div>
           <div className="mt-1.5 z-10">
-            <div className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">
+            <div className="text-xl sm:text-2xl font-bold text-gray-950 dark:text-white tracking-tight">
               18ms
             </div>
-            <div className="text-[11px] text-gray-900/80 font-medium mt-0.5 text-subtle-shadow">
+            <div className="text-[11px] text-gray-700 dark:text-zinc-400 font-medium mt-0.5">
               Zero jitter · Local PSTN gateway
             </div>
           </div>
         </div>
 
         {/* Metric 3: Account Balance */}
-        <div className="card-img-holder bg-gradient-info text-gray-900 py-2.5 px-3.5 sm:py-3 sm:px-4 rounded-xl shadow-sm relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3.5 sm:py-3 sm:px-4 rounded-xl border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-900/80 text-subtle-shadow">
+            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-700 dark:text-zinc-300">
               Account Balance
             </span>
-            <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-black/10 flex items-center justify-center text-gray-900/80 text-xs font-bold">
+            <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue-500/10 dark:bg-sky-500/20 flex items-center justify-center text-blue-600 dark:text-sky-400 text-xs font-bold">
               ৳
             </span>
           </div>
           <div className="mt-1.5 z-10">
-            <div className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">
+            <div className="text-xl sm:text-2xl font-bold text-gray-950 dark:text-white tracking-tight">
               ৳ {accountBalance.toFixed(2)}
             </div>
-            <div className="text-[11px] text-gray-900/80 font-medium mt-0.5 text-subtle-shadow">
+            <div className="text-[11px] text-gray-700 dark:text-zinc-400 font-medium mt-0.5">
               Shared telecom balance pool
             </div>
           </div>
@@ -233,7 +233,7 @@ export default function TestToolsPage() {
       {/* 3. Diagnostic Testing Consoles: 2 Columns */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* CARD 1: Outbound Test Dialing */}
-        <div className="bg-white dark:bg-[#1a1329] rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden flex flex-col">
+        <div className="bg-white dark:bg-[#121215] rounded-2xl border border-outline-variant/30 dark:border-zinc-800/80 shadow-sm overflow-hidden flex flex-col">
           {/* Card Header */}
           <div className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-outline-variant/20">
             <div className="space-y-0.5 min-w-0">
@@ -272,7 +272,7 @@ export default function TestToolsPage() {
                 <input
                   value={testPhone}
                   onChange={(e) => setTestPhone(e.target.value)}
-                  className="w-full pl-24 pr-4 py-2.5 bg-surface-container-low rounded-xl text-sm text-on-surface placeholder:text-on-surface-variant/70 focus:bg-white dark:focus:bg-[#1a1329] focus:outline-none focus:ring-2 focus:ring-[#9a55ff]/20 transition-all border border-outline-variant/30 font-mono font-bold"
+                  className="w-full pl-24 pr-4 py-2.5 bg-surface-container-low rounded-xl text-sm text-on-surface placeholder:text-on-surface-variant/70 focus:bg-white dark:focus:bg-[#18181b] focus:outline-none focus:ring-2 focus:ring-[#9a55ff]/20 transition-all border border-outline-variant/30 font-mono font-bold"
                   type="text"
                 />
               </div>
@@ -330,7 +330,7 @@ export default function TestToolsPage() {
                     type="text"
                     value={testCustomerName}
                     onChange={(e) => setTestCustomerName(e.target.value)}
-                    className="w-full bg-white dark:bg-[#1a1329] px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-outline-variant/30 text-on-surface focus:outline-none focus:border-[#9a55ff]"
+                    className="w-full bg-white dark:bg-[#18181b] px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-outline-variant/30 dark:border-zinc-800 text-on-surface focus:outline-none focus:border-[#9a55ff]"
                   />
                 </div>
                 <div>
@@ -341,7 +341,7 @@ export default function TestToolsPage() {
                     type="text"
                     value={testOrderId}
                     onChange={(e) => setTestOrderId(e.target.value)}
-                    className="w-full bg-white dark:bg-[#1a1329] px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-outline-variant/30 text-on-surface focus:outline-none focus:border-[#9a55ff] font-mono"
+                    className="w-full bg-white dark:bg-[#18181b] px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-outline-variant/30 dark:border-zinc-800 text-on-surface focus:outline-none focus:border-[#9a55ff] font-mono"
                   />
                 </div>
                 <div>
@@ -352,7 +352,7 @@ export default function TestToolsPage() {
                     type="text"
                     value={testOrderTotal}
                     onChange={(e) => setTestOrderTotal(e.target.value)}
-                    className="w-full bg-white dark:bg-[#1a1329] px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-outline-variant/30 text-on-surface focus:outline-none focus:border-[#9a55ff]"
+                    className="w-full bg-white dark:bg-[#18181b] px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-outline-variant/30 dark:border-zinc-800 text-on-surface focus:outline-none focus:border-[#9a55ff]"
                   />
                 </div>
               </div>
@@ -374,12 +374,12 @@ export default function TestToolsPage() {
 
             {/* Live Console Output */}
             {callProgress.length > 0 && (
-              <div className="p-3.5 rounded-xl bg-[#0f0c1a] text-purple-100 font-mono text-xs space-y-1.5 border border-purple-900/40 shadow-inner">
-                <div className="flex items-center justify-between pb-1 border-b border-white/10 text-purple-400">
+              <div className="p-3.5 rounded-xl bg-[#09090b] text-purple-100 font-mono text-xs space-y-1.5 border border-zinc-800 shadow-inner">
+                <div className="flex items-center justify-between pb-1 border-b border-zinc-800 text-purple-400">
                   <span className="font-bold uppercase tracking-wider text-[11px]">
                     Live Telemetry Console:
                   </span>
-                  <span className="text-[11px] text-gray-400 font-mono">Node-BD-02 :5060</span>
+                  <span className="text-[11px] text-zinc-400 font-mono">Node-BD-02 :5060</span>
                 </div>
                 {callProgress.map((line, idx) => (
                   <div key={idx} className="flex items-start gap-1.5">
@@ -393,9 +393,9 @@ export default function TestToolsPage() {
         </div>
 
         {/* CARD 2: Inbound Webhook Simulator */}
-        <div className="bg-white dark:bg-[#1a1329] rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden flex flex-col">
+        <div className="bg-white dark:bg-[#121215] rounded-2xl border border-outline-variant/30 dark:border-zinc-800/80 shadow-sm overflow-hidden flex flex-col">
           {/* Card Header */}
-          <div className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-outline-variant/20">
+          <div className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-outline-variant/20 dark:border-zinc-800/60">
             <div className="space-y-0.5 min-w-0">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-gradient-info" />
@@ -459,7 +459,7 @@ export default function TestToolsPage() {
                 rows={7}
                 value={webhookPayload}
                 onChange={(e) => setWebhookPayload(e.target.value)}
-                className="w-full bg-[#0f0c1a] text-purple-200 font-mono text-xs p-3.5 rounded-xl border border-outline-variant/30 focus:outline-none focus:ring-2 focus:ring-[#9a55ff]/20 shadow-inner leading-relaxed"
+                className="w-full bg-[#09090b] text-purple-200 font-mono text-xs p-3.5 rounded-xl border border-zinc-800 focus:outline-none focus:ring-2 focus:ring-[#9a55ff]/20 shadow-inner leading-relaxed"
               />
             </div>
 
@@ -476,7 +476,7 @@ export default function TestToolsPage() {
 
             {/* Response Console */}
             {webhookResponse && (
-              <div className="p-3.5 rounded-xl bg-[#0f0c1a] text-emerald-300 font-mono text-xs space-y-1.5 border border-emerald-900/40 shadow-inner">
+              <div className="p-3.5 rounded-xl bg-[#09090b] text-emerald-300 font-mono text-xs space-y-1.5 border border-zinc-800 shadow-inner">
                 <div className="flex items-center justify-between pb-1 border-b border-white/10 text-gray-400">
                   <span className="font-bold uppercase tracking-wider text-[11px]">
                     Response (HTTP 200 OK):

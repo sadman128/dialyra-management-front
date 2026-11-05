@@ -28,41 +28,45 @@
 }
 
 .dark {
-  --color-surface: 13 8 21; /* Same purple but more dark (#0d0815) */
-  --color-surface-dim: 10 6 16;
-  --color-surface-bright: 28 20 40;
-  --color-surface-container-lowest: 22 15 33;
-  --color-surface-container-low: 30 21 44;
-  --color-surface-container: 42 30 62;
-  --color-surface-container-high: 52 38 78;
-  --color-surface-container-highest: 68 50 100;
-  --color-surface-variant: 48 35 72;
+  --color-surface: 9 9 11; /* Very dark grey / near black (#09090b) */
+  --color-surface-dim: 7 7 9;
+  --color-surface-bright: 24 24 27; /* Dark grey (#18181b) */
+  --color-surface-container-lowest: 18 18 21; /* Card & container base (#121215) */
+  --color-surface-container-low: 20 20 23; /* (#141417) */
+  --color-surface-container: 24 24 27; /* (#18181b) */
+  --color-surface-container-high: 32 32 36; /* (#202024) */
+  --color-surface-container-highest: 39 39 42; /* (#27272a) */
+  --color-surface-variant: 28 28 32;
 
-  /* High-Contrast Readable Texts for Dark Mode (No dark-on-dark text anywhere) */
-  --color-on-surface: 250 248 255;
-  --color-on-surface-variant: 202 194 216;
-  --color-inverse-surface: 250 248 255;
-  --color-inverse-on-surface: 22 15 33;
+  /* High-Contrast Readable Texts for Dark Mode */
+  --color-on-surface: 244 244 245; /* Clean high-contrast off-white (#f4f4f5) */
+  --color-on-surface-variant: 161 161 170; /* Zinc-400 (#a1a1aa) */
+  --color-inverse-surface: 244 244 245;
+  --color-inverse-on-surface: 18 18 21;
 
-  --color-outline: 168 158 184;
-  --color-outline-variant: 70 54 94;
+  --color-outline: 82 82 91; /* Zinc-600 */
+  --color-outline-variant: 39 39 42; /* Zinc-800 (#27272a) */
 
-  --color-background: 13 8 21;
-  --color-on-background: 250 248 255;
+  --color-background: 9 9 11; /* Very dark grey / black (#09090b) */
+  --color-on-background: 244 244 245;
 
-  --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+  --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.6);
 }
 
 @layer base {
-  html, body {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    overflow-x: hidden;
+  }
+  body {
     margin: 0;
     padding: 0;
+    min-height: 100vh;
+    overflow-x: clip;
     background-color: rgb(var(--color-surface));
     color: rgb(var(--color-on-surface));
     transition: background-color 0.2s ease, color 0.2s ease;
-  }
-  body {
-    overscroll-behavior: none;
   }
 }
 
@@ -195,33 +199,30 @@
      PURPLE REACT TEMPLATE STYLING (BOOTSTRAP DASH SIGNATURE)
      ============================================================ */
 
-  /* Gradient Cards with Circular Watermark */
+  /* Gradient & Metric Cards: Pure White in Light Mode, Dark Grey (#141417) in Dark Mode */
   .card-img-holder {
     position: relative;
     overflow: hidden;
-    border: none !important;
-    color: rgba(17, 24, 39, 0.8);
+    background-color: #ffffff;
+    color: #0f172a;
+    border: 1px solid rgba(226, 232, 240, 0.9);
+  }
+  .dark .card-img-holder {
+    background-color: #141417;
+    color: #f4f4f5;
+    border: 1px solid rgba(39, 39, 42, 0.85);
   }
 
-  /* Subtle, crisp text shadow for readability and polish on colorful cards */
-  .text-subtle-shadow,
+  /* Clear harsh text-shadows so 100% opacity text stays crisp */
   .card-img-holder,
   .card-img-holder span,
   .card-img-holder div,
   .card-img-holder p,
   .card-img-holder strong {
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    text-shadow: none;
   }
 
-  /* Card text: Clean suitable text styling, subtle text depth, no card borders */
-  .card-img-holder.bg-gradient-primary,
-  .card-img-holder.bg-gradient-danger,
-  .card-img-holder.bg-gradient-info,
-  .card-img-holder.bg-gradient-success,
-  .card-img-holder.bg-gradient-warning,
-  .card-img-holder.bg-gradient-dark {
-    border: none !important;
-  }
+  /* Half-circle watermark in primary purple */
   .card-img-holder::after {
     content: "";
     position: absolute;
@@ -229,12 +230,15 @@
     right: 0;
     width: 140px;
     height: 100%;
-    background-image: url('/images/circle.svg');
+    background-image: url('/images/circle-purple.svg');
     background-repeat: no-repeat;
     background-position: right top;
     background-size: contain;
     pointer-events: none;
-    opacity: 0.85;
+    opacity: 0.9;
+  }
+  .dark .card-img-holder::after {
+    opacity: 0.55;
   }
 
   /* Gradients - Solid with 20% Lighter Starting Stop */
@@ -362,35 +366,15 @@
     font-weight: 700 !important;
   }
 
-  /* TRANSFERRED: Pink text */
+  /* ALL OTHER OUTCOMES: Yellow text (Rule: 3 main colors - Green Confirm, Red Cancelled, Yellow All Others) */
   .badge-solid-primary,
   .badge-gradient-primary,
-  .badge-status-transferred {
-    background: transparent !important;
-    color: #ec4899 !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    min-height: auto !important;
-    font-weight: 700 !important;
-  }
-
-  /* BUSY: Sky Blue text */
+  .badge-status-transferred,
   .badge-solid-info,
-  .badge-gradient-info {
-    background: transparent !important;
-    color: #0ea5e9 !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    min-height: auto !important;
-    font-weight: 700 !important;
-  }
-
-  /* RETRY QUEUED: Cyan text */
+  .badge-gradient-info,
   .badge-status-retry {
     background: transparent !important;
-    color: #06b6d4 !important;
+    color: #f59e0b !important;
     border: none !important;
     box-shadow: none !important;
     padding: 0 !important;

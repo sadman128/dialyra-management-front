@@ -318,7 +318,7 @@ export default function ProductsPage() {
               setParsedRows([]);
               setUploadModalOpen(true);
             }}
-            className="px-4 py-2 rounded-full bg-white dark:bg-[#1a1329] hover:bg-surface-container text-on-surface font-bold text-xs sm:text-sm border border-outline-variant/30 shadow-2xs transition-all active:scale-95 flex items-center gap-2 cursor-pointer"
+            className="px-4 py-2 rounded-full bg-white dark:bg-[#18181b] hover:bg-surface-container text-on-surface font-bold text-xs sm:text-sm border border-outline-variant/30 dark:border-zinc-800 shadow-2xs transition-all active:scale-95 flex items-center gap-2 cursor-pointer"
             type="button"
           >
             <Upload size={16} className="text-[#9a55ff]" />
@@ -358,7 +358,7 @@ export default function ProductsPage() {
       )}
 
       {/* 3. Products Table Card (With Total Products Count in Header) */}
-      <div className="bg-white dark:bg-[#1a1329] rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-[#121215] rounded-2xl border border-outline-variant/30 dark:border-zinc-800/80 shadow-sm overflow-hidden">
         {/* Table Controls Bar with Total Count */}
         <div className="p-4 sm:p-5 border-b border-outline-variant/20 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
           <div className="flex items-center gap-3 flex-wrap">
@@ -555,7 +555,7 @@ export default function ProductsPage() {
           }}
           className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 animate-in fade-in duration-150"
         >
-          <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-5">
+          <div className="bg-white dark:bg-[#18181b] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 dark:border-zinc-800 space-y-5">
             <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center text-white">
@@ -661,7 +661,7 @@ export default function ProductsPage() {
           }}
           className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 animate-in fade-in duration-150"
         >
-          <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-5">
+          <div className="bg-white dark:bg-[#18181b] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 dark:border-zinc-800 space-y-5">
             <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center text-white">
@@ -761,7 +761,7 @@ export default function ProductsPage() {
           }}
           className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 animate-in fade-in duration-150"
         >
-          <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
+          <div className="bg-white dark:bg-[#18181b] rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-outline-variant/30 dark:border-zinc-800 space-y-4">
             <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-gradient-info flex items-center justify-center text-white">

@@ -92,7 +92,7 @@ export function ConfirmModal({
         if (e.target === e.currentTarget && !isLoading) onClose();
       }}
     >
-      <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4 animate-in zoom-in-95 duration-150">
+      <div className="bg-white dark:bg-[#18181b] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 dark:border-zinc-800 space-y-4 animate-in zoom-in-95 duration-150">
         <div className="flex items-start gap-3.5">
           <div
             className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${styles.iconBox}`}

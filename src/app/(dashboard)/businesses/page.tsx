@@ -121,7 +121,7 @@ export default function BusinessesPage() {
             <input
               value={filterQuery}
               onChange={(e) => setFilterQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-white dark:bg-[#1a1329] rounded-full font-medium text-xs sm:text-sm text-on-surface placeholder:text-on-surface-variant/60 shadow-2xs focus:outline-none focus:ring-2 focus:ring-[#9a55ff]/30 border border-outline-variant/30"
+              className="w-full pl-10 pr-4 py-2 bg-white dark:bg-[#18181b] rounded-full font-medium text-xs sm:text-sm text-on-surface placeholder:text-on-surface-variant/60 shadow-2xs focus:outline-none focus:ring-2 focus:ring-[#9a55ff]/30 border border-outline-variant/30 dark:border-zinc-800"
               placeholder="Search businesses..."
               type="text"
             />
@@ -137,51 +137,51 @@ export default function BusinessesPage() {
         </div>
       </div>
 
-      {/* 2. Signature Purple React Metric Cards (Compact height, subtle text shadow) */}
+      {/* 2. Signature Metric Cards (Pure White Light, Dark Grey #141417, Purple Watermark) */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-3 [&>*:last-child]:col-span-2 md:[&>*:last-child]:col-span-1">
-        <div className="card-img-holder bg-gradient-primary text-gray-900 rounded-lg py-2.5 px-3 sm:py-3 sm:px-3.5 shadow-sm shadow-purple-500/20 flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 rounded-lg py-2.5 px-3 sm:py-3 sm:px-3.5 border border-gray-200/90 dark:border-zinc-800/80 shadow-xs flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-[10px] sm:text-[11px] uppercase tracking-wider font-bold text-gray-900/80 text-subtle-shadow">
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-wider font-semibold text-gray-600 dark:text-zinc-400">
               Businesses
             </span>
-            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-black/10 flex items-center justify-center">
-              <Building2 size={14} className="text-gray-900/80" />
+            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-[#9a55ff]/10 dark:bg-[#9a55ff]/20 flex items-center justify-center">
+              <Building2 size={14} className="text-[#9a55ff]" />
             </div>
           </div>
           <div className="my-0.5">
-            <span className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">
+            <span className="text-xl sm:text-2xl font-bold text-gray-950 dark:text-zinc-50 tracking-tight">
               {businesses.length}
             </span>
           </div>
         </div>
 
-        <div className="card-img-holder bg-gradient-info text-gray-900 rounded-lg py-2.5 px-3 sm:py-3 sm:px-3.5 shadow-sm shadow-blue-500/15 flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 rounded-lg py-2.5 px-3 sm:py-3 sm:px-3.5 border border-gray-200/90 dark:border-zinc-800/80 shadow-xs flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-[10px] sm:text-[11px] uppercase tracking-wider font-bold text-gray-900/80 text-subtle-shadow">
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-wider font-semibold text-gray-600 dark:text-zinc-400">
               Account Balance
             </span>
-            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-black/10 flex items-center justify-center">
-              <Wallet size={14} className="text-gray-900/80" />
+            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-blue-500/10 dark:bg-sky-500/20 flex items-center justify-center">
+              <Wallet size={14} className="text-blue-600 dark:text-sky-400" />
             </div>
           </div>
           <div className="my-0.5">
-            <span className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">
+            <span className="text-xl sm:text-2xl font-bold text-gray-950 dark:text-zinc-50 tracking-tight">
               ৳ {accountBalance.toFixed(2)}
             </span>
           </div>
         </div>
 
-        <div className="card-img-holder bg-gradient-success text-gray-900 rounded-lg py-2.5 px-3 sm:py-3 sm:px-3.5 shadow-sm shadow-teal-500/15 flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 rounded-lg py-2.5 px-3 sm:py-3 sm:px-3.5 border border-gray-200/90 dark:border-zinc-800/80 shadow-xs flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-[10px] sm:text-[11px] uppercase tracking-wider font-bold text-gray-900/80 text-subtle-shadow">
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-wider font-semibold text-gray-600 dark:text-zinc-400">
               Calls Today
             </span>
-            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-black/10 flex items-center justify-center">
-              <PhoneCall size={14} className="text-gray-900/80" />
+            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-emerald-500/10 dark:bg-emerald-500/20 flex items-center justify-center">
+              <PhoneCall size={14} className="text-emerald-600 dark:text-emerald-400" />
             </div>
           </div>
           <div className="my-0.5">
-            <span className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">
+            <span className="text-xl sm:text-2xl font-bold text-gray-950 dark:text-zinc-50 tracking-tight">
               72
             </span>
           </div>
@@ -189,7 +189,7 @@ export default function BusinessesPage() {
       </div>
 
       {/* Multi-Business Table */}
-      <div className="bg-white dark:bg-[#1a1329] rounded-2xl shadow-sm border border-outline-variant/30 overflow-hidden">
+      <div className="bg-white dark:bg-[#121215] rounded-2xl shadow-sm border border-outline-variant/30 dark:border-zinc-800/80 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse" style={{ minWidth: "850px" }}>
             <thead>
@@ -345,7 +345,7 @@ export default function BusinessesPage() {
           }}
           className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4"
         >
-          <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
+          <div className="bg-white dark:bg-[#18181b] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 dark:border-zinc-800 space-y-4">
             <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
               <h3 className="text-lg font-bold text-on-surface">
                 Create Store / Business

@@ -99,7 +99,7 @@ export default function CallHistoryPage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs sm:text-sm font-semibold text-on-surface-variant bg-white dark:bg-[#1a1329] px-4 py-2 rounded-full border border-outline-variant/30 shadow-2xs flex items-center gap-2">
+          <span className="text-xs sm:text-sm font-semibold text-on-surface-variant bg-white dark:bg-[#121215] px-4 py-2 rounded-full border border-outline-variant/30 dark:border-zinc-800/80 shadow-2xs flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             Live Sync: <strong>{totalCallsCount} calls recorded</strong>
           </span>
@@ -107,7 +107,7 @@ export default function CallHistoryPage() {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white dark:bg-[#1a1329] rounded-2xl p-4 border border-outline-variant/30 shadow-sm flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+      <div className="bg-white dark:bg-[#121215] rounded-2xl p-4 border border-outline-variant/30 dark:border-zinc-800/80 shadow-sm flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
         {/* Left: Search input with pill styling */}
         <div className="relative flex-1 min-w-[240px]">
           <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant">
@@ -116,7 +116,7 @@ export default function CallHistoryPage() {
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-surface-container-low rounded-full text-sm text-on-surface placeholder:text-on-surface-variant/70 focus:bg-white dark:focus:bg-[#1a1329] focus:outline-none focus:ring-2 focus:ring-[#9a55ff]/20 transition-all border border-outline-variant/30 font-medium shadow-2xs"
+            className="w-full pl-10 pr-4 py-2 bg-surface-container-low rounded-full text-sm text-on-surface placeholder:text-on-surface-variant/70 focus:bg-white dark:focus:bg-[#18181b] focus:outline-none focus:ring-2 focus:ring-[#9a55ff]/20 transition-all border border-outline-variant/30 font-medium shadow-2xs"
             placeholder="Search by Order ID, phone, or customer name..."
             type="text"
           />
@@ -168,7 +168,7 @@ export default function CallHistoryPage() {
       </div>
 
       {/* Call History Table Card */}
-      <div className="bg-white dark:bg-[#1a1329] rounded-2xl border border-purple-950/20 dark:border-purple-400/25 shadow-sm overflow-hidden flex flex-col">
+      <div className="bg-white dark:bg-[#121215] rounded-2xl border border-outline-variant/30 dark:border-zinc-800/80 shadow-sm overflow-hidden flex flex-col">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse" style={{ minWidth: "800px" }}>
             <thead>
@@ -262,29 +262,14 @@ export default function CallHistoryPage() {
                               CONFIRMED
                             </span>
                           )}
-                          {call.outcome === "NO_ANSWER" && (
-                            <span className="font-bold text-xs sm:text-sm text-amber-500 select-none">
-                              NO ANSWER
-                            </span>
-                          )}
                           {call.outcome === "CANCELLED" && (
                             <span className="font-bold text-xs sm:text-sm text-rose-500 select-none">
                               CANCELLED
                             </span>
                           )}
-                          {call.outcome === "BUSY" && (
-                            <span className="font-bold text-xs sm:text-sm text-sky-500 select-none">
-                              BUSY
-                            </span>
-                          )}
-                          {call.outcome === "TRANSFERRED" && (
-                            <span className="font-bold text-xs sm:text-sm text-pink-500 select-none">
-                              TRANSFERRED
-                            </span>
-                          )}
-                          {call.outcome === "RETRY_QUEUED" && (
-                            <span className="font-bold text-xs sm:text-sm text-cyan-500 select-none">
-                              RETRY QUEUED
+                          {call.outcome !== "CONFIRMED" && call.outcome !== "CANCELLED" && (
+                            <span className="font-bold text-xs sm:text-sm text-amber-500 select-none">
+                              {call.outcome.replace("_", " ")}
                             </span>
                           )}
                         </td>
@@ -310,7 +295,7 @@ export default function CallHistoryPage() {
                       {isExpanded && (
                         <tr className="bg-surface-container-low/40">
                           <td colSpan={10} className="p-4 pl-12 sm:pl-16">
-                            <div className="bg-white dark:bg-[#161022] rounded-2xl p-4 border border-purple-950/20 dark:border-purple-400/25 shadow-sm space-y-3">
+                            <div className="bg-white dark:bg-[#18181b] rounded-2xl p-4 border border-outline-variant/30 dark:border-zinc-800/80 shadow-sm space-y-3">
                               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-outline-variant/15 pb-2.5">
                                 <div className="flex items-center gap-2">
                                   <span className="text-xs font-bold uppercase tracking-wider text-[#9a55ff]">

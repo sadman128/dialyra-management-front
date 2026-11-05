@@ -267,7 +267,7 @@ export default function FlowsPage() {
       </div>
 
       {/* 2. Call Flows Table */}
-      <div className="bg-white dark:bg-[#1a1329] rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-[#121215] rounded-2xl border border-outline-variant/30 dark:border-zinc-800/80 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse" style={{ minWidth: "750px" }}>
             <thead>
@@ -368,7 +368,7 @@ export default function FlowsPage() {
                           <td colSpan={6} className="px-6 py-4 border-t border-outline-variant/15">
                             <div className="space-y-3.5 max-w-4xl">
                               {/* Flow Greeting Audio */}
-                              <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white dark:bg-[#1a1329] border border-outline-variant/30 shadow-2xs">
+                              <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white dark:bg-[#18181b] border border-outline-variant/30 dark:border-zinc-800/80 shadow-2xs">
                                 <div className="w-8 h-8 rounded-lg bg-purple-500/10 text-[#9a55ff] flex items-center justify-center shrink-0">
                                   <Volume2 size={16} />
                                 </div>

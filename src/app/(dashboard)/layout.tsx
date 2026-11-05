@@ -140,15 +140,15 @@ export default function DashboardLayout({
   };
 
   return (
-    <div className="min-h-screen bg-surface dark:bg-[#0d0815] font-body-md text-on-surface antialiased flex flex-col relative overflow-x-hidden">
-      {/* Branded Fixed TriZync Background Image - Subtle dark geometry on deep midnight purple */}
+    <div className="min-h-screen bg-surface dark:bg-[#09090b] font-body-md text-on-surface antialiased flex flex-col relative overflow-x-clip">
+      {/* Branded Fixed TriZync Background Image - Subtle dark geometry on dark grey / black canvas */}
       <div
         className="fixed inset-0 pointer-events-none z-0 bg-cover bg-center bg-no-repeat opacity-60 dark:opacity-[0.035]"
         style={{ backgroundImage: `url('/images/trizync-bg.png')`, backgroundAttachment: "fixed" }}
       />
 
       {/* 1. Desktop Fixed Sidebar - White / Clean Surface (10% wider: 280px) */}
-      <aside className="fixed left-0 top-0 h-full w-[280px] bg-white dark:bg-[#1a1329] text-on-surface z-50 hidden lg:flex flex-col justify-between border-r border-outline-variant/30 shadow-sm">
+      <aside className="fixed left-0 top-0 h-full w-[280px] bg-white dark:bg-[#121215] text-on-surface z-50 hidden lg:flex flex-col justify-between border-r border-outline-variant/30 dark:border-zinc-800/80 shadow-sm">
         <div className="flex flex-col">
           {/* Brand Header */}
           <div className="px-6 pt-6 pb-6 border-b border-outline-variant/20">
@@ -216,7 +216,7 @@ export default function DashboardLayout({
             onClick={() => setMobileDrawerOpen(false)}
             className="fixed inset-0 bg-slate-950/70 backdrop-blur-xs transition-opacity"
           />
-          <div className="relative w-72 max-w-xs bg-white dark:bg-[#1a1329] text-on-surface z-10 flex flex-col justify-between shadow-2xl h-full border-r border-outline-variant/30">
+          <div className="relative w-72 max-w-xs bg-white dark:bg-[#121215] text-on-surface z-10 flex flex-col justify-between shadow-2xl h-full border-r border-outline-variant/30 dark:border-zinc-800/80">
             <div className="flex flex-col">
               <div className="p-5 flex items-center justify-between border-b border-outline-variant/20">
                 <div className="flex items-center gap-2.5">
@@ -284,32 +284,32 @@ export default function DashboardLayout({
       )}
 
       {/* 3. Main Workspace with Fixed Header */}
-      <div className="w-full pl-0 lg:pl-[280px] flex flex-col min-h-screen relative z-10">
+      <div className="w-full pl-0 lg:pl-[280px] flex flex-col min-h-screen relative z-10 min-w-0 max-w-full">
         {/* Top Navbar Header */}
         <header className="fixed top-0 left-0 lg:left-[280px] right-0 h-16 sm:h-20 bg-surface-container-lowest/90 backdrop-blur-xl z-40 flex items-center justify-between px-4 sm:px-8 shadow-xs border-b border-outline-variant/30">
-          <div className="flex items-center gap-3 min-w-0">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             {/* Mobile Hamburger Button */}
             <button
               onClick={() => setMobileDrawerOpen(true)}
-              className="lg:hidden p-2 rounded-xl text-on-surface hover:bg-surface-container transition-colors shrink-0"
+              className="lg:hidden p-1.5 sm:p-2 rounded-xl text-on-surface hover:bg-surface-container transition-colors shrink-0"
               aria-label="Open navigation menu"
             >
-              <Menu size={22} />
+              <Menu size={20} />
             </button>
 
             {/* Active Business Dropdown Switcher */}
             <div className="relative min-w-0" data-popover>
               <button
                 onClick={() => setStoreDropdownOpen(!storeDropdownOpen)}
-                className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-surface-container-low text-on-surface text-xs sm:text-sm font-semibold hover:bg-surface-container transition-all border border-outline-variant/30 max-w-[220px] sm:max-w-none shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer"
+                className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-surface-container-low text-on-surface text-xs sm:text-sm font-semibold hover:bg-surface-container transition-all border border-outline-variant/30 max-w-[135px] xs:max-w-[180px] sm:max-w-none shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer"
                 type="button"
               >
-                <Building2 size={16} className="text-[#9a55ff] shrink-0" />
+                <Building2 size={15} className="text-[#9a55ff] shrink-0" />
                 <span className="text-on-surface-variant font-normal hidden md:inline">
                   Active Business:
                 </span>
                 <span className="font-bold truncate">{activeBusiness.name}</span>
-                <ChevronDown size={15} className="text-on-surface-variant shrink-0" />
+                <ChevronDown size={14} className="text-on-surface-variant shrink-0" />
               </button>
 
               {storeDropdownOpen && (
@@ -340,12 +340,12 @@ export default function DashboardLayout({
           </div>
 
           {/* Header Controls: Sync, Theme Toggle, Notifications, User */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             {/* Sync Button */}
             <button
               onClick={handleSync}
               disabled={syncing}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-surface-container-lowest text-on-surface text-xs sm:text-sm font-semibold hover:bg-surface-container-low transition-all shadow-xs hover:shadow border border-outline-variant/30 active:scale-95 cursor-pointer"
+              className="flex items-center gap-1.5 p-2 sm:px-3 sm:py-2 rounded-xl bg-surface-container-lowest text-on-surface text-xs sm:text-sm font-semibold hover:bg-surface-container-low transition-all shadow-xs hover:shadow border border-outline-variant/30 active:scale-95 cursor-pointer"
               type="button"
             >
               <Zap
@@ -542,8 +542,8 @@ export default function DashboardLayout({
         </header>
 
         {/* Page Main Content Area */}
-        <main className="w-full pt-20 px-4 sm:px-8 bg-transparent min-h-screen">
-          <div className="w-full py-6">{children}</div>
+        <main className="w-full min-w-0 max-w-full pt-20 px-4 sm:px-8 bg-transparent min-h-screen overflow-x-clip">
+          <div className="w-full max-w-full py-6 min-w-0">{children}</div>
         </main>
       </div>
 

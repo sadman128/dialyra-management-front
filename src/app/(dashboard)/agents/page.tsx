@@ -211,54 +211,54 @@ export default function AgentsPage() {
         </button>
       </div>
 
-      {/* 2. Signature Purple React Gradient Metric Cards (Compact height, subtle text shadow) */}
+      {/* 2. Signature Metric Cards (Pure White Light, Dark Grey #141417, Purple Watermark) */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-3 [&>*:last-child]:col-span-2 md:[&>*:last-child]:col-span-1">
         {/* Metric 1: Total Agents */}
-        <div className="card-img-holder bg-gradient-primary text-gray-900 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg shadow-sm shadow-purple-500/20 relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-900/80 text-subtle-shadow">
+            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-600 dark:text-zinc-400">
               Total Agents
             </span>
-            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-black/10 flex items-center justify-center text-gray-900/80">
+            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-[#9a55ff]/10 dark:bg-[#9a55ff]/20 flex items-center justify-center text-[#9a55ff]">
               <Users size={14} />
             </span>
           </div>
           <div className="mt-1 z-10">
-            <div className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">
+            <div className="text-xl sm:text-2xl font-bold text-gray-950 dark:text-zinc-50 tracking-tight">
               {agents.length}
             </div>
           </div>
         </div>
 
         {/* Metric 2: Available Now */}
-        <div className="card-img-holder bg-gradient-success text-gray-900 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg shadow-sm shadow-emerald-500/20 relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-900/80 text-subtle-shadow">
+            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-600 dark:text-zinc-400">
               Available Now
             </span>
-            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-black/10 flex items-center justify-center text-gray-900/80">
+            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-emerald-500/10 dark:bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
               <CheckCircle2 size={14} />
             </span>
           </div>
           <div className="mt-1 z-10">
-            <div className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">
+            <div className="text-xl sm:text-2xl font-bold text-gray-950 dark:text-zinc-50 tracking-tight">
               {availableCount}
             </div>
           </div>
         </div>
 
         {/* Metric 3: Active Extensions */}
-        <div className="card-img-holder bg-gradient-info text-gray-900 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg shadow-sm shadow-blue-500/20 relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-900/80 text-subtle-shadow">
+            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-600 dark:text-zinc-400">
               Active Extensions
             </span>
-            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-black/10 flex items-center justify-center text-gray-900/80">
+            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-blue-500/10 dark:bg-sky-500/20 flex items-center justify-center text-blue-600 dark:text-sky-400">
               <PhoneCall size={14} />
             </span>
           </div>
           <div className="mt-1 z-10">
-            <div className="text-xl sm:text-2xl font-black text-gray-900/80 tracking-tight text-subtle-shadow">
+            <div className="text-xl sm:text-2xl font-bold text-gray-950 dark:text-zinc-50 tracking-tight">
               {agents.length}
             </div>
           </div>
@@ -284,7 +284,7 @@ export default function AgentsPage() {
       </div>
 
       {/* 4. Agents Table */}
-      <div className="bg-white dark:bg-[#1a1329] rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden flex flex-col">
+      <div className="bg-white dark:bg-[#121215] rounded-2xl border border-outline-variant/30 dark:border-zinc-800/80 shadow-sm overflow-hidden flex flex-col">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse" style={{ minWidth: "750px" }}>
             <thead>
@@ -384,7 +384,7 @@ export default function AgentsPage() {
           }}
           className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4"
         >
-          <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
+          <div className="bg-white dark:bg-[#18181b] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 dark:border-zinc-800 space-y-4">
             <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
               <h3 className="text-lg font-bold text-on-surface">
                 Register Agent
@@ -495,7 +495,7 @@ export default function AgentsPage() {
           }}
           className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4"
         >
-          <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
+          <div className="bg-white dark:bg-[#18181b] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-outline-variant/30 dark:border-zinc-800 space-y-4">
             <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
               <div className="flex items-center gap-2">
                 <Key size={18} className="text-[#9a55ff]" />

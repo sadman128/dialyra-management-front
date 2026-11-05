@@ -511,8 +511,8 @@ export default function SettingsPage() {
       {activeTab === "profile" && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Account Profile Card */}
-          <div className="bg-white dark:bg-[#1a1329] rounded-2xl p-6 border border-outline-variant/30 shadow-sm space-y-4">
-            <div className="flex items-center gap-2.5 border-b border-outline-variant/20 pb-3">
+          <div className="bg-white dark:bg-[#121215] rounded-2xl p-6 border border-outline-variant/30 dark:border-zinc-800/80 shadow-sm space-y-4">
+            <div className="flex items-center gap-2.5 border-b border-outline-variant/20 dark:border-zinc-800/60 pb-3">
               <span className="w-2.5 h-2.5 rounded-full bg-gradient-primary" />
               <h2 className="text-base sm:text-lg font-bold text-on-surface">Store Profile</h2>
             </div>
@@ -645,8 +645,8 @@ export default function SettingsPage() {
           </div>
 
           {/* Security & Password Update Card */}
-          <div className="bg-white dark:bg-[#1a1329] rounded-2xl p-6 border border-outline-variant/30 shadow-sm space-y-4">
-            <div className="flex items-center gap-2.5 border-b border-outline-variant/20 pb-3">
+          <div className="bg-white dark:bg-[#121215] rounded-2xl p-6 border border-outline-variant/30 dark:border-zinc-800/80 shadow-sm space-y-4">
+            <div className="flex items-center gap-2.5 border-b border-outline-variant/20 dark:border-zinc-800/60 pb-3">
               <span className="w-2.5 h-2.5 rounded-full bg-gradient-danger" />
               <h2 className="text-base sm:text-lg font-bold text-on-surface">Security & Password</h2>
             </div>
@@ -712,7 +712,7 @@ export default function SettingsPage() {
 
       {/* TAB 2: CALLING HOURS */}
       {activeTab === "hours" && (
-        <div className="bg-white dark:bg-[#1a1329] rounded-2xl p-6 border border-outline-variant/30 shadow-sm space-y-6">
+        <div className="bg-white dark:bg-[#121215] rounded-2xl p-6 border border-outline-variant/30 dark:border-zinc-800/80 shadow-sm space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h2 className="text-base sm:text-lg font-bold text-on-surface flex items-center gap-2">
@@ -891,8 +891,8 @@ export default function SettingsPage() {
                         type="time"
                         value={schedule.startTime}
                         onChange={(e) => handleUpdateScheduleTime(schedule.id, "startTime", e.target.value)}
-                        className={`w-full bg-white dark:bg-[#1a1329] border rounded-xl px-3.5 py-2 font-mono font-bold text-xs sm:text-sm text-on-surface focus:outline-none shadow-2xs ${
-                          hasConflict ? "border-rose-500/50 focus:border-rose-500" : "border-outline-variant/30 focus:border-[#9a55ff]"
+                        className={`w-full bg-white dark:bg-[#18181b] border rounded-xl px-3.5 py-2 font-mono font-bold text-xs sm:text-sm text-on-surface focus:outline-none shadow-2xs ${
+                          hasConflict ? "border-rose-500/50 focus:border-rose-500" : "border-outline-variant/30 dark:border-zinc-800 focus:border-[#9a55ff]"
                         }`}
                       />
                     </div>
@@ -905,8 +905,8 @@ export default function SettingsPage() {
                         type="time"
                         value={schedule.endTime}
                         onChange={(e) => handleUpdateScheduleTime(schedule.id, "endTime", e.target.value)}
-                        className={`w-full bg-white dark:bg-[#1a1329] border rounded-xl px-3.5 py-2 font-mono font-bold text-xs sm:text-sm text-on-surface focus:outline-none shadow-2xs ${
-                          hasConflict ? "border-rose-500/50 focus:border-rose-500" : "border-outline-variant/30 focus:border-[#9a55ff]"
+                        className={`w-full bg-white dark:bg-[#18181b] border rounded-xl px-3.5 py-2 font-mono font-bold text-xs sm:text-sm text-on-surface focus:outline-none shadow-2xs ${
+                          hasConflict ? "border-rose-500/50 focus:border-rose-500" : "border-outline-variant/30 dark:border-zinc-800 focus:border-[#9a55ff]"
                         }`}
                       />
                     </div>
@@ -985,7 +985,7 @@ export default function SettingsPage() {
 
       {/* TAB 3: DNC REGISTRY */}
       {activeTab === "dnc" && (
-        <div className="bg-white dark:bg-[#1a1329] rounded-2xl p-6 border border-outline-variant/30 shadow-sm space-y-6">
+        <div className="bg-white dark:bg-[#121215] rounded-2xl p-6 border border-outline-variant/30 dark:border-zinc-800/80 shadow-sm space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h2 className="text-base sm:text-lg font-bold text-on-surface flex items-center gap-2">
@@ -1065,7 +1065,7 @@ export default function SettingsPage() {
 
       {/* TAB 4: API & WEBHOOKS */}
       {activeTab === "api" && (
-        <div className="bg-white dark:bg-[#1a1329] rounded-2xl p-6 border border-outline-variant/30 shadow-sm space-y-6">
+        <div className="bg-white dark:bg-[#121215] rounded-2xl p-6 border border-outline-variant/30 dark:border-zinc-800/80 shadow-sm space-y-6">
           <div>
             <h2 className="text-base sm:text-lg font-bold text-on-surface flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-gradient-info" />
@@ -1282,7 +1282,7 @@ export default function SettingsPage() {
           }}
           className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4"
         >
-          <div className="bg-white dark:bg-[#1a1329] rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-outline-variant/30 space-y-4">
+          <div className="bg-white dark:bg-[#18181b] rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-outline-variant/30 dark:border-zinc-800 space-y-4">
             <div className="flex items-center justify-between border-b border-outline-variant/20 pb-3">
               <h3 className="text-base sm:text-lg font-bold text-on-surface">
                 Verify OTP Code
