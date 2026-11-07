@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { ToastProvider } from "@/context/ToastContext";
 import { BusinessProvider } from "@/context/BusinessContext";
 
 export const metadata: Metadata = {
@@ -42,7 +43,9 @@ export default function RootLayout({
       </head>
       <body className="bg-surface font-body-md text-on-surface antialiased">
         <ThemeProvider>
-          <BusinessProvider>{children}</BusinessProvider>
+          <ToastProvider>
+            <BusinessProvider>{children}</BusinessProvider>
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>

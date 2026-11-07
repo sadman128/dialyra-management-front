@@ -602,7 +602,7 @@ export default function SettingsPage() {
 
               {/* Dialyra v3 Telephony Controls */}
               <div className="p-3.5 rounded-xl bg-surface-container-low/80 border border-outline-variant/30 space-y-3">
-                <span className="text-xs font-bold text-[#9a55ff] uppercase tracking-wider block">
+                <span className="text-xs font-semibold text-[#9a55ff] block">
                   Dialyra v3 Engine Settings
                 </span>
                 <label className="flex items-center gap-2 cursor-pointer select-none">
@@ -830,30 +830,30 @@ export default function SettingsPage() {
                   {/* Weekdays Selector */}
                   <div className="pt-3.5 space-y-2">
                     <div className="flex items-center justify-between">
-                      <label className="block text-[11px] uppercase font-bold tracking-wider text-on-surface-variant">
+                      <label className="block text-xs font-semibold text-on-surface-variant">
                         Active Weekdays
                       </label>
-                      <div className="flex items-center gap-2 text-[11px]">
+                      <div className="flex items-center gap-2 text-xs">
                         <button
                           type="button"
                           onClick={() => handleSetScheduleDays(schedule.id, ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"])}
-                          className="text-[#9a55ff] font-bold hover:underline cursor-pointer"
+                          className="text-[#9a55ff] font-semibold hover:underline cursor-pointer"
                         >
                           All Week
                         </button>
-                        <span className="text-on-surface-variant/40">•</span>
+                        <span className="text-on-surface-variant/30">/</span>
                         <button
                           type="button"
                           onClick={() => handleSetScheduleDays(schedule.id, ["Mon", "Tue", "Wed", "Thu"])}
-                          className="text-[#9a55ff] font-bold hover:underline cursor-pointer"
+                          className="text-[#9a55ff] font-semibold hover:underline cursor-pointer"
                         >
                           Mon-Thu
                         </button>
-                        <span className="text-on-surface-variant/40">•</span>
+                        <span className="text-on-surface-variant/30">/</span>
                         <button
                           type="button"
                           onClick={() => handleSetScheduleDays(schedule.id, ["Fri", "Sat", "Sun"])}
-                          className="text-[#9a55ff] font-bold hover:underline cursor-pointer"
+                          className="text-[#9a55ff] font-semibold hover:underline cursor-pointer"
                         >
                           Fri-Sun
                         </button>
@@ -884,7 +884,7 @@ export default function SettingsPage() {
                   {/* Manual Time Inputs */}
                   <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-[11px] uppercase font-bold tracking-wider text-on-surface-variant mb-1">
+                      <label className="block text-xs font-semibold text-on-surface-variant mb-1">
                         Start Time (Manual)
                       </label>
                       <input
@@ -898,7 +898,7 @@ export default function SettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-[11px] uppercase font-bold tracking-wider text-on-surface-variant mb-1">
+                      <label className="block text-xs font-semibold text-on-surface-variant mb-1">
                         End Time (Manual)
                       </label>
                       <input
@@ -919,7 +919,7 @@ export default function SettingsPage() {
           {/* Weekly Schedule Overview */}
           <div className="pt-4 border-t border-outline-variant/20">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-xs font-bold text-on-surface uppercase tracking-wider">
+              <h3 className="text-xs font-semibold text-on-surface">
                 Weekly Overview
               </h3>
               {scheduleConflicts.length === 0 && (
@@ -1030,7 +1030,7 @@ export default function SettingsPage() {
           <div className="overflow-x-auto border border-outline-variant/20 rounded-xl">
             <table className="w-full text-left border-collapse text-xs sm:text-sm">
               <thead>
-                <tr className="bg-surface-container-low/70 border-b border-outline-variant/20 text-on-surface-variant text-xs uppercase tracking-wider font-bold">
+                <tr className="bg-surface-container-low/70 border-b border-outline-variant/20 text-on-surface-variant text-xs font-semibold">
                   <th className="py-3 px-4">Phone Number</th>
                   <th className="py-3 px-4">Reason</th>
                   <th className="py-3 px-4">Date Added</th>
@@ -1080,7 +1080,7 @@ export default function SettingsPage() {
             {/* 1. Dialyra v3 Runtime Access Token */}
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className="text-on-surface-variant uppercase text-[10px] font-bold tracking-wider">
+                <label className="text-on-surface-variant text-xs font-semibold">
                   Dialyra v3 Access Token (<code>calls:originate</code>)
                 </label>
                 <span className="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">
@@ -1121,7 +1121,7 @@ export default function SettingsPage() {
             {/* 2. Dialyra v2 Management JWT Token */}
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className="text-on-surface-variant uppercase text-[10px] font-bold tracking-wider">
+                <label className="text-on-surface-variant text-xs font-semibold">
                   Dialyra Management JWT Token (<code>businesses.manage</code>)
                 </label>
                 <span className="text-[10px] font-bold text-purple-500 bg-purple-500/10 px-2 py-0.5 rounded-full">
@@ -1158,8 +1158,8 @@ export default function SettingsPage() {
 
             {/* 3. Inbound Webhook URL */}
             <div>
-              <label className="text-on-surface-variant uppercase text-[10px] font-bold tracking-wider block mb-1">
-                Order Inbound Webhook URL (Storefront ➔ Dialyra)
+              <label className="text-on-surface-variant text-xs font-semibold block mb-1">
+                Order Inbound Webhook URL (Storefront to Dialyra)
               </label>
               <div className="flex items-center gap-2 p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/30">
                 <code className="font-mono text-on-surface text-xs truncate flex-1">
@@ -1182,7 +1182,7 @@ export default function SettingsPage() {
 
             {/* 4. HMAC Signing Secret */}
             <div>
-              <label className="text-on-surface-variant uppercase text-[10px] font-bold tracking-wider block mb-1">
+              <label className="text-on-surface-variant text-xs font-semibold block mb-1">
                 Webhook HMAC SHA-256 Signing Secret
               </label>
               <div className="flex items-center gap-2 p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/30">
@@ -1215,8 +1215,8 @@ export default function SettingsPage() {
 
             {/* 5. Outbound Store Callback URL */}
             <div>
-              <label className="text-on-surface-variant uppercase text-[10px] font-bold tracking-wider block mb-1">
-                Outbound Store Callback URL (Dialyra ➔ Storefront)
+              <label className="text-on-surface-variant text-xs font-semibold block mb-1">
+                Outbound Store Callback URL (Dialyra to Storefront)
               </label>
               <div className="flex items-center gap-2 p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/30">
                 <input

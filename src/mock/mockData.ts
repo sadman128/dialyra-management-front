@@ -105,7 +105,7 @@ export const mockAudioAssets: AudioAsset[] = [
     fileSizeFormatted: "128 KB",
     referencedByFlows: ["Order Confirmation Flow"],
     url: "https://actions.google.com/sounds/v1/emergency/beeper_emergency_call.ogg",
-    codec: "PCM 16-bit 8000Hz • Mono",
+    codec: "PCM 16-bit 8000Hz / Mono",
   },
   {
     id: "audio-2",
@@ -116,7 +116,7 @@ export const mockAudioAssets: AudioAsset[] = [
     fileSizeFormatted: "80 KB",
     referencedByFlows: ["Order Confirmation Flow"],
     url: "https://actions.google.com/sounds/v1/emergency/beeper_emergency_call.ogg",
-    codec: "PCM 16-bit 8000Hz • Mono",
+    codec: "PCM 16-bit 8000Hz / Mono",
   },
   {
     id: "audio-3",
@@ -127,7 +127,7 @@ export const mockAudioAssets: AudioAsset[] = [
     fileSizeFormatted: "512 KB",
     referencedByFlows: ["Order Confirmation Flow", "VIP Verification Flow"],
     url: "https://actions.google.com/sounds/v1/emergency/beeper_emergency_call.ogg",
-    codec: "PCM 16-bit 8000Hz • Mono",
+    codec: "PCM 16-bit 8000Hz / Mono",
   },
   {
     id: "audio-4",
@@ -138,7 +138,7 @@ export const mockAudioAssets: AudioAsset[] = [
     fileSizeFormatted: "224 KB",
     referencedByFlows: ["Order Confirmation Flow"],
     url: "https://actions.google.com/sounds/v1/emergency/beeper_emergency_call.ogg",
-    codec: "PCM 16-bit 8000Hz • Mono",
+    codec: "PCM 16-bit 8000Hz / Mono",
   },
 ];
 
@@ -162,7 +162,7 @@ export const mockCalls: CallRecord[] = [
     recordingUrl: "https://actions.google.com/sounds/v1/emergency/beeper_emergency_call.ogg",
     startedAt: "2026-11-01 13:29:12",
     canRetry: false,
-    orderAmount: "৳ 2,850 • Cash on Delivery",
+    orderAmount: "৳ 2,850 / Cash on Delivery",
     city: "Mirpur, Dhaka",
     attempts: [
       { attemptNumber: 1, startedAt: "2026-11-01 13:29:12", outcome: "CONFIRMED", durationSec: 34, costAmount: 1.20 },
@@ -186,7 +186,7 @@ export const mockCalls: CallRecord[] = [
     recordingUrl: null,
     startedAt: "2026-11-01 13:17:40",
     canRetry: true,
-    orderAmount: "৳ 1,450 • Cash on Delivery",
+    orderAmount: "৳ 1,450 / Cash on Delivery",
     city: "Uttara, Dhaka",
     attempts: [
       { attemptNumber: 2, startedAt: "2026-11-01 13:17:40", outcome: "NO_ANSWER", durationSec: 0, costAmount: 0.00 },
@@ -211,7 +211,7 @@ export const mockCalls: CallRecord[] = [
     recordingUrl: "https://actions.google.com/sounds/v1/emergency/beeper_emergency_call.ogg",
     startedAt: "2026-11-01 12:33:04",
     canRetry: false,
-    orderAmount: "৳ 4,120 • Cash on Delivery",
+    orderAmount: "৳ 4,120 / Cash on Delivery",
     city: "Dhanmondi, Dhaka",
     attempts: [
       { attemptNumber: 1, startedAt: "2026-11-01 12:33:04", outcome: "CANCELLED", durationSec: 28, costAmount: 1.00 },
@@ -235,7 +235,7 @@ export const mockCalls: CallRecord[] = [
     recordingUrl: null,
     startedAt: "2026-11-01 12:17:22",
     canRetry: true,
-    orderAmount: "৳ 980 • Cash on Delivery",
+    orderAmount: "৳ 980 / Cash on Delivery",
     city: "Chittagong GPO",
     attempts: [
       { attemptNumber: 1, startedAt: "2026-11-01 12:17:22", outcome: "BUSY", durationSec: 0, costAmount: 0.00 },
@@ -259,7 +259,7 @@ export const mockCalls: CallRecord[] = [
     recordingUrl: "https://actions.google.com/sounds/v1/emergency/beeper_emergency_call.ogg",
     startedAt: "2026-11-01 11:45:10",
     canRetry: false,
-    orderAmount: "৳ 7,500 • COD Verified",
+    orderAmount: "৳ 7,500 / COD Verified",
     city: "Sylhet Sadar",
     attempts: [
       { attemptNumber: 1, startedAt: "2026-11-01 11:45:10", outcome: "CONFIRMED", durationSec: 92, costAmount: 3.20 },
@@ -283,7 +283,7 @@ export const mockCalls: CallRecord[] = [
     recordingUrl: null,
     startedAt: "2026-11-01 11:30:00",
     canRetry: true,
-    orderAmount: "৳ 1,890 • Cash on Delivery",
+    orderAmount: "৳ 1,890 / Cash on Delivery",
     city: "Khulna City",
     attempts: [
       { attemptNumber: 1, startedAt: "2026-11-01 11:30:00", outcome: "NO_ANSWER", durationSec: 0, costAmount: 0.00 },
@@ -309,7 +309,7 @@ export const mockCalls: CallRecord[] = [
     recordingUrl: "https://actions.google.com/sounds/v1/emergency/beeper_emergency_call.ogg",
     startedAt: "2026-11-01 14:10:05",
     canRetry: false,
-    orderAmount: "৳ 3,450 • Grocery Essentials",
+    orderAmount: "৳ 3,450 / Grocery Essentials",
     city: "Uttara Sector 4, Dhaka",
     attempts: [
       { attemptNumber: 1, startedAt: "2026-11-01 14:10:05", outcome: "CONFIRMED", durationSec: 42, costAmount: 1.50 },
@@ -333,7 +333,7 @@ export const mockCalls: CallRecord[] = [
     recordingUrl: "https://actions.google.com/sounds/v1/emergency/beeper_emergency_call.ogg",
     startedAt: "2026-11-01 13:50:18",
     canRetry: false,
-    orderAmount: "৳ 1,980 • Baby Care Kit",
+    orderAmount: "৳ 1,980 / Baby Care Kit",
     city: "Gulshan 2, Dhaka",
     attempts: [
       { attemptNumber: 1, startedAt: "2026-11-01 13:50:18", outcome: "CONFIRMED", durationSec: 38, costAmount: 1.35 },
@@ -357,7 +357,7 @@ export const mockCalls: CallRecord[] = [
     recordingUrl: null,
     startedAt: "2026-11-01 13:22:45",
     canRetry: true,
-    orderAmount: "৳ 2,650 • Organic Cold-pressed Oil",
+    orderAmount: "৳ 2,650 / Organic Cold-pressed Oil",
     city: "Banani, Dhaka",
     attempts: [
       { attemptNumber: 1, startedAt: "2026-11-01 13:22:45", outcome: "NO_ANSWER", durationSec: 0, costAmount: 0.00 },
@@ -381,7 +381,7 @@ export const mockCalls: CallRecord[] = [
     recordingUrl: "https://actions.google.com/sounds/v1/emergency/beeper_emergency_call.ogg",
     startedAt: "2026-11-01 12:45:11",
     canRetry: false,
-    orderAmount: "৳ 890 • Snacks & Beverages",
+    orderAmount: "৳ 890 / Snacks & Beverages",
     city: "Baridhara DOHS, Dhaka",
     attempts: [
       { attemptNumber: 1, startedAt: "2026-11-01 12:45:11", outcome: "CANCELLED", durationSec: 22, costAmount: 0.80 },
@@ -405,7 +405,7 @@ export const mockCalls: CallRecord[] = [
     recordingUrl: "https://actions.google.com/sounds/v1/emergency/beeper_emergency_call.ogg",
     startedAt: "2026-11-01 11:58:30",
     canRetry: false,
-    orderAmount: "৳ 5,200 • Premium Basmati & Ghee",
+    orderAmount: "৳ 5,200 / Premium Basmati & Ghee",
     city: "Bashundhara R/A, Dhaka",
     attempts: [
       { attemptNumber: 1, startedAt: "2026-11-01 11:58:30", outcome: "CONFIRMED", durationSec: 48, costAmount: 1.70 },
@@ -429,7 +429,7 @@ export const mockCalls: CallRecord[] = [
     recordingUrl: null,
     startedAt: "2026-11-01 11:15:00",
     canRetry: true,
-    orderAmount: "৳ 3,100 • Imported Dairy Items",
+    orderAmount: "৳ 3,100 / Imported Dairy Items",
     city: "Mohakhali DOHS, Dhaka",
     attempts: [
       { attemptNumber: 1, startedAt: "2026-11-01 11:15:00", outcome: "NO_ANSWER", durationSec: 0, costAmount: 0.00 },

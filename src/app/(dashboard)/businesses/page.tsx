@@ -139,9 +139,9 @@ export default function BusinessesPage() {
 
       {/* 2. Signature Metric Cards (Pure White Light, Dark Grey #141417, Purple Watermark) */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-3 [&>*:last-child]:col-span-2 md:[&>*:last-child]:col-span-1">
-        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 rounded-lg py-2.5 px-3 sm:py-3 sm:px-3.5 border border-gray-200/90 dark:border-zinc-800/80 shadow-xs flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 rounded-lg py-2.5 px-3 sm:py-3 sm:px-3.5 border border-gray-200/90 dark:border-zinc-800/80 shadow-xs flex flex-col justify-between transition-transform hover:-translate-y-0.5">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-[10px] sm:text-[11px] uppercase tracking-wider font-semibold text-gray-600 dark:text-zinc-400">
+            <span className="text-xs font-semibold text-gray-600 dark:text-zinc-400">
               Businesses
             </span>
             <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-[#9a55ff]/10 dark:bg-[#9a55ff]/20 flex items-center justify-center">
@@ -155,10 +155,10 @@ export default function BusinessesPage() {
           </div>
         </div>
 
-        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 rounded-lg py-2.5 px-3 sm:py-3 sm:px-3.5 border border-gray-200/90 dark:border-zinc-800/80 shadow-xs flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 rounded-lg py-2.5 px-3 sm:py-3 sm:px-3.5 border border-gray-200/90 dark:border-zinc-800/80 shadow-xs flex flex-col justify-between transition-transform hover:-translate-y-0.5">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-[10px] sm:text-[11px] uppercase tracking-wider font-semibold text-gray-600 dark:text-zinc-400">
-              Account Balance
+            <span className="text-xs font-semibold text-gray-600 dark:text-zinc-400">
+              Account balance
             </span>
             <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-blue-500/10 dark:bg-sky-500/20 flex items-center justify-center">
               <Wallet size={14} className="text-blue-600 dark:text-sky-400" />
@@ -171,10 +171,10 @@ export default function BusinessesPage() {
           </div>
         </div>
 
-        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 rounded-lg py-2.5 px-3 sm:py-3 sm:px-3.5 border border-gray-200/90 dark:border-zinc-800/80 shadow-xs flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 rounded-lg py-2.5 px-3 sm:py-3 sm:px-3.5 border border-gray-200/90 dark:border-zinc-800/80 shadow-xs flex flex-col justify-between transition-transform hover:-translate-y-0.5">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-[10px] sm:text-[11px] uppercase tracking-wider font-semibold text-gray-600 dark:text-zinc-400">
-              Calls Today
+            <span className="text-xs font-semibold text-gray-600 dark:text-zinc-400">
+              Calls today
             </span>
             <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-emerald-500/10 dark:bg-emerald-500/20 flex items-center justify-center">
               <PhoneCall size={14} className="text-emerald-600 dark:text-emerald-400" />
@@ -193,13 +193,13 @@ export default function BusinessesPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse" style={{ minWidth: "850px" }}>
             <thead>
-              <tr className="bg-surface-container-low/80 border-b border-outline-variant/20 text-on-surface-variant text-xs uppercase tracking-wider font-bold">
-                <th className="py-3.5 px-5">Business Name &amp; UUID</th>
-                <th className="py-3.5 px-5">Domain &amp; Routing</th>
-                <th className="py-3.5 px-5">SIP Controls</th>
-                <th className="py-3.5 px-5">Flows</th>
-                <th className="py-3.5 px-5">Default Flow</th>
-                <th className="py-3.5 px-5 text-right">Action</th>
+              <tr className="bg-surface-container-low/80 border-b border-outline-variant/20 text-on-surface-variant text-xs font-semibold">
+                <th className="py-3 px-5">Business name &amp; UUID</th>
+                <th className="py-3 px-5">Domain &amp; routing</th>
+                <th className="py-3 px-5">SIP controls</th>
+                <th className="py-3 px-5">Flows</th>
+                <th className="py-3 px-5">Default flow</th>
+                <th className="py-3 px-5 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/15 text-xs sm:text-sm text-on-surface">
@@ -264,7 +264,7 @@ export default function BusinessesPage() {
                           <ExternalLink size={12} className="shrink-0" />
                         </a>
                         <span className="text-[11px] text-on-surface-variant font-medium">
-                          {biz.triggerMode === "instant" ? "⚡ Instant Auto-Call" : "📋 Manual Batch"} · {biz.timezone}
+                          {biz.triggerMode === "instant" ? "Instant auto-call" : "Manual batch"} / {biz.timezone}
                         </span>
                       </div>
                     </td>
@@ -360,7 +360,7 @@ export default function BusinessesPage() {
 
             <form onSubmit={handleCreateStore} className="space-y-3.5 text-xs sm:text-sm">
               <div>
-                <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+                <label className="block text-xs font-semibold text-on-surface mb-1">
                   Business Name <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -374,8 +374,8 @@ export default function BusinessesPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
-                    Store Domain / Slug <span className="text-rose-500">*</span>
+                  <label className="block text-xs font-semibold text-on-surface mb-1">
+                    Store domain / slug <span className="text-rose-500">*</span>
                   </label>
                   <input
                     value={newStoreDomain}
@@ -386,8 +386,8 @@ export default function BusinessesPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
-                    Contact Email
+                  <label className="block text-xs font-semibold text-on-surface mb-1">
+                    Contact email
                   </label>
                   <input
                     type="email"
@@ -401,8 +401,8 @@ export default function BusinessesPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
-                    Country Code
+                  <label className="block text-xs font-semibold text-on-surface mb-1">
+                    Country code
                   </label>
                   <input
                     value={newStoreCountry}
@@ -412,7 +412,7 @@ export default function BusinessesPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-semibold text-on-surface mb-1">
                     Timezone
                   </label>
                   <select
@@ -428,23 +428,23 @@ export default function BusinessesPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
-                  Trigger Mechanism
+                <label className="block text-xs font-semibold text-on-surface mb-1">
+                  Trigger mechanism
                 </label>
                 <select
                   value={newStoreTrigger}
                   onChange={(e) => setNewStoreTrigger(e.target.value as "instant" | "manual")}
                   className="w-full bg-surface-container-low px-3.5 py-2 rounded-xl text-xs sm:text-sm border border-outline-variant/30 focus:outline-none focus:border-[#9a55ff]"
                 >
-                  <option value="instant">Instant Automatic Call on Order Ingestion</option>
-                  <option value="manual">Manual Batch / Approval Mode</option>
+                  <option value="instant">Instant automatic call on order ingestion</option>
+                  <option value="manual">Manual batch / approval mode</option>
                 </select>
               </div>
 
               {/* v3 SIP Rollout Controls */}
               <div className="p-3 rounded-xl bg-surface-container-low/80 border border-outline-variant/30 space-y-2">
-                <span className="text-xs font-bold text-[#9a55ff] block uppercase tracking-wider">
-                  Dialyra v3 Telephony Settings
+                <span className="text-xs font-semibold text-[#9a55ff] block">
+                  Dialyra v3 telephony settings
                 </span>
                 <label className="flex items-center gap-2 cursor-pointer select-none">
                   <input

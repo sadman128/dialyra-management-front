@@ -406,13 +406,13 @@ export default function ProductsPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse" style={{ minWidth: "720px" }}>
             <thead>
-              <tr className="bg-surface-container-low/70 text-on-surface text-xs font-bold uppercase tracking-wider border-b border-outline-variant/20">
-                <th className="px-5 py-3.5 w-16">#</th>
-                <th className="px-5 py-3.5">Product ID</th>
-                <th className="px-5 py-3.5">Product Name</th>
-                <th className="px-5 py-3.5">Price</th>
-                <th className="px-5 py-3.5">Assigned Flow</th>
-                <th className="px-5 py-3.5 text-right">Actions</th>
+              <tr className="bg-surface-container-low/70 text-on-surface-variant text-xs font-semibold border-b border-outline-variant/20">
+                <th className="px-5 py-3 w-16">#</th>
+                <th className="px-5 py-3">Product ID</th>
+                <th className="px-5 py-3">Product Name</th>
+                <th className="px-5 py-3">Price</th>
+                <th className="px-5 py-3">Assigned Flow</th>
+                <th className="px-5 py-3 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/15 text-sm text-on-surface">

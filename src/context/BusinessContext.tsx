@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState } from "react";
+import { useToast } from "@/context/ToastContext";
 import {
   BusinessStore,
   CallRecord,
@@ -14,12 +15,6 @@ import {
   mockAudioAssets,
 } from "@/mock/mockData";
 import { Icon } from "@/components/ui/Icon";
-
-interface Toast {
-  id: string;
-  message: string;
-  type: "success" | "info" | "warning" | "error";
-}
 
 interface BusinessContextType {
   accountBalance: number;
@@ -49,6 +44,7 @@ interface BusinessContextType {
 const BusinessContext = createContext<BusinessContextType | undefined>(undefined);
 
 export function BusinessProvider({ children }: { children: React.ReactNode }) {
+  const { showToast: globalShowToast } = useToast();
   const [accountBalance, setAccountBalance] = useState<number>(500.0);
   const [businesses, setBusinesses] = useState<BusinessStore[]>(mockBusinesses);
   const [activeBusinessId, setActiveBusinessIdState] = useState<string>("biz-1");
@@ -56,7 +52,6 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
   const [flows] = useState<FlowSummary[]>(mockFlows);
   const [allProducts, setAllProducts] = useState<ProductItem[]>(mockProducts);
   const [audioAssets, setAudioAssets] = useState<AudioAsset[]>(mockAudioAssets);
-  const [toasts, setToasts] = useState<Toast[]>([]);
 
   const rawActive =
     businesses.find((b) => b.id === activeBusinessId) || businesses[0];
@@ -132,11 +127,7 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
     message: string,
     type: "success" | "info" | "warning" | "error" = "info"
   ) => {
-    const id = `toast-${Date.now()}`;
-    setToasts((prev) => [...prev, { id, message, type }]);
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 3500);
+    globalShowToast(message, type, undefined, 3000);
   };
 
   const setActiveBusinessId = (id: string) => {
@@ -211,38 +202,6 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
       }}
     >
       {children}
-
-      {/* Floating Toast Container */}
-      <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm pointer-events-none">
-        {toasts.map((toast) => (
-          <div
-            key={toast.id}
-            className={`pointer-events-auto p-4 rounded-xl shadow-lg border text-xs font-semibold flex items-center gap-3 transition-all transform translate-y-0 ${
-              toast.type === "success"
-                ? "bg-emerald-900 text-emerald-100 border-emerald-700"
-                : toast.type === "warning"
-                ? "bg-amber-900 text-amber-100 border-amber-700"
-                : toast.type === "error"
-                ? "bg-rose-900 text-rose-100 border-rose-700"
-                : "bg-[#411264] text-white border-purple-500"
-            }`}
-          >
-            <Icon
-              name={
-                toast.type === "success"
-                  ? "check_circle"
-                  : toast.type === "warning"
-                  ? "warning"
-                  : toast.type === "error"
-                  ? "error"
-                  : "info"
-              }
-              size={18}
-            />
-            <span className="flex-1">{toast.message}</span>
-          </div>
-        ))}
-      </div>
     </BusinessContext.Provider>
   );
 }

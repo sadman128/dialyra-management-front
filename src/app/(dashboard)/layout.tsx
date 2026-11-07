@@ -135,7 +135,7 @@ export default function DashboardLayout({
     setSyncing(true);
     setTimeout(() => {
       setSyncing(false);
-      showToast("System synchronized", "info");
+      showToast("Channels synchronized", "success");
     }, 500);
   };
 
@@ -160,8 +160,8 @@ export default function DashboardLayout({
                 <span className="text-2xl font-black tracking-tight text-on-surface leading-none">
                   Dialyra
                 </span>
-                <span className="text-[10px] text-[#9a55ff] tracking-[0.24em] uppercase font-extrabold mt-1">
-                  MANAGEMENT
+                <span className="text-xs text-[#9a55ff] font-semibold mt-0.5">
+                  Management
                 </span>
               </div>
             </div>
@@ -227,8 +227,8 @@ export default function DashboardLayout({
                     <span className="text-xl font-bold text-on-surface block leading-tight">
                       Dialyra
                     </span>
-                    <span className="text-[10px] text-[#9a55ff] tracking-[0.22em] uppercase font-bold block">
-                      MANAGEMENT
+                    <span className="text-xs text-[#9a55ff] font-semibold block mt-0.5">
+                      Management
                     </span>
                   </div>
                 </div>
@@ -314,8 +314,8 @@ export default function DashboardLayout({
 
               {storeDropdownOpen && (
                 <div className="absolute left-0 mt-2 w-64 bg-surface-container-lowest rounded-2xl shadow-xl border border-outline-variant/30 p-2 z-50">
-                  <div className="text-xs font-bold text-on-surface-variant px-3 py-1.5 uppercase tracking-wider">
-                    Connected Businesses
+                  <div className="text-xs font-semibold text-on-surface-variant px-3 py-1.5">
+                    Connected businesses
                   </div>
                   {businesses.map((biz) => (
                     <button

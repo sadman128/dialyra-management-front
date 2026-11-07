@@ -8,7 +8,7 @@ export function LandingNavbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-slate-200/80 transition-all">
+    <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-slate-200/80 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 sm:h-20 flex items-center justify-between">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-3 group">
@@ -19,8 +19,8 @@ export function LandingNavbar() {
             <span className="text-2xl font-black tracking-tight text-slate-900 leading-none">
               Dialyra
             </span>
-            <span className="text-[10px] text-[#9a55ff] tracking-[0.22em] uppercase font-extrabold mt-1">
-              TELEPHONY ENGINE
+            <span className="text-xs text-[#9a55ff] font-semibold mt-0.5">
+              Telephony Engine
             </span>
           </div>
         </Link>

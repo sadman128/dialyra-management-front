@@ -57,21 +57,21 @@ export default function FlowsPage() {
         {
           key: "1",
           label: "Confirm Order",
-          action: "Order Confirmed ➔ End",
+          action: "Order Confirmed — Complete",
           icon: "check_circle",
           color: "emerald",
         },
         {
           key: "2",
           label: "Cancel Order",
-          action: "Order Cancelled ➔ End",
+          action: "Order Cancelled — Terminate",
           icon: "cancel",
           color: "rose",
         },
         {
           key: "3",
           label: "Support Transfer",
-          action: "Queue #4001 ➔ Human Agent",
+          action: "Queue #4001 — Human Agent",
           icon: "headset_mic",
           color: "purple",
         },
@@ -98,14 +98,14 @@ export default function FlowsPage() {
         {
           key: "1",
           label: "VIP Confirm",
-          action: "Priority Confirmed ➔ End",
+          action: "Priority Confirmed — Complete",
           icon: "verified",
           color: "emerald",
         },
         {
           key: "2",
           label: "Senior Desk Rep",
-          action: "Transfer ➔ Queue #4002",
+          action: "Transfer — Queue #4002",
           icon: "headset_mic",
           color: "purple",
         },
@@ -126,14 +126,14 @@ export default function FlowsPage() {
         {
           key: "1",
           label: "Accept Dispatch",
-          action: "Order Dispatched ➔ End",
+          action: "Order Dispatched — Complete",
           icon: "check_circle",
           color: "emerald",
         },
         {
           key: "2",
           label: "Modify Delivery Slot",
-          action: "Transfer ➔ Grocery Desk #4003",
+          action: "Transfer — Grocery Desk #4003",
           icon: "headset_mic",
           color: "purple",
         },
@@ -153,14 +153,14 @@ export default function FlowsPage() {
         {
           key: "1",
           label: "Verify Terms",
-          action: "Terms Confirmed ➔ End",
+          action: "Terms Confirmed — Complete",
           icon: "verified",
           color: "emerald",
         },
         {
           key: "2",
           label: "Account Manager",
-          action: "Direct Ring ➔ #4004",
+          action: "Direct Ring — #4004",
           icon: "headset_mic",
           color: "purple",
         },
@@ -271,13 +271,13 @@ export default function FlowsPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse" style={{ minWidth: "750px" }}>
             <thead>
-              <tr className="bg-surface-container-low/80 text-on-surface text-xs font-bold uppercase tracking-wider border-b border-outline-variant/20">
-                <th className="w-12 px-4 py-3.5 text-center"></th>
-                <th className="px-5 py-3.5">Flow Name</th>
-                <th className="px-5 py-3.5">Flow Number</th>
-                <th className="px-5 py-3.5">Rule</th>
-                <th className="px-5 py-3.5">Default</th>
-                <th className="px-5 py-3.5 text-right">Action</th>
+              <tr className="bg-surface-container-low/80 text-on-surface-variant text-xs font-semibold border-b border-outline-variant/20">
+                <th className="w-12 px-4 py-3 text-center"></th>
+                <th className="px-5 py-3">Flow Name</th>
+                <th className="px-5 py-3">Flow Number</th>
+                <th className="px-5 py-3">Rule</th>
+                <th className="px-5 py-3">Default</th>
+                <th className="px-5 py-3 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/15 text-sm text-on-surface">
@@ -373,8 +373,8 @@ export default function FlowsPage() {
                                   <Volume2 size={16} />
                                 </div>
                                 <div className="min-w-0">
-                                  <span className="text-[11px] uppercase font-bold text-on-surface-variant block">
-                                    Audio Greeting
+                                  <span className="text-xs font-semibold text-on-surface-variant block">
+                                    Audio greeting
                                   </span>
                                   <span className="text-xs sm:text-sm font-medium text-on-surface">
                                     &quot;{flow.greeting}&quot;
@@ -384,8 +384,8 @@ export default function FlowsPage() {
 
                               {/* DTMF Nodes Grid */}
                               <div>
-                                <span className="text-[11px] uppercase font-bold text-on-surface-variant block mb-2">
-                                  Keypad Actions (DTMF)
+                                <span className="text-xs font-semibold text-on-surface-variant block mb-2">
+                                  Keypad actions (DTMF)
                                 </span>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5">
                                   {flow.dtmfNodes.map((node) => {

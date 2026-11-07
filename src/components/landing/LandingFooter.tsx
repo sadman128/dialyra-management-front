@@ -14,12 +14,8 @@ export function LandingFooter() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 relative z-10">
         <div className="rounded-3xl bg-gradient-to-r from-[#411264] via-[#280044] to-[#411264] border border-purple-500/30 p-8 sm:p-14 text-center shadow-2xl relative overflow-hidden">
           <div className="max-w-3xl mx-auto space-y-6">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#f0a60a]/20 text-[#fbbf24] border border-amber-500/30 text-xs font-bold uppercase tracking-wider">
-              <span>Autonomous Telephony For E-Commerce</span>
-            </span>
-
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
-              Stop Paying Courier Penalties for Fake Orders.
+              Stop paying courier penalties for fake orders
             </h2>
 
             <p className="text-base sm:text-lg text-purple-200">
@@ -29,27 +25,27 @@ export function LandingFooter() {
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 href="/register"
-                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#f0a60a] hover:bg-[#fbbf24] text-slate-950 text-base font-black shadow-xl shadow-amber-500/25 active:scale-95 transition-all flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#f0a60a] hover:bg-[#fbbf24] text-slate-950 text-base font-black shadow-xl shadow-amber-500/25 active:scale-95 transition-colors flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
               >
                 <span>Registration</span>
                 <ArrowRight size={18} />
               </Link>
               <Link
                 href="/login"
-                className="w-full sm:w-auto px-6 py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white text-base font-bold border border-white/20 transition-all text-center"
+                className="w-full sm:w-auto px-6 py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white text-base font-bold border border-white/20 transition-colors text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
               >
                 Login
               </Link>
             </div>
 
-            <div className="pt-2 flex items-center justify-center gap-4 text-xs text-purple-300">
-              <span className="flex items-center gap-1">
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-4 text-xs text-purple-300">
+              <span className="flex items-center gap-1.5">
                 <ShieldCheck size={14} className="text-emerald-400" />
                 <span>Zero customer app required</span>
               </span>
-              <span>•</span>
+              <span className="text-purple-400/50">/</span>
               <span>Pure GSM telecom audio</span>
-              <span>•</span>
+              <span className="text-purple-400/50">/</span>
               <span>Instant WooCommerce &amp; Shopify integration</span>
             </div>
           </div>
@@ -78,34 +74,34 @@ export function LandingFooter() {
 
           {/* Engine Features */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300">
-              Engine Capabilities
+            <h4 className="text-xs font-semibold text-slate-300">
+              Engine capabilities
             </h4>
             <ul className="space-y-2 text-xs text-slate-400">
-              <li><a href="#features" className="hover:text-white transition">Order Sentinel</a></li>
-              <li><a href="#sandbox" className="hover:text-white transition">Live Sandbox Simulator</a></li>
-              <li><a href="#features" className="hover:text-white transition">Concurrency Governor</a></li>
-              <li><a href="#features" className="hover:text-white transition">Studio Bengali Audio</a></li>
-              <li><a href="#features" className="hover:text-white transition">SIP Softphone Bridge</a></li>
+              <li><a href="#features" className="hover:text-white transition-colors">Order Sentinel</a></li>
+              <li><a href="#sandbox" className="hover:text-white transition-colors">Live Sandbox Simulator</a></li>
+              <li><a href="#features" className="hover:text-white transition-colors">Concurrency Governor</a></li>
+              <li><a href="#features" className="hover:text-white transition-colors">Studio Bengali Audio</a></li>
+              <li><a href="#features" className="hover:text-white transition-colors">SIP Softphone Bridge</a></li>
             </ul>
           </div>
 
           {/* Navigation & Access */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300">
+            <h4 className="text-xs font-semibold text-slate-300">
               Access
             </h4>
             <ul className="space-y-2 text-xs text-slate-400">
-              <li><Link href="/login" className="hover:text-white transition">Login</Link></li>
-              <li><Link href="/register" className="hover:text-white transition">Registration</Link></li>
-              <li><Link href="/dashboard" className="hover:text-white transition">Console</Link></li>
+              <li><Link href="/login" className="hover:text-white transition-colors">Login</Link></li>
+              <li><Link href="/register" className="hover:text-white transition-colors">Registration</Link></li>
+              <li><Link href="/dashboard" className="hover:text-white transition-colors">Console</Link></li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Micro Copyright */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <p>© 2026 Dialyra Management. Built with world-class craftsmanship.</p>
+          <p>© 2026 Dialyra Management. Built for telecommunications precision.</p>
           <div className="flex items-center gap-6">
             <span className="hover:text-slate-400 cursor-default">Privacy Policy</span>
             <span className="hover:text-slate-400 cursor-default">Telecom Terms</span>

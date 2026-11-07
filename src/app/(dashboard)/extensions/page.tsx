@@ -165,10 +165,10 @@ export default function ExtensionsPage() {
 
       {/* 2. Signature Metric Cards (Pure White in Light, Dark Grey in Dark, Purple Half Circle Watermark) */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-3 [&>*:last-child]:col-span-2 md:[&>*:last-child]:col-span-1">
-        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-transform hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-700 dark:text-zinc-300">
-              Total Extensions
+            <span className="text-xs font-semibold text-gray-700 dark:text-zinc-300">
+              Total extensions
             </span>
             <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-purple-500/10 dark:bg-purple-500/20 flex items-center justify-center text-[#9a55ff] dark:text-[#c084fc]">
               <PhoneCall size={14} />
@@ -181,10 +181,10 @@ export default function ExtensionsPage() {
           </div>
         </div>
 
-        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-transform hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-700 dark:text-zinc-300">
-              Agent Direct Lines
+            <span className="text-xs font-semibold text-gray-700 dark:text-zinc-300">
+              Agent direct lines
             </span>
             <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-emerald-500/10 dark:bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
               <Users size={14} />
@@ -197,10 +197,10 @@ export default function ExtensionsPage() {
           </div>
         </div>
 
-        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-transform hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-700 dark:text-zinc-300">
-              ACD Queue Numbers
+            <span className="text-xs font-semibold text-gray-700 dark:text-zinc-300">
+              ACD queue numbers
             </span>
             <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-blue-500/10 dark:bg-sky-500/20 flex items-center justify-center text-blue-600 dark:text-sky-400">
               <Network size={14} />
@@ -237,7 +237,7 @@ export default function ExtensionsPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse" style={{ minWidth: "750px" }}>
             <thead>
-              <tr className="bg-surface-container-low/70 border-b border-outline-variant/20 text-on-surface-variant text-xs uppercase tracking-wider font-bold">
+              <tr className="bg-surface-container-low/70 border-b border-outline-variant/20 text-on-surface-variant text-xs font-semibold">
                 <th className="py-3.5 px-5">Extension</th>
                 <th className="py-3.5 px-5">Destination / Owner</th>
                 <th className="py-3.5 px-5">Type</th>

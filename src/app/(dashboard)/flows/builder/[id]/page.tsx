@@ -236,7 +236,7 @@ const PRESET_MENU_TEMPLATES: Array<{
           id: "dtmf-can1",
           key: "1",
           businessAction: "Cancel order",
-          nextStep: "Record: Mistake ➔ End",
+          nextStep: "Record: Mistake — Complete",
           messageType: "Text to Speech",
           message: "Thank you for the feedback. Your order has been cancelled.",
           language: "English",
@@ -248,7 +248,7 @@ const PRESET_MENU_TEMPLATES: Array<{
           id: "dtmf-can2",
           key: "2",
           businessAction: "Cancel order",
-          nextStep: "Record: Late Delivery ➔ End",
+          nextStep: "Record: Late Delivery — Complete",
           messageType: "Text to Speech",
           message: "We apologize for the delivery delay. Order cancelled.",
           language: "English",
@@ -393,7 +393,7 @@ function MessageAudioConfig({
       {/* Header with Label and 2-Option Switch: Text vs Audio */}
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <label className="block text-xs uppercase font-bold text-on-surface-variant">
+          <label className="block text-xs font-semibold text-on-surface-variant">
             {label}
           </label>
           {sublabel && (
@@ -458,7 +458,7 @@ function MessageAudioConfig({
 
           {/* Dynamic Variable Chips for Telephony Webhook Context */}
           <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-on-surface-variant">
-            <span className="text-[10px] font-bold text-outline uppercase tracking-wider">
+            <span className="text-xs font-semibold text-outline">
               Variables:
             </span>
             {[
@@ -503,7 +503,7 @@ function MessageAudioConfig({
               >
                 {audioAssets.map((asset) => (
                   <option key={asset.id} value={asset.id}>
-                    🎵 {asset.name} ({asset.durationSec}s • {asset.category})
+                    {asset.name} ({asset.durationSec}s / {asset.category})
                   </option>
                 ))}
                 <option value="__upload_new__">+ Upload New Audio File...</option>
@@ -551,9 +551,9 @@ function MessageAudioConfig({
                   </div>
                   <div className="text-[11px] text-on-surface-variant flex items-center gap-2 mt-0.5">
                     <span>{selectedAsset.durationSec}s duration</span>
-                    <span>•</span>
+                    <span className="text-on-surface-variant/30">/</span>
                     <span>{selectedAsset.fileSizeFormatted}</span>
-                    <span className="hidden sm:inline">•</span>
+                    <span className="hidden sm:inline text-on-surface-variant/30">/</span>
                     <span className="hidden sm:inline">{selectedAsset.codec}</span>
                   </div>
                 </div>
@@ -653,7 +653,7 @@ export default function FlowBuilderPage() {
       fileSizeFormatted: "160 KB",
       referencedByFlows: [flowName],
       url: "https://actions.google.com/sounds/v1/emergency/beeper_emergency_call.ogg",
-      codec: "PCM 16-bit 8000Hz • Mono",
+      codec: "PCM 16-bit 8000Hz / Mono",
     });
 
     if (uploadCallback) {
@@ -1196,7 +1196,7 @@ export default function FlowBuilderPage() {
             <div className="space-y-4">
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <label className="block text-xs uppercase font-bold text-on-surface-variant">
+                  <label className="block text-xs font-semibold text-on-surface-variant">
                     Flow Name
                   </label>
                   <span className="text-[10px] text-outline font-mono">{flowName.length}/80</span>
@@ -1213,7 +1213,7 @@ export default function FlowBuilderPage() {
 
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <label className="block text-xs uppercase font-bold text-on-surface-variant">
+                  <label className="block text-xs font-semibold text-on-surface-variant">
                     Description
                   </label>
                   <span className="text-[10px] text-outline font-mono">{flowDescription.length}/255</span>
@@ -1390,7 +1390,7 @@ export default function FlowBuilderPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs uppercase font-bold text-on-surface-variant mb-1.5">
+                <label className="block text-xs font-semibold text-on-surface-variant mb-1.5">
                   Menu Name
                 </label>
                 <input
@@ -1402,7 +1402,7 @@ export default function FlowBuilderPage() {
               </div>
 
               <div>
-                <label className="block text-xs uppercase font-bold text-on-surface-variant mb-1.5">
+                <label className="block text-xs font-semibold text-on-surface-variant mb-1.5">
                   Description <span className="text-outline font-normal">(Optional)</span>
                 </label>
                 <input
@@ -1450,7 +1450,7 @@ export default function FlowBuilderPage() {
                 <div className="space-y-3 pt-1">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
-                      <label className="block text-xs uppercase font-bold text-on-surface-variant mb-1">
+                      <label className="block text-xs font-semibold text-on-surface-variant mb-1">
                         Language
                       </label>
                       <div className="relative">
@@ -1470,7 +1470,7 @@ export default function FlowBuilderPage() {
                     </div>
 
                     <div>
-                      <label className="block text-xs uppercase font-bold text-on-surface-variant mb-1">
+                      <label className="block text-xs font-semibold text-on-surface-variant mb-1">
                         Voice Model
                       </label>
                       <div className="relative">
@@ -1490,7 +1490,7 @@ export default function FlowBuilderPage() {
                     </div>
 
                     <div>
-                      <label className="block text-xs uppercase font-bold text-on-surface-variant mb-1">
+                      <label className="block text-xs font-semibold text-on-surface-variant mb-1">
                         Provider
                       </label>
                       <div className="relative">
@@ -1529,7 +1529,7 @@ export default function FlowBuilderPage() {
                         <Icon name={isPlayingInstruction ? "pause" : "play_arrow"} size={18} />
                       </button>
                       <span className="text-xs font-semibold text-on-surface">
-                        Synthesize ({activeMenu.instructionLang} • {activeMenu.instructionProvider})
+                        Synthesize ({activeMenu.instructionLang} / {activeMenu.instructionProvider})
                       </span>
                     </div>
                     <span className="font-mono text-xs text-on-surface-variant">0:06</span>
@@ -1556,7 +1556,7 @@ export default function FlowBuilderPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/20">
                 <div className="flex items-center justify-between mb-1">
-                  <label className="block text-[11px] uppercase font-bold text-on-surface-variant">
+                  <label className="block text-xs font-semibold text-on-surface-variant">
                     Max Digits
                   </label>
                   <span className="text-[10px] text-outline font-mono">1-6</span>
@@ -1576,7 +1576,7 @@ export default function FlowBuilderPage() {
 
               <div className="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/20">
                 <div className="flex items-center justify-between mb-1">
-                  <label className="block text-[11px] uppercase font-bold text-on-surface-variant">
+                  <label className="block text-xs font-semibold text-on-surface-variant">
                     Timeout (sec)
                   </label>
                   <span className="text-[10px] text-outline font-mono">1-30s</span>
@@ -1596,7 +1596,7 @@ export default function FlowBuilderPage() {
 
               <div className="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/20">
                 <div className="flex items-center justify-between mb-1">
-                  <label className="block text-[11px] uppercase font-bold text-on-surface-variant">
+                  <label className="block text-xs font-semibold text-on-surface-variant">
                     Max Invalid
                   </label>
                   <span className="text-[10px] text-outline font-mono">0-5</span>
@@ -1616,7 +1616,7 @@ export default function FlowBuilderPage() {
 
               <div className="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/20">
                 <div className="flex items-center justify-between mb-1">
-                  <label className="block text-[11px] uppercase font-bold text-on-surface-variant">
+                  <label className="block text-xs font-semibold text-on-surface-variant">
                     Max Timeout
                   </label>
                   <span className="text-[10px] text-outline font-mono">0-5</span>
@@ -1723,7 +1723,7 @@ export default function FlowBuilderPage() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                     <div>
-                      <label className="block text-[11px] uppercase font-bold text-on-surface-variant mb-1">
+                      <label className="block text-xs font-semibold text-on-surface-variant mb-1">
                         Business Action
                       </label>
                       <div className="relative">
@@ -1753,7 +1753,7 @@ export default function FlowBuilderPage() {
                     </div>
 
                     <div>
-                      <label className="block text-[11px] uppercase font-bold text-on-surface-variant mb-1">
+                      <label className="block text-xs font-semibold text-on-surface-variant mb-1">
                         Next Step / Destination
                       </label>
                       <div className="relative">
@@ -1765,7 +1765,7 @@ export default function FlowBuilderPage() {
                           >
                             {menus.map((m) => (
                               <option key={m.id} value={`Jump to: ${m.name}`}>
-                                ➔ {m.name} {m.isStartMenu ? "(Start Menu)" : ""}
+                                {m.name} {m.isStartMenu ? "(Start Menu)" : ""}
                               </option>
                             ))}
                           </select>
@@ -1777,7 +1777,7 @@ export default function FlowBuilderPage() {
                           >
                             {mockDepartments.map((dept) => (
                               <option key={dept.id} value={`Transfer to ${dept.name} (${dept.code})`}>
-                                🏢 {dept.name} ({dept.code})
+                                {dept.name} ({dept.code})
                               </option>
                             ))}
                           </select>
@@ -1855,7 +1855,7 @@ export default function FlowBuilderPage() {
               ttsExtras={
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                   <div>
-                    <label className="block text-xs uppercase font-bold text-on-surface-variant mb-1">
+                    <label className="block text-xs font-semibold text-on-surface-variant mb-1">
                       Provider &amp; Voice
                     </label>
                     <div className="relative">
@@ -1864,8 +1864,8 @@ export default function FlowBuilderPage() {
                         onChange={(e) => updateActiveMenu("invalidProvider", e.target.value)}
                         className="w-full px-3 py-2 pr-8 rounded-xl bg-surface-container-low text-on-surface font-semibold text-xs border border-outline-variant/30 shadow-xs appearance-none"
                       >
-                        <option value="Google TTS">Google TTS • Standard voice</option>
-                        <option value="Amazon Polly">Amazon Polly • Neural</option>
+                        <option value="Google TTS">Google TTS / Standard voice</option>
+                        <option value="Amazon Polly">Amazon Polly / Neural</option>
                       </select>
                       <div className="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none text-on-surface-variant">
                         <Icon name="expand_more" size={16} />
@@ -1874,7 +1874,7 @@ export default function FlowBuilderPage() {
                   </div>
 
                   <div>
-                    <label className="block text-xs uppercase font-bold text-on-surface-variant mb-1">
+                    <label className="block text-xs font-semibold text-on-surface-variant mb-1">
                       After Max Invalid Retry Action
                     </label>
                     <div className="relative">
@@ -1929,7 +1929,7 @@ export default function FlowBuilderPage() {
               onTogglePlayAudio={toggleAudioPlay}
               ttsExtras={
                 <div className="pt-1">
-                  <label className="block text-xs uppercase font-bold text-on-surface-variant mb-1">
+                  <label className="block text-xs font-semibold text-on-surface-variant mb-1">
                     Timeout Next Step
                   </label>
                   <div className="relative">
@@ -2039,8 +2039,8 @@ export default function FlowBuilderPage() {
                             <span className="text-[10px] text-on-surface-variant font-normal truncate max-w-[150px]">
                               ({action.nextStep})
                               {isActionAudio
-                                ? ` • 🎵 ${actionAudioName}`
-                                : ` • "${action.message}"`}
+                                ? ` / ${actionAudioName}`
+                                : ` / "${action.message}"`}
                             </span>
                           </div>
                         );
@@ -2059,7 +2059,7 @@ export default function FlowBuilderPage() {
 
             {/* Visual Node Chain */}
             <div className="p-4 rounded-xl bg-surface-container-low/60 border border-outline-variant/30 space-y-2.5">
-              <span className="text-xs font-bold uppercase tracking-wider text-on-surface-variant">
+              <span className="text-xs font-semibold text-on-surface-variant">
                 Execution Flow Path
               </span>
               <div className="space-y-2 text-xs">
@@ -2303,7 +2303,7 @@ export default function FlowBuilderPage() {
                       >
                         {audioAssets.map((asset) => (
                           <option key={asset.id} value={asset.id}>
-                            🎵 {asset.name} ({asset.durationSec}s • {asset.category})
+                            {asset.name} ({asset.durationSec}s / {asset.category})
                           </option>
                         ))}
                       </select>
@@ -2509,7 +2509,7 @@ export default function FlowBuilderPage() {
                     >
                       {audioAssets.map((asset) => (
                         <option key={asset.id} value={asset.id}>
-                          🎵 {asset.name} ({asset.durationSec}s • {asset.category})
+                          {asset.name} ({asset.durationSec}s / {asset.category})
                         </option>
                       ))}
                     </select>

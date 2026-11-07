@@ -77,7 +77,7 @@ export function HeroFlowSandbox() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
           </span>
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
+          <span className="text-xs font-bold text-slate-800">
             Live Telephony Sandbox
           </span>
           <span className="text-xs text-slate-400">|</span>
@@ -91,7 +91,7 @@ export function HeroFlowSandbox() {
             <button
               type="button"
               onClick={resetSim}
-              className="flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition shadow-2xs"
+              className="flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors shadow-2xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9a55ff]"
             >
               <RotateCcw size={12} />
               <span>Reset Simulation</span>
@@ -111,8 +111,8 @@ export function HeroFlowSandbox() {
             {/* Order Target Metadata Card */}
             <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs mb-6">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                  Target Order #1045
+                <span className="text-xs font-medium text-slate-500">
+                  Target order #1045
                 </span>
                 <span className="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-700 text-[11px] font-bold">
                   Cash on Delivery
@@ -154,9 +154,10 @@ export function HeroFlowSandbox() {
                   <button
                     type="button"
                     onClick={startCall}
-                    className="w-full py-3 px-4 rounded-xl bg-[#f0a60a] hover:bg-[#fbbf24] text-slate-950 text-sm font-extrabold shadow-lg shadow-amber-500/25 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full py-3 px-4 rounded-xl bg-[#f0a60a] hover:bg-[#fbbf24] text-slate-950 text-sm font-extrabold shadow-lg shadow-amber-500/25 active:scale-95 transition-colors flex items-center justify-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                   >
-                    <span>⚡ Trigger Verification Call</span>
+                    <PhoneCall size={15} />
+                    <span>Trigger Verification Call</span>
                   </button>
                 </div>
               )}
@@ -175,7 +176,7 @@ export function HeroFlowSandbox() {
                       Dialing Customer...
                     </h4>
                     <p className="text-xs text-amber-300 font-mono mt-1">
-                      SIP/trunk-01 · Ringing (+8801712998877)
+                      SIP/trunk-01 &bull; Ringing (+8801712998877)
                     </p>
                   </div>
                   <div className="flex justify-center gap-1.5 py-1">
@@ -214,22 +215,23 @@ export function HeroFlowSandbox() {
 
                   {/* Audio Script Prompt */}
                   <div className="p-2.5 rounded-xl bg-purple-950/40 border border-purple-800/40 text-[11px] text-purple-200 text-left leading-relaxed">
-                    <span className="font-bold text-[#f0a60a] block mb-0.5">
-                      🎙️ Audio Prompt Playing:
+                    <span className="font-bold text-[#f0a60a] flex items-center gap-1.5 mb-0.5">
+                      <Volume2 size={13} className="text-[#f0a60a] shrink-0" />
+                      <span>Audio prompt playing:</span>
                     </span>
                     &ldquo;Press <strong>1</strong> to confirm your order, or press <strong>2</strong> to cancel.&rdquo;
                   </div>
 
                   {/* Interactive DTMF Keypad */}
                   <div className="pt-2">
-                    <p className="text-[10px] text-slate-400 uppercase tracking-wider font-bold mb-2">
-                      Tap Keypad to interact:
+                    <p className="text-xs text-slate-400 font-semibold mb-2">
+                      Keypad selection:
                     </p>
                     <div className="grid grid-cols-3 gap-2">
                       <button
                         type="button"
                         onClick={() => handleKeypress("1")}
-                        className={`p-3 rounded-xl border text-center transition-all cursor-pointer ${
+                        className={`p-3 rounded-xl border text-center transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
                           selectedKey === "1"
                             ? "bg-emerald-500 text-white border-emerald-400 scale-95"
                             : "bg-slate-900 border-slate-800 hover:border-emerald-500/60 hover:bg-slate-850"
@@ -238,7 +240,7 @@ export function HeroFlowSandbox() {
                         <span className="block text-lg font-black text-emerald-400">
                           1
                         </span>
-                        <span className="block text-[9px] text-emerald-300 font-bold uppercase tracking-tight">
+                        <span className="block text-[11px] text-emerald-300 font-medium">
                           Confirm
                         </span>
                       </button>
@@ -246,7 +248,7 @@ export function HeroFlowSandbox() {
                       <button
                         type="button"
                         onClick={() => handleKeypress("2")}
-                        className={`p-3 rounded-xl border text-center transition-all cursor-pointer ${
+                        className={`p-3 rounded-xl border text-center transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 ${
                           selectedKey === "2"
                             ? "bg-rose-500 text-white border-rose-400 scale-95"
                             : "bg-slate-900 border-slate-800 hover:border-rose-500/60 hover:bg-slate-850"
@@ -255,7 +257,7 @@ export function HeroFlowSandbox() {
                         <span className="block text-lg font-black text-rose-400">
                           2
                         </span>
-                        <span className="block text-[9px] text-rose-300 font-bold uppercase tracking-tight">
+                        <span className="block text-[11px] text-rose-300 font-medium">
                           Cancel
                         </span>
                       </button>
@@ -263,7 +265,7 @@ export function HeroFlowSandbox() {
                       <button
                         type="button"
                         onClick={() => handleKeypress("3")}
-                        className={`p-3 rounded-xl border text-center transition-all cursor-pointer ${
+                        className={`p-3 rounded-xl border text-center transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${
                           selectedKey === "3"
                             ? "bg-amber-500 text-white border-amber-400 scale-95"
                             : "bg-slate-900 border-slate-800 hover:border-amber-500/60 hover:bg-slate-850"
@@ -272,7 +274,7 @@ export function HeroFlowSandbox() {
                         <span className="block text-lg font-black text-amber-400">
                           3
                         </span>
-                        <span className="block text-[9px] text-amber-300 font-bold uppercase tracking-tight">
+                        <span className="block text-[11px] text-amber-300 font-medium">
                           Agent
                         </span>
                       </button>
@@ -295,8 +297,9 @@ export function HeroFlowSandbox() {
                       Customer pressed DTMF <strong>Key 1</strong>
                     </p>
                   </div>
-                  <div className="p-2 rounded-lg bg-emerald-950/40 border border-emerald-800/40 text-[11px] text-emerald-200">
-                    ✓ Tagged in Storefront: <strong>ORDER_VERIFIED</strong>
+                  <div className="p-2 rounded-lg bg-emerald-950/40 border border-emerald-800/40 text-[11px] text-emerald-200 flex items-center justify-center gap-1.5">
+                    <CheckCircle2 size={13} className="text-emerald-400 shrink-0" />
+                    <span>Tagged in Storefront: <strong>ORDER_VERIFIED</strong></span>
                   </div>
                 </div>
               )}
@@ -315,8 +318,9 @@ export function HeroFlowSandbox() {
                       Customer pressed DTMF <strong>Key 2</strong>
                     </p>
                   </div>
-                  <div className="p-2 rounded-lg bg-rose-950/40 border border-rose-800/40 text-[11px] text-rose-200">
-                    ✓ Inventory Released: <strong>৳ 120 Courier Saved</strong>
+                  <div className="p-2 rounded-lg bg-rose-950/40 border border-rose-800/40 text-[11px] text-rose-200 flex items-center justify-center gap-1.5">
+                    <CheckCircle2 size={13} className="text-rose-400 shrink-0" />
+                    <span>Inventory Released: <strong>৳ 120 Courier Saved</strong></span>
                   </div>
                 </div>
               )}
@@ -345,20 +349,20 @@ export function HeroFlowSandbox() {
             {/* Pipeline Stage Badges */}
             <div className="grid grid-cols-4 gap-2 text-center text-xs">
               <div
-                className={`p-2.5 rounded-xl border transition-all ${
+                className={`p-2.5 rounded-xl border transition-colors ${
                   step !== "idle"
                     ? "bg-purple-50 border-purple-300 text-purple-900 font-bold"
                     : "bg-slate-50 border-slate-200 text-slate-400"
                 }`}
               >
-                <span className="block text-[10px] uppercase tracking-wider text-slate-500 font-semibold">
+                <span className="block text-xs text-slate-500 font-medium">
                   Stage 1
                 </span>
                 <span>Ingest</span>
               </div>
 
               <div
-                className={`p-2.5 rounded-xl border transition-all ${
+                className={`p-2.5 rounded-xl border transition-colors ${
                   step === "dialing" ||
                   step === "connected" ||
                   step === "confirmed" ||
@@ -367,14 +371,14 @@ export function HeroFlowSandbox() {
                     : "bg-slate-50 border-slate-200 text-slate-400"
                 }`}
               >
-                <span className="block text-[10px] uppercase tracking-wider text-slate-500 font-semibold">
+                <span className="block text-xs text-slate-500 font-medium">
                   Stage 2
                 </span>
                 <span>AMI Dial</span>
               </div>
 
               <div
-                className={`p-2.5 rounded-xl border transition-all ${
+                className={`p-2.5 rounded-xl border transition-colors ${
                   step === "connected" ||
                   step === "confirmed" ||
                   step === "cancelled"
@@ -382,14 +386,14 @@ export function HeroFlowSandbox() {
                     : "bg-slate-50 border-slate-200 text-slate-400"
                 }`}
               >
-                <span className="block text-[10px] uppercase tracking-wider text-slate-500 font-semibold">
+                <span className="block text-xs text-slate-500 font-medium">
                   Stage 3
                 </span>
                 <span>IVR Keypad</span>
               </div>
 
               <div
-                className={`p-2.5 rounded-xl border transition-all ${
+                className={`p-2.5 rounded-xl border transition-colors ${
                   step === "confirmed"
                     ? "bg-emerald-50 border-emerald-300 text-emerald-900 font-bold"
                     : step === "cancelled"
@@ -397,7 +401,7 @@ export function HeroFlowSandbox() {
                       : "bg-slate-50 border-slate-200 text-slate-400"
                 }`}
               >
-                <span className="block text-[10px] uppercase tracking-wider text-slate-500 font-semibold">
+                <span className="block text-xs text-slate-500 font-medium">
                   Stage 4
                 </span>
                 <span>Webhook</span>
@@ -492,12 +496,12 @@ export function HeroFlowSandbox() {
           </div>
 
           <div className="pt-4 flex items-center justify-between text-xs text-slate-500 border-t border-slate-100 mt-4">
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1.5">
               <ShieldCheck size={14} className="text-emerald-500" />
-              <span>Zero Customer App Required · Pure GSM Voice</span>
+              <span>Zero customer app required / Pure GSM voice</span>
             </span>
             <span className="font-semibold text-slate-900">
-              Saves 85% of RTO Losses
+              Saves 85% of RTO losses
             </span>
           </div>
         </div>

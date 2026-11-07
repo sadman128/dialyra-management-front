@@ -172,17 +172,17 @@ export default function CallHistoryPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse" style={{ minWidth: "800px" }}>
             <thead>
-              <tr className="bg-surface-container-low/70 text-on-surface text-xs font-bold uppercase tracking-wider border-b border-outline-variant/20">
-                <th className="w-12 px-4 py-3.5 text-center"></th>
-                <th className="px-5 py-3.5">Order ID</th>
-                <th className="px-5 py-3.5">Customer Name</th>
-                <th className="px-5 py-3.5">Phone</th>
-                <th className="px-5 py-3.5">DTMF Key</th>
-                <th className="px-5 py-3.5">Attempts</th>
-                <th className="px-5 py-3.5">Duration</th>
-                <th className="px-5 py-3.5">Cost</th>
-                <th className="px-5 py-3.5">Outcome Status</th>
-                <th className="px-5 py-3.5 text-right">Action</th>
+              <tr className="bg-surface-container-low/70 text-on-surface-variant text-xs font-semibold border-b border-outline-variant/20">
+                <th className="w-12 px-4 py-3 text-center"></th>
+                <th className="px-5 py-3">Order ID</th>
+                <th className="px-5 py-3">Customer Name</th>
+                <th className="px-5 py-3">Phone</th>
+                <th className="px-5 py-3">DTMF Key</th>
+                <th className="px-5 py-3">Attempts</th>
+                <th className="px-5 py-3">Duration</th>
+                <th className="px-5 py-3">Cost</th>
+                <th className="px-5 py-3">Outcome Status</th>
+                <th className="px-5 py-3 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/15 text-sm text-on-surface">
@@ -298,7 +298,7 @@ export default function CallHistoryPage() {
                             <div className="bg-white dark:bg-[#18181b] rounded-2xl p-4 border border-outline-variant/30 dark:border-zinc-800/80 shadow-sm space-y-3">
                               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-outline-variant/15 pb-2.5">
                                 <div className="flex items-center gap-2">
-                                  <span className="text-xs font-bold uppercase tracking-wider text-[#9a55ff]">
+                                  <span className="text-xs font-semibold text-[#9a55ff]">
                                     Call Session Diagnostics for Order #{call.orderId}
                                   </span>
                                   <span className="text-[11px] font-mono text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded-md border border-outline-variant/20">
@@ -341,7 +341,7 @@ export default function CallHistoryPage() {
                                       <span className="font-semibold text-on-surface">
                                         {att.startedAt}
                                       </span>
-                                      <span className="text-on-surface-variant/40">•</span>
+                                      <span className="text-on-surface-variant/40">/</span>
                                       <span className="text-on-surface-variant">
                                         Duration: {att.durationSec}s
                                       </span>

@@ -124,10 +124,10 @@ export default function AudioLibraryPage() {
 
       {/* 2. Signature Metric Cards (Pure White Light, Dark Grey #141417, Purple Watermark) */}
       <div className="grid grid-cols-2 gap-2 sm:gap-3">
-        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-transform hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-600 dark:text-zinc-400">
-              Storage Used
+            <span className="text-xs font-semibold text-gray-600 dark:text-zinc-400">
+              Storage used
             </span>
             <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-[#9a55ff]/10 dark:bg-[#9a55ff]/20 flex items-center justify-center text-[#9a55ff]">
               <Radio size={14} />
@@ -143,10 +143,10 @@ export default function AudioLibraryPage() {
           </div>
         </div>
 
-        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-transform hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-600 dark:text-zinc-400">
-              Total Audio Files
+            <span className="text-xs font-semibold text-gray-600 dark:text-zinc-400">
+              Total audio files
             </span>
             <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-emerald-500/10 dark:bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
               <FileAudio size={14} />
@@ -191,12 +191,12 @@ export default function AudioLibraryPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse" style={{ minWidth: "750px" }}>
             <thead>
-              <tr className="bg-surface-container-low/70 border-b border-outline-variant/20 text-on-surface-variant text-xs uppercase tracking-wider font-bold">
-                <th className="py-3.5 px-5">Name</th>
-                <th className="py-3.5 px-5">Category</th>
-                <th className="py-3.5 px-5">Duration</th>
-                <th className="py-3.5 px-5 min-w-[180px]">Preview Player</th>
-                <th className="py-3.5 px-5 text-right">Actions</th>
+              <tr className="bg-surface-container-low/70 border-b border-outline-variant/20 text-on-surface-variant text-xs font-semibold">
+                <th className="py-3 px-5">Name</th>
+                <th className="py-3 px-5">Category</th>
+                <th className="py-3 px-5">Duration</th>
+                <th className="py-3 px-5 min-w-[180px]">Preview player</th>
+                <th className="py-3 px-5 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/15 text-sm text-on-surface">
@@ -210,7 +210,7 @@ export default function AudioLibraryPage() {
                       <div className="flex flex-col">
                         <span className="font-bold text-on-surface">{item.name}</span>
                         <span className="text-xs text-on-surface-variant font-mono">
-                          {item.fileSizeFormatted} · {item.codec}
+                          {item.fileSizeFormatted} / {item.codec}
                         </span>
                       </div>
                     </div>

@@ -167,10 +167,10 @@ export default function TestToolsPage() {
       {/* 2. Signature Metric Cards (Pure White in Light, Dark Grey in Dark, Purple Half Circle Watermark) */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         {/* Metric 1: Voice Trunk */}
-        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3.5 sm:py-3 sm:px-4 rounded-xl border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3.5 sm:py-3 sm:px-4 rounded-xl border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-transform hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-700 dark:text-zinc-300">
-              Voice Trunk
+            <span className="text-xs font-semibold text-gray-700 dark:text-zinc-300">
+              Voice trunk
             </span>
             <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-purple-500/10 dark:bg-purple-500/20 flex items-center justify-center text-[#9a55ff] dark:text-[#c084fc]">
               <Server size={15} />
@@ -184,16 +184,16 @@ export default function TestToolsPage() {
               </span>
             </div>
             <div className="text-[11px] text-gray-700 dark:text-zinc-400 font-medium mt-0.5">
-              SIP Trunk · 5 Channels online
+              SIP trunk / 5 channels online
             </div>
           </div>
         </div>
 
         {/* Metric 2: Telecom Latency */}
-        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3.5 sm:py-3 sm:px-4 rounded-xl border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3.5 sm:py-3 sm:px-4 rounded-xl border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-transform hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-700 dark:text-zinc-300">
-              Media Latency
+            <span className="text-xs font-semibold text-gray-700 dark:text-zinc-300">
+              Media latency
             </span>
             <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-500/10 dark:bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
               <Activity size={15} />
@@ -204,16 +204,16 @@ export default function TestToolsPage() {
               18ms
             </div>
             <div className="text-[11px] text-gray-700 dark:text-zinc-400 font-medium mt-0.5">
-              Zero jitter · Local PSTN gateway
+              Zero jitter / Local PSTN gateway
             </div>
           </div>
         </div>
 
         {/* Metric 3: Account Balance */}
-        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3.5 sm:py-3 sm:px-4 rounded-xl border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3.5 sm:py-3 sm:px-4 rounded-xl border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-transform hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-700 dark:text-zinc-300">
-              Account Balance
+            <span className="text-xs font-semibold text-gray-700 dark:text-zinc-300">
+              Account balance
             </span>
             <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue-500/10 dark:bg-sky-500/20 flex items-center justify-center text-blue-600 dark:text-sky-400 text-xs font-bold">
               ৳
@@ -318,7 +318,7 @@ export default function TestToolsPage() {
 
             {/* Dynamic Webhook Variables (v3 API Match) */}
             <div className="p-3.5 rounded-xl bg-surface-container-low/60 border border-outline-variant/30 space-y-2">
-              <span className="text-[11px] font-bold text-[#9a55ff] uppercase tracking-wider block">
+              <span className="text-xs font-semibold text-[#9a55ff] block">
                 Runtime Webhook Variables (<code>webhook_variables</code>)
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -376,14 +376,14 @@ export default function TestToolsPage() {
             {callProgress.length > 0 && (
               <div className="p-3.5 rounded-xl bg-[#09090b] text-purple-100 font-mono text-xs space-y-1.5 border border-zinc-800 shadow-inner">
                 <div className="flex items-center justify-between pb-1 border-b border-zinc-800 text-purple-400">
-                  <span className="font-bold uppercase tracking-wider text-[11px]">
-                    Live Telemetry Console:
+                  <span className="text-xs font-semibold">
+                    Live telemetry console:
                   </span>
                   <span className="text-[11px] text-zinc-400 font-mono">Node-BD-02 :5060</span>
                 </div>
                 {callProgress.map((line, idx) => (
                   <div key={idx} className="flex items-start gap-1.5">
-                    <span className="text-emerald-400 font-bold">➔</span>
+                    <ChevronRight size={13} className="text-emerald-400 shrink-0 mt-0.5" />
                     <span>{line}</span>
                   </div>
                 ))}
@@ -478,7 +478,7 @@ export default function TestToolsPage() {
             {webhookResponse && (
               <div className="p-3.5 rounded-xl bg-[#09090b] text-emerald-300 font-mono text-xs space-y-1.5 border border-zinc-800 shadow-inner">
                 <div className="flex items-center justify-between pb-1 border-b border-white/10 text-gray-400">
-                  <span className="font-bold uppercase tracking-wider text-[11px]">
+                  <span className="text-xs font-semibold">
                     Response (HTTP 200 OK):
                   </span>
                   <span className="text-[11px] text-emerald-400 font-bold font-mono">Latency: 38ms</span>

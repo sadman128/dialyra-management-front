@@ -49,7 +49,7 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 3,
       noAnswer: 11,
       cancelled: 9,
-      summaryText: "38 Total Calls Today · Peak at 18:00 (14 calls)",
+      summaryText: "38 Total Calls Today — Peak at 18:00 (14 calls)",
       donutSubtitle: "Calls Today",
       queueBadge: "Active Queue",
       queueFootnote: "3 Pending calls in outbound queue",
@@ -60,7 +60,7 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 0,
       noAnswer: 76,
       cancelled: 65,
-      summaryText: "269 Total Calls Past 7 Days · Peak Tuesday (52 calls)",
+      summaryText: "269 Total Calls Past 7 Days — Peak Tuesday (52 calls)",
       donutSubtitle: "Past 7 Days",
       queueBadge: "Queue Cleared",
       queueFootnote: "All 269 calls processed & completed",
@@ -71,7 +71,7 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 0,
       noAnswer: 330,
       cancelled: 270,
-      summaryText: "1,160 Total Calls Last 30 Days · Peak 1st-5th (240 calls)",
+      summaryText: "1,160 Total Calls Last 30 Days — Peak 1st-5th (240 calls)",
       donutSubtitle: "Last 30 Days",
       queueBadge: "Queue Cleared",
       queueFootnote: "All 1,160 calls processed & completed",
@@ -82,7 +82,7 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 0,
       noAnswer: 4120,
       cancelled: 3200,
-      summaryText: "14,120 Total Calls Past Year · Peak Eid Season (3,800 calls)",
+      summaryText: "14,120 Total Calls Past Year — Peak Eid Season (3,800 calls)",
       donutSubtitle: "Past 12 Months",
       queueBadge: "Queue Cleared",
       queueFootnote: "All 14,120 calls processed & completed",
@@ -93,7 +93,7 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 3,
       noAnswer: 8900,
       cancelled: 6870,
-      summaryText: "30,570 Total Lifetime Calls · Balanced 48.4% Confirmation",
+      summaryText: "30,570 Total Lifetime Calls — Balanced 48.4% Confirmation",
       donutSubtitle: "All Time Calls",
       queueBadge: "Live Backlog",
       queueFootnote: "3 Pending calls currently in outbound queue",
@@ -106,7 +106,7 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 1,
       noAnswer: 7,
       cancelled: 5,
-      summaryText: "24 Total Calls Today · Peak at 19:30 (8 calls)",
+      summaryText: "24 Total Calls Today — Peak at 19:30 (8 calls)",
       donutSubtitle: "Calls Today",
       queueBadge: "Active Queue",
       queueFootnote: "1 Pending call in outbound queue",
@@ -117,7 +117,7 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 0,
       noAnswer: 48,
       cancelled: 36,
-      summaryText: "166 Total Calls Past 7 Days · Peak Friday (38 calls)",
+      summaryText: "166 Total Calls Past 7 Days — Peak Friday (38 calls)",
       donutSubtitle: "Past 7 Days",
       queueBadge: "Queue Cleared",
       queueFootnote: "All 166 calls processed & completed",
@@ -128,7 +128,7 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 0,
       noAnswer: 215,
       cancelled: 160,
-      summaryText: "740 Total Calls Last 30 Days · Peak Weekend Evenings",
+      summaryText: "740 Total Calls Last 30 Days — Peak Weekend Evenings",
       donutSubtitle: "Last 30 Days",
       queueBadge: "Queue Cleared",
       queueFootnote: "All 740 calls processed & completed",
@@ -139,7 +139,7 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 0,
       noAnswer: 2650,
       cancelled: 2000,
-      summaryText: "9,100 Total Calls Past Year · Peak Festive Discounts",
+      summaryText: "9,100 Total Calls Past Year — Peak Festive Discounts",
       donutSubtitle: "Past 12 Months",
       queueBadge: "Queue Cleared",
       queueFootnote: "All 9,100 calls processed & completed",
@@ -150,7 +150,7 @@ const BUSINESS_TIMEFRAME_DATA: Record<string, Record<TimeframeKey, TimeframeStat
       inQueue: 1,
       noAnswer: 4900,
       cancelled: 3700,
-      summaryText: "17,000 Total Lifetime Calls · Balanced 49.4% Confirmation",
+      summaryText: "17,000 Total Lifetime Calls — Balanced 49.4% Confirmation",
       donutSubtitle: "All Time Calls",
       queueBadge: "Live Backlog",
       queueFootnote: "1 Pending call currently in outbound queue",
@@ -350,7 +350,7 @@ export default function DashboardPage() {
               </div>
 
               {/* Dynamic Success Rate Pill (Solid filled color, no gradient) */}
-              <span className="px-2.5 sm:px-3.5 py-1.5 rounded-full bg-[#07cdae] text-[11px] sm:text-xs font-bold tracking-wider uppercase text-white shadow-xs shrink-0">
+              <span className="px-2.5 sm:px-3 py-1 rounded-full bg-[#07cdae] text-xs font-semibold text-white shadow-xs shrink-0">
                 {confirmedPercent.toFixed(1)}% Confirmed
               </span>
             </div>
@@ -492,7 +492,7 @@ export default function DashboardPage() {
           {/* 1. Header */}
           <div className="flex items-center justify-between pb-2.5 border-b border-outline-variant/20">
             <div>
-              <span className="text-xs sm:text-sm uppercase tracking-wider text-on-surface-variant font-bold block">
+              <span className="text-xs sm:text-sm text-on-surface font-semibold block">
                 Account Balance
               </span>
               <span className="text-[11px] text-on-surface-variant font-medium">
@@ -609,28 +609,28 @@ export default function DashboardPage() {
           <table className="w-full text-left border-collapse" style={{ minWidth: "750px" }}>
             <thead>
               <tr className="bg-surface-container-low/70 border-b border-outline-variant/20">
-                <th className="py-3.5 px-5 text-xs text-on-surface font-bold uppercase tracking-wider">
+                <th className="py-3 px-5 text-xs text-on-surface-variant font-semibold">
                   Order ID
                 </th>
-                <th className="py-3.5 px-5 text-xs text-on-surface font-bold uppercase tracking-wider">
+                <th className="py-3 px-5 text-xs text-on-surface-variant font-semibold">
                   Customer Name
                 </th>
-                <th className="py-3.5 px-5 text-xs text-on-surface font-bold uppercase tracking-wider">
+                <th className="py-3 px-5 text-xs text-on-surface-variant font-semibold">
                   Phone
                 </th>
-                <th className="py-3.5 px-5 text-xs text-on-surface font-bold uppercase tracking-wider">
+                <th className="py-3 px-5 text-xs text-on-surface-variant font-semibold">
                   DTMF Key
                 </th>
-                <th className="py-3.5 px-5 text-xs text-on-surface font-bold uppercase tracking-wider">
+                <th className="py-3 px-5 text-xs text-on-surface-variant font-semibold">
                   Duration
                 </th>
-                <th className="py-3.5 px-5 text-xs text-on-surface font-bold uppercase tracking-wider">
+                <th className="py-3 px-5 text-xs text-on-surface-variant font-semibold">
                   Cost
                 </th>
-                <th className="py-3.5 px-5 text-xs text-on-surface font-bold uppercase tracking-wider">
+                <th className="py-3 px-5 text-xs text-on-surface-variant font-semibold">
                   Outcome Status
                 </th>
-                <th className="py-3.5 px-5 text-xs text-on-surface font-bold uppercase tracking-wider text-right">
+                <th className="py-3 px-5 text-xs text-on-surface-variant font-semibold text-right">
                   Action
                 </th>
               </tr>
@@ -772,7 +772,7 @@ export default function DashboardPage() {
 
             <form onSubmit={handleRechargeSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-semibold text-on-surface-variant mb-1.5">
                   Top-Up Amount (BDT)
                 </label>
                 <div className="relative">
@@ -792,7 +792,7 @@ export default function DashboardPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-semibold text-on-surface-variant mb-1.5">
                   Payment Method
                 </label>
                 <div className="relative">

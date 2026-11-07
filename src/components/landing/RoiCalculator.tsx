@@ -19,13 +19,9 @@ export function RoiCalculator() {
   return (
     <section id="roi-calculator" className="py-20 bg-white scroll-mt-24">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 text-amber-800 border border-amber-500/20 text-xs font-bold uppercase tracking-wider">
-            <Calculator size={14} className="text-[#f0a60a]" />
-            <span>Interactive Profit Estimator</span>
-          </div>
+        <div className="text-center max-w-3xl mx-auto mb-14 space-y-4">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
-            Calculate Your Return on Investment
+            Calculate your return on investment
           </h2>
           <p className="text-base sm:text-lg text-slate-600 font-medium">
             See how much you save on non-delivery penalties and courier return fees by automating phone verification before dispatching parcels.
@@ -98,8 +94,8 @@ export function RoiCalculator() {
 
               <div className="space-y-6 relative z-10">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-purple-200 uppercase tracking-wider">
-                    Estimated Net Monthly Savings
+                  <span className="text-xs font-semibold text-purple-200">
+                    Estimated net monthly savings
                   </span>
                   <span className="px-2.5 py-1 rounded-full bg-[#f0a60a] text-slate-950 font-black text-xs">
                     {roiMultiplier}x ROI
@@ -118,8 +114,8 @@ export function RoiCalculator() {
                 {/* Sub-Metrics Breakdown */}
                 <div className="grid grid-cols-2 gap-3 pt-4 border-t border-purple-800/80">
                   <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-xs">
-                    <span className="text-[10px] uppercase font-bold text-purple-300 block">
-                      Returned Parcels Stopped
+                    <span className="text-xs font-medium text-purple-200 block">
+                      Returned parcels stopped
                     </span>
                     <span className="text-xl font-bold font-mono text-white mt-0.5 block">
                       {fakeOrdersIntercepted.toLocaleString()}
@@ -127,8 +123,8 @@ export function RoiCalculator() {
                   </div>
 
                   <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-xs">
-                    <span className="text-[10px] uppercase font-bold text-purple-300 block">
-                      Courier Fees Prevented
+                    <span className="text-xs font-medium text-purple-200 block">
+                      Courier fees prevented
                     </span>
                     <span className="text-xl font-bold font-mono text-emerald-300 mt-0.5 block">
                       ৳ {deliveryFeesSaved.toLocaleString()}
@@ -143,7 +139,7 @@ export function RoiCalculator() {
                 </span>
                 <a
                   href="/register"
-                  className="px-5 py-2.5 rounded-xl bg-[#f0a60a] hover:bg-[#fbbf24] text-slate-950 text-xs font-black shadow-md shadow-amber-500/20 active:scale-95 transition-all text-center flex items-center justify-center gap-1.5"
+                  className="px-5 py-2.5 rounded-xl bg-[#f0a60a] hover:bg-[#fbbf24] text-slate-950 text-xs font-black shadow-md shadow-amber-500/20 active:scale-95 transition-colors text-center flex items-center justify-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9a55ff]"
                 >
                   <span>Get Started</span>
                   <ArrowRight size={13} />

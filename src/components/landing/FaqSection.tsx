@@ -26,7 +26,7 @@ export function FaqSection() {
     },
     {
       q: "Can I record custom brand voice prompts in Bengali?",
-      a: "Yes! You can upload high-fidelity studio-recorded `.wav` files in conversational Bengali or English directly through the Audio Library console. Dialyra seamlessly splices dynamic order variables (Customer Name, Order Total, Items) into the audio stream in real time.",
+      a: "Yes! You can upload high-fidelity studio-recorded `.wav` files in conversational Bengali or English directly through the Audio Library console. Dialyra splices dynamic order variables (Customer Name, Order Total, Items) into the audio stream in real time.",
     },
     {
       q: "How does the shared balance pool work across multiple businesses?",
@@ -41,13 +41,9 @@ export function FaqSection() {
   return (
     <section id="faq" className="py-24 bg-white border-t border-slate-200/80 scroll-mt-24">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-14 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 text-[#9a55ff] border border-purple-500/20 text-xs font-bold uppercase tracking-wider">
-            <HelpCircle size={14} />
-            <span>Frequently Asked Questions</span>
-          </div>
+        <div className="text-center mb-14 space-y-4">
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-            Got Questions? We Have Answers.
+            Frequently asked questions
           </h2>
           <p className="text-base text-slate-600 font-medium">
             Everything you need to know about setting up Dialyra for your e-commerce operations.
@@ -60,12 +56,12 @@ export function FaqSection() {
             return (
               <div
                 key={index}
-                className="rounded-2xl border border-slate-200/90 overflow-hidden bg-slate-50/50 transition-all"
+                className="rounded-2xl border border-slate-200/90 overflow-hidden bg-slate-50/50 transition-colors"
               >
                 <button
                   type="button"
                   onClick={() => setOpenIndex(isOpen ? null : index)}
-                  className="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-slate-900 hover:text-[#9a55ff] transition-colors cursor-pointer"
+                  className="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-slate-900 hover:text-[#9a55ff] transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9a55ff]"
                 >
                   <span className="text-base sm:text-lg">{faq.q}</span>
                   <div

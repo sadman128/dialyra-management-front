@@ -57,7 +57,7 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
   body {
     margin: 0;
@@ -67,6 +67,13 @@
     background-color: rgb(var(--color-surface));
     color: rgb(var(--color-on-surface));
     transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  /* Hallmark Gate 26a: Instant focus-visible rings with no transition delay */
+  :focus-visible {
+    outline: 2px solid #9a55ff;
+    outline-offset: 2px;
+    transition: none !important;
   }
 }
 
@@ -267,7 +274,7 @@
     color: #ffffff !important;
     border: none;
     box-shadow: 0 4px 12px rgba(154, 85, 255, 0.3);
-    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .btn-gradient-primary:hover {
     opacity: 0.92;
@@ -284,7 +291,7 @@
     color: #ffffff !important;
     border: none;
     box-shadow: 0 4px 12px rgba(7, 205, 174, 0.3);
-    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .btn-gradient-success:hover {
     opacity: 0.92;
@@ -297,7 +304,7 @@
     color: #ffffff !important;
     border: none;
     box-shadow: 0 4px 12px rgba(254, 112, 150, 0.3);
-    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .btn-gradient-danger:hover {
     opacity: 0.92;
@@ -310,7 +317,7 @@
     color: #ffffff !important;
     border: none;
     box-shadow: 0 4px 12px rgba(4, 126, 223, 0.3);
-    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .btn-gradient-info:hover {
     opacity: 0.92;
@@ -323,7 +330,7 @@
     color: inherit;
     border: none;
     box-shadow: 0 4px 12px rgba(255, 213, 0, 0.35);
-    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .btn-gradient-warning:hover {
     opacity: 0.92;

@@ -220,10 +220,10 @@ export default function DepartmentsPage() {
       {/* 2. Signature Metric Cards (Pure White in Light, Dark Grey in Dark, Purple Half Circle Watermark) */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-3 [&>*:last-child]:col-span-2 md:[&>*:last-child]:col-span-1">
         {/* Metric 1 */}
-        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-transform hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-700 dark:text-zinc-300">
-              Active Queues
+            <span className="text-xs font-semibold text-gray-700 dark:text-zinc-300">
+              Active queues
             </span>
             <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-purple-500/10 dark:bg-purple-500/20 flex items-center justify-center text-[#9a55ff] dark:text-[#c084fc]">
               <Network size={14} />
@@ -237,10 +237,10 @@ export default function DepartmentsPage() {
         </div>
 
         {/* Metric 2 */}
-        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-transform hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-700 dark:text-zinc-300">
-              Total Agents
+            <span className="text-xs font-semibold text-gray-700 dark:text-zinc-300">
+              Total agents
             </span>
             <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-emerald-500/10 dark:bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
               <Users size={14} />
@@ -254,10 +254,10 @@ export default function DepartmentsPage() {
         </div>
 
         {/* Metric 3 */}
-        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-all hover:-translate-y-0.5">
+        <div className="card-img-holder bg-white dark:bg-[#141417] text-gray-950 dark:text-zinc-100 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-lg border border-gray-200/90 dark:border-zinc-800/80 shadow-xs relative overflow-hidden flex flex-col justify-between transition-transform hover:-translate-y-0.5">
           <div className="flex items-center justify-between z-10">
-            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-700 dark:text-zinc-300">
-              Average Timeout
+            <span className="text-xs font-semibold text-gray-700 dark:text-zinc-300">
+              Average timeout
             </span>
             <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-blue-500/10 dark:bg-sky-500/20 flex items-center justify-center text-blue-600 dark:text-sky-400">
               <Clock size={14} />
@@ -276,14 +276,14 @@ export default function DepartmentsPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse" style={{ minWidth: "750px" }}>
             <thead>
-              <tr className="bg-surface-container-low/80 text-on-surface text-xs font-bold uppercase tracking-wider border-b border-outline-variant/20">
-                <th className="w-12 px-4 py-3.5 text-center"></th>
-                <th className="px-5 py-3.5">Department</th>
-                <th className="px-5 py-3.5">Queue Number</th>
-                <th className="px-5 py-3.5">Strategy</th>
-                <th className="px-5 py-3.5">Agents</th>
-                <th className="px-5 py-3.5">Status</th>
-                <th className="px-5 py-3.5 text-right">Action</th>
+              <tr className="bg-surface-container-low/80 text-on-surface-variant text-xs font-semibold border-b border-outline-variant/20">
+                <th className="w-12 px-4 py-3 text-center"></th>
+                <th className="px-5 py-3">Department</th>
+                <th className="px-5 py-3">Queue Number</th>
+                <th className="px-5 py-3">Strategy</th>
+                <th className="px-5 py-3">Agents</th>
+                <th className="px-5 py-3">Status</th>
+                <th className="px-5 py-3 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/15 text-sm text-on-surface">
@@ -385,8 +385,8 @@ export default function DepartmentsPage() {
                           <td colSpan={7} className="px-6 py-4 border-t border-outline-variant/15">
                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-4xl">
                               <div className="p-3 rounded-xl bg-white dark:bg-[#18181b] border border-outline-variant/30 dark:border-zinc-800/80 shadow-2xs">
-                                <span className="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider block">
-                                  Strategy Details
+                                <span className="text-xs font-semibold text-on-surface-variant block">
+                                  Strategy details
                                 </span>
                                 <span className="text-xs sm:text-sm font-bold text-on-surface block mt-0.5">
                                   {dept.strategy}
@@ -397,8 +397,8 @@ export default function DepartmentsPage() {
                               </div>
 
                               <div className="p-3 rounded-xl bg-white dark:bg-[#18181b] border border-outline-variant/30 dark:border-zinc-800/80 shadow-2xs">
-                                <span className="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider block">
-                                  Timeout & Fallback
+                                <span className="text-xs font-semibold text-on-surface-variant block">
+                                  Timeout &amp; fallback
                                 </span>
                                 <span className="text-xs sm:text-sm font-bold text-on-surface block mt-0.5">
                                   {dept.timeout} Timeout
@@ -409,8 +409,8 @@ export default function DepartmentsPage() {
                               </div>
 
                               <div className="p-3 rounded-xl bg-white dark:bg-[#18181b] border border-outline-variant/30 dark:border-zinc-800/80 shadow-2xs">
-                                <span className="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider block">
-                                  Priority & Queue
+                                <span className="text-xs font-semibold text-on-surface-variant block">
+                                  Priority &amp; queue
                                 </span>
                                 <span className="text-xs sm:text-sm font-bold text-on-surface block mt-0.5">
                                   {dept.priority}
@@ -455,7 +455,7 @@ export default function DepartmentsPage() {
 
             <form onSubmit={handleSaveAdd} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+                <label className="block text-xs font-semibold text-on-surface mb-1">
                   Department Name
                 </label>
                 <input
@@ -469,7 +469,7 @@ export default function DepartmentsPage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-semibold text-on-surface mb-1">
                     Queue Number
                   </label>
                   <input
@@ -479,7 +479,7 @@ export default function DepartmentsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-semibold text-on-surface mb-1">
                     Ring Strategy
                   </label>
                   <select
@@ -495,7 +495,7 @@ export default function DepartmentsPage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-semibold text-on-surface mb-1">
                     Timeout
                   </label>
                   <input
@@ -505,7 +505,7 @@ export default function DepartmentsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-semibold text-on-surface mb-1">
                     Fallback Action
                   </label>
                   <input
@@ -559,7 +559,7 @@ export default function DepartmentsPage() {
 
             <form onSubmit={handleSaveEdit} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+                <label className="block text-xs font-semibold text-on-surface-variant mb-1">
                   Department Name
                 </label>
                 <input
@@ -572,7 +572,7 @@ export default function DepartmentsPage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-semibold text-on-surface-variant mb-1">
                     Queue Number
                   </label>
                   <input
@@ -582,7 +582,7 @@ export default function DepartmentsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-semibold text-on-surface-variant mb-1">
                     Ring Strategy
                   </label>
                   <select
@@ -598,7 +598,7 @@ export default function DepartmentsPage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-semibold text-on-surface-variant mb-1">
                     Timeout
                   </label>
                   <input
@@ -608,7 +608,7 @@ export default function DepartmentsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-semibold text-on-surface-variant mb-1">
                     Fallback Action
                   </label>
                   <input
