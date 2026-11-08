@@ -1,11 +1,35 @@
+export interface CountryCodeItem {
+  code: string;
+  country: string;
+  label: string;
+}
+
+export const COUNTRY_CODES: CountryCodeItem[] = [
+  { code: "+880", country: "Bangladesh", label: "BD (+880)" },
+  { code: "+1", country: "United States / Canada", label: "US/CA (+1)" },
+  { code: "+44", country: "United Kingdom", label: "GB (+44)" },
+  { code: "+91", country: "India", label: "IN (+91)" },
+  { code: "+971", country: "United Arab Emirates", label: "AE (+971)" },
+  { code: "+966", country: "Saudi Arabia", label: "SA (+966)" },
+  { code: "+65", country: "Singapore", label: "SG (+65)" },
+  { code: "+60", country: "Malaysia", label: "MY (+60)" },
+  { code: "+61", country: "Australia", label: "AU (+61)" },
+  { code: "+49", country: "Germany", label: "DE (+49)" },
+  { code: "+33", country: "France", label: "FR (+33)" },
+  { code: "+81", country: "Japan", label: "JP (+81)" },
+  { code: "+86", country: "China", label: "CN (+86)" },
+  { code: "+92", country: "Pakistan", label: "PK (+92)" },
+];
+
 export interface BusinessStore {
   id: string;
   uuid: string;
   name: string;
   email: string;
+  phone?: string;
   domain: string;
-  platform: string;
-  defaultCountryCode: string;
+  countryCode: string;
+  defaultCountryCode?: string;
   timezone: string;
   triggerMode: "instant" | "manual";
   cachedBalance: number;
@@ -66,8 +90,8 @@ export const mockBusinesses: BusinessStore[] = [
     uuid: "b1-songsharer-9a8b417e",
     name: "SongsharerBazar",
     email: "admin@songsharerbazar.com.bd",
+    phone: "+8801711223344",
     domain: "songsharerbazar.com.bd",
-    platform: "WooCommerce",
     defaultCountryCode: "+880",
     timezone: "Asia/Dhaka",
     triggerMode: "instant",
@@ -82,8 +106,8 @@ export const mockBusinesses: BusinessStore[] = [
     uuid: "b2-uttaramart-883712fc",
     name: "Uttara Super Shop",
     email: "billing@uttaramart.com.bd",
+    phone: "+8801822334455",
     domain: "uttaramart.com.bd",
-    platform: "Shopify",
     defaultCountryCode: "+880",
     timezone: "Asia/Dhaka",
     triggerMode: "manual",

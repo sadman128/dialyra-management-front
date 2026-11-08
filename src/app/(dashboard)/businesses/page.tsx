@@ -2,11 +2,13 @@
 
 import React, { useState } from "react";
 import { useBusiness } from "@/context/BusinessContext";
+import { COUNTRY_CODES } from "@/mock/mockData";
 import {
   Building2,
   Search,
   Plus,
   PhoneCall,
+  Phone,
   Wallet,
   Copy,
   Check,
@@ -16,6 +18,7 @@ import {
   ShoppingBag,
   ExternalLink,
   ChevronRight,
+  ChevronDown,
   X,
 } from "lucide-react";
 
@@ -31,20 +34,15 @@ export default function BusinessesPage() {
   const [filterQuery, setFilterQuery] = useState("");
   const [createModalOpen, setCreateModalOpen] = useState(false);
 
-  // Close modals on focus loss or Escape
+  // Close modal on Escape key
   React.useEffect(() => {
-    const handleBlur = () => {
-      setCreateModalOpen(false);
-    };
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setCreateModalOpen(false);
       }
     };
-    window.addEventListener("blur", handleBlur);
     window.addEventListener("keydown", handleKeyDown);
     return () => {
-      window.removeEventListener("blur", handleBlur);
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
@@ -54,6 +52,7 @@ export default function BusinessesPage() {
   const [newStoreDomain, setNewStoreDomain] = useState("");
   const [newStoreEmail, setNewStoreEmail] = useState("");
   const [newStoreCountry, setNewStoreCountry] = useState("+880");
+  const [newStorePhone, setNewStorePhone] = useState("");
   const [newStoreTimezone, setNewStoreTimezone] = useState("Asia/Dhaka");
   const [newStoreTrigger, setNewStoreTrigger] = useState<"instant" | "manual">("instant");
   const [newStoreFallback, setNewStoreFallback] = useState(true);
@@ -80,11 +79,14 @@ export default function BusinessesPage() {
   const handleCreateStore = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newStoreName.trim()) return;
-    showToast(`Business "${newStoreName}" created with v3 SIP fallback`, "success");
+    const fullPhone = newStorePhone.trim() ? `${newStoreCountry} ${newStorePhone.trim()}` : newStoreCountry;
+    showToast(`Business "${newStoreName}" created (${fullPhone})`, "success");
     setCreateModalOpen(false);
     setNewStoreName("");
     setNewStoreDomain("");
     setNewStoreEmail("");
+    setNewStoreCountry("+880");
+    setNewStorePhone("");
     setNewStorePrefix("");
   };
 
@@ -263,9 +265,18 @@ export default function BusinessesPage() {
                           <span>{biz.domain}</span>
                           <ExternalLink size={12} className="shrink-0" />
                         </a>
-                        <span className="text-[11px] text-on-surface-variant font-medium">
-                          {biz.triggerMode === "instant" ? "Instant auto-call" : "Manual batch"} / {biz.timezone}
-                        </span>
+                        <div className="flex flex-wrap items-center gap-2 text-[11px] text-on-surface-variant font-medium">
+                          <span>{biz.triggerMode === "instant" ? "Instant auto-call" : "Manual batch"} / {biz.timezone}</span>
+                          {biz.phone && (
+                            <>
+                              <span className="text-on-surface-variant/30">/</span>
+                              <span className="font-mono text-on-surface font-semibold flex items-center gap-1">
+                                <Phone size={10} className="text-[#9a55ff]" />
+                                {biz.phone}
+                              </span>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </td>
 
@@ -402,14 +413,35 @@ export default function BusinessesPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-on-surface mb-1">
-                    Country code
+                    Phone number
                   </label>
-                  <input
-                    value={newStoreCountry}
-                    onChange={(e) => setNewStoreCountry(e.target.value)}
-                    placeholder="+880"
-                    className="w-full bg-surface-container-low px-3.5 py-2 rounded-xl text-xs sm:text-sm border border-outline-variant/30 focus:outline-none focus:border-[#9a55ff] font-mono"
-                  />
+                  <div className="flex items-center rounded-xl bg-surface-container-low border border-outline-variant/30 focus-within:border-[#9a55ff] transition-colors overflow-hidden">
+                    <div className="relative shrink-0 border-r border-outline-variant/30">
+                      <select
+                        value={newStoreCountry}
+                        onChange={(e) => setNewStoreCountry(e.target.value)}
+                        className="bg-transparent pl-3 pr-7 py-2 text-xs sm:text-sm font-semibold text-on-surface focus:outline-none appearance-none cursor-pointer"
+                        aria-label="Select country code"
+                      >
+                        {COUNTRY_CODES.map((c) => (
+                          <option key={c.code} value={c.code} className="bg-white dark:bg-[#18181b] text-on-surface">
+                            {c.label}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown
+                        size={13}
+                        className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant/70"
+                      />
+                    </div>
+                    <input
+                      type="tel"
+                      value={newStorePhone}
+                      onChange={(e) => setNewStorePhone(e.target.value.replace(/[^\d\s-]/g, ""))}
+                      placeholder="01711223344"
+                      className="w-full bg-transparent px-3 py-2 text-xs sm:text-sm text-on-surface font-mono placeholder:text-on-surface-variant/50 focus:outline-none"
+                    />
+                  </div>
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-on-surface mb-1">

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useBusiness } from "@/context/BusinessContext";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
-import { mockDncList } from "@/mock/mockData";
+import { mockDncList, COUNTRY_CODES } from "@/mock/mockData";
 import {
   Settings,
   User,
@@ -567,15 +567,49 @@ export default function SettingsPage() {
                   <label className="block text-on-surface font-semibold mb-1">
                     Phone Number
                   </label>
-                  <input
-                    type="tel"
-                    value={profileForm.phone}
-                    onChange={(e) => {
-                      setProfileForm({ ...profileForm, phone: e.target.value });
-                      setHasChanges(true);
-                    }}
-                    className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl p-2.5 font-semibold text-on-surface focus:outline-none focus:border-[#9a55ff]"
-                  />
+                  {(() => {
+                    const selectedCountryCode = COUNTRY_CODES.find((c) => profileForm.phone.startsWith(c.code))?.code || "+880";
+                    const subscriberNumber = profileForm.phone.startsWith(selectedCountryCode)
+                      ? profileForm.phone.slice(selectedCountryCode.length)
+                      : profileForm.phone;
+
+                    return (
+                      <div className="flex items-center rounded-xl bg-surface-container-low border border-outline-variant/30 focus-within:border-[#9a55ff] transition-colors overflow-hidden">
+                        <div className="relative shrink-0 border-r border-outline-variant/30">
+                          <select
+                            value={selectedCountryCode}
+                            onChange={(e) => {
+                              const newCode = e.target.value;
+                              setProfileForm({ ...profileForm, phone: `${newCode}${subscriberNumber}` });
+                              setHasChanges(true);
+                            }}
+                            className="bg-transparent pl-3 pr-7 py-2.5 text-xs sm:text-sm font-semibold text-on-surface focus:outline-none appearance-none cursor-pointer"
+                            aria-label="Select country code"
+                          >
+                            {COUNTRY_CODES.map((c) => (
+                              <option key={c.code} value={c.code} className="bg-white dark:bg-[#18181b] text-on-surface">
+                                {c.label}
+                              </option>
+                            ))}
+                          </select>
+                          <ChevronDown
+                            size={13}
+                            className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant/70"
+                          />
+                        </div>
+                        <input
+                          type="tel"
+                          value={subscriberNumber}
+                          onChange={(e) => {
+                            const newSub = e.target.value.replace(/[^\d\s-]/g, "");
+                            setProfileForm({ ...profileForm, phone: `${selectedCountryCode}${newSub}` });
+                            setHasChanges(true);
+                          }}
+                          className="w-full bg-transparent px-3 py-2.5 text-xs sm:text-sm text-on-surface font-mono placeholder:text-on-surface-variant/50 focus:outline-none"
+                        />
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
 
